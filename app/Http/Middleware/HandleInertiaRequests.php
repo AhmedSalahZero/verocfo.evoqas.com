@@ -581,11 +581,11 @@ class HandleInertiaRequests extends Middleware
                     ['key' => 'sales',         'label' => 'Sales Dashboard',    'icon' => 'ti-trending-up',      'route' => 'analytics.sales.index'],
                     ['key' => 'sales-reports', 'label' => 'Sales Reports',      'icon' => 'ti-report-analytics', 'route' => 'analytics.sales.reports'],
                     // Expense Analysis (Sept 2026) — same Dashboard/Reports
-                    // split as Sales Analysis. Breakeven Analysis exists on
-                    // the backend (ExpenseAnalysisService::breakeven()) but
-                    // has no page yet — nav item added once that page exists.
+                    // split as Sales Analysis. Breakeven uses the existing
+                    // ExpenseAnalysisService::breakeven() calculation.
                     ['key' => 'expenses',         'label' => 'Expense Dashboard', 'icon' => 'ti-trending-down',    'route' => 'analytics.expenses.index'],
                     ['key' => 'expenses-reports', 'label' => 'Expense Reports',   'icon' => 'ti-report-analytics', 'route' => 'analytics.expenses.reports'],
+                    ['key' => 'expenses-breakeven', 'label' => 'Breakeven',     'icon' => 'ti-scale',            'route' => 'analytics.expenses.breakeven'],
                     ['key' => 'profitability', 'label' => 'Profitability',      'icon' => 'ti-chart-pie',        'route' => 'analytics.profitability.index'],
                     ['key' => 'ratios',        'label' => 'Financial Ratios',   'icon' => 'ti-math',             'route' => 'analytics.ratios.index'],
                 ],

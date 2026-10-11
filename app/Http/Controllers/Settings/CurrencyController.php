@@ -91,7 +91,7 @@ class CurrencyController extends Controller
 
     public function rates(Request $request, Currency $currency)
     {
-        $rates = $this->service->ratesForCurrency(
+        $rates = $this->service->historyForCurrency(
             $this->companyId($request),
             $currency->id
         );

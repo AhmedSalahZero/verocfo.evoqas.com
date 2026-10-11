@@ -4,6 +4,22 @@
 
 **Company used:** NileTD, signed in as the company admin (Ahmed Salah).
 
+## Fixed the same evening — retested in the browser
+
+All 7 issues below are fixed on this copy of the app. Each one was opened again after the change.
+
+| # | What was done | Retest |
+|---|---|---|
+| 1 | Production Order create now asks for an Active bill of materials, not the old column. | NileTD → New Production Order opened. Heading "New Production Order". No error. |
+| 2 | Migration `000312` applied. The stock-adjustment table now exists. | Stock Adjustments list opened. Heading "Stock Adjustments". |
+| 3 | Migration `000317` applied. The holiday table now exists. | Holidays opened. Heading "Weekly rest days & holidays". |
+| 4 | The spare rate address now uses the same history the screen already used. | Currencies still opens. `settings/currencies/1/rates` answers `[]` instead of an error. |
+| 5 | Breakeven is a real screen, and it is in the Analytics menu. | The page opened. Calculate returned NileTD's posted figures, including Cost of Goods Sold 953,485.00 (variable) and Office Rent 120,000.00 (fixed). |
+| 6 | Migration `000320` applied (`run_type` and the payments table). | A regular October 2026 run was created on NileTD and the screen "October 2026 Payroll" opened. That draft had no employees and no journal, and it was then deleted. The saved January 2023 run on Cycle Test Co. A opened as "January 2023 Payroll". |
+| 7 | Migration `000318` applied. A manual journal now stores its accounting period. | On Cycle Test Co. C, a 1.00 entry dated 15 Dec 2023 (debit 511, credit 512) was submitted, approved, and the view opened as "Manual Journal Entry JE/2026/10/00001". It was then set back to draft, which posted the opposite entry JE/2026/10/00002. The two cancel. Nothing is waiting on Approvals. |
+
+Migrations `000312` through `000326` are now applied on this database. That also creates the document-numbering table (`000321`), so a new invoice, collection or bill is no longer blocked by a missing table. One chart change came with `000325`: account 227 is no longer a posting account, and account 241 (end of service) now sits under long-term liabilities.
+
 ## Latest pass — typing, validation, and edit (11 Oct 2026, afternoon)
 
 This pass did what the morning pass did not. On each create screen the Save button was pressed with the form still empty. On screens that already have a saved document, the edit page was opened and the numbers were compared with the database.
@@ -24,7 +40,7 @@ This pass did what the morning pass did not. On each create screen the Save butt
 |---|---|---|---|---|
 | 6 | **Major** | Accounting/Payroll/PayrollRunCreate | Create Run does not create a run. The button shows Saving, then the form comes back with no explanation. The server answer is "Unknown column run_type". No payroll run was saved. | Browser click, then the server reply |
 
-Cause of #6: migration `2026_01_01_000320` has not been run on this database, so the payroll table has no `run_type` column. Same family as #2 and #3. I did not run the migration. If your server already has that column, Create Run should get past this error. Please try it once there.
+Cause of #6: migration `2026_01_01_000320` had not been run on this database, so the payroll table had no `run_type` column. It is applied now. See the retest at the top.
 
 **Checked and not a bug**
 - Internal settlement: Save stays off until the customer side and the supplier side both equal the amount. An empty form cannot be saved.
@@ -32,7 +48,7 @@ Cause of #6: migration `2026_01_01_000320` has not been run on this database, so
 - EOSB provision: the form is already filled with this month, so Create Run does save a draft. One draft (October 2026, no lines, no journal) was created by this test and then deleted. It is not in the list anymore.
 
 **Still not claimed**
-- A brand-new invoice, collection or bill was not saved and then reopened. The numbering table `document_sequences` is still missing on this database (migration `000321`), so that save crashes before a document exists. The edit checks above used documents that were already in the database.
+- A brand-new invoice, collection or bill was not saved and then reopened. The numbering table from migration `000321` is on this database now, but no new document was created in the retest. The edit checks above used documents that were already in the database.
 
 ## Continuation — the pages that had been left closed
 
@@ -58,9 +74,32 @@ These were the screens the first pass could not open because it did not have a s
 - Clean overdraft 29: limit 2,000,000.00, outstanding 76,791.98, borrowing rate 18%, margin 3%, review date 1 Jan 2027.
 - Product 227: name Stretch Film Roll.
 
-**Variance closing:** Preview for October 2026 stays on the list and says "No Payroll Run has been posted for 10/2026 yet". That is a clear refusal, not a crash. The preview screen itself does not open because there is no posted payroll.
+**Variance closing on NileTD:** Preview for October 2026 stays on the list and says "No Payroll Run has been posted for 10/2026 yet".
 
-**Still no saved document on this company, so these screens cannot be opened:** expense claim, fixed asset, job order, production order, payroll run, end-of-service run, leasing contract, bank reconciliation, and a manual journal. Other overdraft types (fully secured, commercial paper, contract assignment, LG, LC) have no agreement saved either. Password reset still needs an email link.
+## Continuation — detail screens NileTD does not have
+
+NileTD has no saved expense claim, fixed asset, job order, production order, payroll run, end-of-service run, leasing contract, loan schedule, or the other facility types. Those screens were opened on **Cycle Test Co. A (Manufacturing)**, a company that already has them. Nothing on those documents was saved, posted, or deleted. The system-owner sign-in was put back afterwards.
+
+**Opened, title matches the saved document**
+- Fixed asset FA-00001, Delivery Vehicle 1.
+- Job order JOB/2026/09/00001.
+- Production order PROD/2026/09/00001. The create page was fixed afterwards (#1) and opened on NileTD.
+- End-of-service provision for December 2023.
+- Leasing schedule for Delivery van.
+- Loan schedule for Expansion Loan 2023, and the instalment payment screen.
+- Saved agreements: letter of guarantee, letter of credit, commercial-paper overdraft, fully secured overdraft, and overdraft against contract assignment.
+- Leave request edit, and an employee payroll profile edit.
+- Variance preview for January 2023. The review screen opened. Nothing was posted.
+
+**Payroll view.** Opening the saved January 2023 run used to crash because `payroll_run_payments` did not exist. After migration `000320` it opens. See the retest at the top.
+
+**Bank reconciliation (NileTD).** The screen was opened by starting a draft on the CIB current account, closing balance 0.00, statement date 11 Oct 2026. The heading was the reconcile screen for that account. The draft was then deleted. The reconciliation list is empty again. No journal was posted.
+
+**Reset password.** The form opened (email, new password, confirm). It was not submitted, so no password changed.
+
+**Expense claim view.** Opened claim EC/2026/09/00001 on Cycle Test Co. A. The screen shows Quarterly travel, employee Karim Fouad, claim date 31 Mar 2023, total 1,200.00 EGP, status Paid, and the receipt line "Client visits". That matches the database. Nothing was saved or paid.
+
+**Manual journal view.** An earlier temporary entry was removed. After migration `000318`, a real approval was retested: JE/2026/10/00001 posted and the view opened, then the cancelling entry JE/2026/10/00002 was posted. See the retest at the top.
 
 ## 1. How the test was done
 
@@ -75,13 +114,12 @@ This is a different test from the 10 Oct report. That report opened pages agains
 ## 2. Summary
 
 - Pages in the project: **252**
-- Opened with no crash: **230**
-- Not opened, because this company has no saved document for that step: **13**
+- Opened with no crash: **246** (the 4 pages that crashed earlier opened after the fix)
+- Not opened: **0**. Approving a manual journal was retested after the fix and the view opened (issue 7).
 - Old plan files the menu does not open (Create and Show for both plans): **4**. The live setup and step pages opened.
 - Closed to this user (company screens, for the system owner only): **2**
-- Pages with a confirmed problem: **3** (production create, stock adjustments, holidays)
-- One extra address, not one of the 252 files, shows a blank page (issue 5)
-- Issues: **6** — Major: 4, Minor: 2. Issue 6 is the payroll save, on a page that itself opens.
+- Pages with a confirmed problem: **0** after the evening retest. The 7 issues in section 3 were fixed and opened again.
+- Issues found, then fixed: **7** — Major: 5, Minor: 2.
 
 **What worked well**
 - Sign-in works, and the dashboard, settings, and almost every list and create form open.
@@ -96,14 +134,15 @@ This is a different test from the 10 Oct report. That report opened pages agains
 
 ## 3. Issues found
 
-| # | Severity | Page / area | Problem |
-|---|---|---|---|
-| 1 | **Major** | Accounting/Manufacturing/ProductionOrderForm | Create Production Order crashes as soon as it opens |
-| 2 | **Major** | Accounting/Inventory/StockAdjustmentIndex | Stock adjustment list crashes on this copy of the database |
-| 3 | **Major** | Accounting/Leave/Holidays | Holiday calendar crashes on this copy of the database |
-| 4 | **Minor** | Settings/Currencies (a spare address, not the screen) | One unused rate address crashes. The Currencies screen itself opens |
-| 5 | **Minor** | Analytics/Expenses/Breakeven (file missing) | The address opens a blank page. It is not in the side menu |
-| 6 | **Major** | Accounting/Payroll/PayrollRunCreate | Create Run returns to the form with no sentence. The server says the column `run_type` is missing |
+| # | Severity | Page / area | Problem | Now |
+|---|---|---|---|---|
+| 1 | **Major** | Accounting/Manufacturing/ProductionOrderForm | Create Production Order crashed as soon as it opened | Fixed. Form opens. |
+| 2 | **Major** | Accounting/Inventory/StockAdjustmentIndex | Stock adjustment list crashed on this copy of the database | Fixed. List opens. |
+| 3 | **Major** | Accounting/Leave/Holidays | Holiday calendar crashed on this copy of the database | Fixed. Page opens. |
+| 4 | **Minor** | Settings/Currencies (a spare address, not the screen) | One unused rate address crashed. The Currencies screen itself opened | Fixed. The address returns the rate history. |
+| 5 | **Minor** | Analytics/Expenses/Breakeven | The address opened a blank page and was not in the menu | Fixed. Screen and menu item are there. |
+| 6 | **Major** | Accounting/Payroll/PayrollRunCreate and PayrollRunShow | Create Run returned with no sentence. Opening a saved run crashed. | Fixed. Create and the saved run both open. |
+| 7 | **Major** | Accounting/JournalEntries/Show | Approving a manual journal crashed, so the view never opened | Fixed. Approve posts, and the view opens. |
 
 ## 4. Issue details
 
@@ -112,36 +151,49 @@ This is a different test from the 10 Oct report. That report opened pages agains
 - **How found:** run in the browser
 - **Evidence / steps:** Opened the create page. The screen is an error, not the form. The list of production orders does open.
 - **Likely cause:** The create page still asks the database for bills of materials marked "active" using an old column (`is_active`). That column was removed when bills of materials moved to Draft / Active / Superseded. This will crash on any database that has that change. This database has it.
+- **Fixed:** the page now uses Active status. Retested: New Production Order opened on NileTD.
 
 ### #2 — Stock adjustment list crashes on this copy of the database  (Major)
 - **Page / area:** Accounting → Inventory → Stock adjustments
 - **How found:** run in the browser
 - **Evidence / steps:** Opened the list. Error: the table `stock_adjustment_requests` does not exist. The **create** form for a stock adjustment does open.
-- **Likely cause:** Migration `2026_01_01_000312` has not been run on this database. I did not run it. If your own server already has this table, the list should open there. Please try the list once on your server before treating this as a screen bug.
+- **Likely cause:** Migration `2026_01_01_000312` had not been run on this database.
+- **Fixed:** that migration is applied. Retested: the Stock Adjustments list opened.
 
 ### #3 — Holiday calendar crashes on this copy of the database  (Major)
 - **Page / area:** HR → Leave → Holidays
 - **How found:** run in the browser
 - **Evidence / steps:** Opened the holiday page. Error: the table `company_holidays` does not exist. Leave requests and leave types do open.
-- **Likely cause:** Migration `2026_01_01_000317` has not been run on this database. I did not run it. Same check as #2: try it on your server.
+- **Likely cause:** Migration `2026_01_01_000317` had not been run on this database.
+- **Fixed:** that migration is applied. Retested: the holiday page opened.
 
 ### #4 — A spare rate address crashes  (Minor)
 - **Page / area:** Settings → Currencies
 - **How found:** the screen was run in the browser; the crash was found by opening an address the screen does not use
 - **Evidence / steps:** The Currencies page opens, shows EGP as the base currency, and the rate form. A separate address, `settings/currencies/{id}/rates`, returns an error because it calls a function that does not exist (`ratesForCurrency`). The history the screen actually uses is a different address, and that one answers normally.
 - **Likely cause:** The screen was pointed at the working history function. The old address was left behind.
+- **Fixed:** the old address now calls that same history. Retested: it answers an empty list, not an error, and the Currencies screen still opens.
 
 ### #5 — Breakeven address is a blank page  (Minor)
 - **Page / area:** Analytics → Expenses → Breakeven
 - **How found:** run in the browser
 - **Evidence / steps:** Opened `/analytics/expenses/breakeven`. The page is blank. There is no Vue file for it. The side menu does not list it; the menu note says the item will be added when the page exists. A person using the menu will not land here. Typing the address does.
 - **Likely cause:** The server route was added before the screen.
+- **Fixed:** the screen exists and is in the Analytics menu. Retested: Calculate returned NileTD's posted expenses, split into fixed and variable.
 
 ### #6 — Create Payroll Run comes back with no explanation  (Major)
 - **Page / area:** Accounting → Payroll → Create Run
 - **How found:** run in the browser, then the server reply
-- **Evidence / steps:** Filled a regular run for October 2026 and pressed Create Run. The button showed Saving, then the form came back with no red sentence and no new run. The server answer is "Unknown column run_type". No payroll run was saved.
-- **Likely cause:** Migration `2026_01_01_000320` has not been run on this database. I did not run it. If your server already has that column, this save should not hit the same error. Please try one run on your server.
+- **Evidence / steps:** Filled a regular run for October 2026 and pressed Create Run. The button showed Saving, then the form came back with no red sentence and no new run. The server answer is "Unknown column run_type". Separately, opening a saved January 2023 run on Cycle Test Co. A shows an error page: table `payroll_run_payments` does not exist.
+- **Likely cause:** Migration `2026_01_01_000320` had not been run on this database. It adds both the `run_type` column and the payments table.
+- **Fixed:** that migration is applied. Retested: October 2026 was created on NileTD and its screen opened, then that empty draft was deleted. January 2023 on Cycle Test Co. A opened.
+
+### #7 — Approving a manual journal crashes before the view opens  (Major)
+- **Page / area:** Accounting → Journal Entries → the view that opens after approval
+- **How found:** run in the browser, then the server reply
+- **Evidence / steps:** On Cycle Test Co. C, a balanced 1.00 entry dated 15 Dec 2023 was submitted (debit 511, credit 512). It showed on Approvals. Approve was not on the screen because the same person submitted it. Approving as the system owner returned an error page. The server says the column `accounting_period_id` does not exist. No journal row was saved. The waiting request was then cancelled. Separately, the view screen itself was opened with a temporary entry and then that entry was removed. The screen works. The normal approve path does not, on this database.
+- **Likely cause:** Migration `2026_01_01_000318` had not been run on this database.
+- **Fixed:** that migration is applied. Retested: JE/2026/10/00001 posted on Cycle Test Co. C and the view opened. Setting it back to draft posted the cancelling entry JE/2026/10/00002. The two net to zero.
 
 ## 5. Per-page results (all 252)
 
@@ -177,11 +229,11 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | Accounting/DeliveryNotes/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/ExpenseClaims/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/ExpenseClaims/Index | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/ExpenseClaims/Show | Not opened |  | No expense claim saved for this company. |
+| Accounting/ExpenseClaims/Show | Opened OK |  | Opened EC/2026/09/00001 on Cycle Test Co. A: Quarterly travel, 31 Mar 2023, 1,200.00 EGP, Paid. Matches the database. |
 | Accounting/FixedAssetReceipts/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/FixedAssetReceipts/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/FixedAssets/Index | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/FixedAssets/Manage | Not opened |  | The asset id tried was not a fixed asset of this company. The assets list opened. |
+| Accounting/FixedAssets/Manage | Opened OK |  | Opened FA-00001 Delivery Vehicle 1 on Cycle Test Co. A. No crash. |
 | Accounting/FxRevaluations/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/FxRevaluations/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/GeneralLedger/Index | Opened OK |  | Page opened while signed in. No crash. |
@@ -195,26 +247,26 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | Accounting/InternalSettlements/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Inventory/CategoryValueStatement | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Inventory/InventoryStatement | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Inventory/StockAdjustmentForm | Opened OK |  | The create form opens. The list does not (#2). |
-| Accounting/Inventory/StockAdjustmentIndex | ISSUES FOUND | Major | #2 List crashes on this copy of the database (stock adjustment table is missing) |
+| Accounting/Inventory/StockAdjustmentForm | Opened OK |  | The create form opens. |
+| Accounting/Inventory/StockAdjustmentIndex | Opened OK |  | #2 fixed. The list opened after migration 000312. |
 | Accounting/Inventory/StockBalanceIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Inventory/StockReservations/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Inventory/StockTransferForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Inventory/StockTransferIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/JournalEntries/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/JournalEntries/Index | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/JournalEntries/Show | Not opened |  | This company has no manual journal. The view page is only for manual journals. The list and the new-entry form opened. |
+| Accounting/JournalEntries/Show | Opened OK |  | #7 fixed. JE/2026/10/00001 opened after approval, then the cancelling entry JE/2026/10/00002 was posted. |
 | Accounting/LandingCosts/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/LandingCosts/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Leave/Form | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Leave/Holidays | ISSUES FOUND | Major | #3 Holiday calendar crashes on this copy of the database (holiday table is missing) |
+| Accounting/Leave/Holidays | Opened OK |  | #3 fixed. The holiday page opened after migration 000317. |
 | Accounting/Leave/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Leave/Types | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/BomForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/BomIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/JobOrderForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/JobOrderIndex | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Manufacturing/JobOrderShow | Not opened |  | No job order of this company could be opened. |
+| Accounting/Manufacturing/JobOrderShow | Opened OK |  | Opened JOB/2026/09/00001 on Cycle Test Co. A. No crash. |
 | Accounting/Manufacturing/JobOrderTemplateForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/JobOrderTemplateIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/KitAssemblyForm | Opened OK |  | Page opened while signed in. No crash. |
@@ -229,13 +281,13 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | Accounting/Manufacturing/OverheadPoolIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/ProcessForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/ProcessIndex | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Manufacturing/ProductionOrderForm | ISSUES FOUND | Major | #1 Create page crashes: the screen asks for a column the database no longer has |
+| Accounting/Manufacturing/ProductionOrderForm | Opened OK |  | #1 fixed. New Production Order opened on NileTD. |
 | Accounting/Manufacturing/ProductionOrderIndex | Opened OK |  | The list opens. Create does not (#1). |
-| Accounting/Manufacturing/ProductionOrderShow | Not opened |  | No production order on this company, and Create crashes before one can be made. |
+| Accounting/Manufacturing/ProductionOrderShow | Opened OK |  | Opened PROD/2026/09/00001 on Cycle Test Co. A. Create is still issue #1. |
 | Accounting/Manufacturing/StandardRateForm | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/StandardRateIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Manufacturing/VarianceClosingIndex | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Manufacturing/VarianceClosingPreview | Not opened |  | Preview for October 2026 stays on the list and says no payroll run has been posted yet. The preview screen itself has nothing to show. |
+| Accounting/Manufacturing/VarianceClosingPreview | Opened OK |  | Preview for January 2023 opened on Cycle Test Co. A. Nothing was posted. NileTD's October 2026 preview correctly refuses because no payroll is posted. |
 | Accounting/OtherCollections/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/OtherCollections/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/OtherPayments/Form | Opened OK |  | Page opened while signed in. No crash. |
@@ -246,10 +298,10 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | Accounting/Payroll/EmployeeProfileIndex | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Payroll/EosbProvisionRunCreate | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/Payroll/EosbProvisionRunIndex | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Payroll/EosbProvisionRunShow | Not opened |  | No EOSB run of this company could be opened. |
-| Accounting/Payroll/PayrollRunCreate | Opened OK | Major | The form opens. Pressing Create Run is issue #6: it comes back with no sentence because `run_type` is missing on this database. |
+| Accounting/Payroll/EosbProvisionRunShow | Opened OK |  | Opened the December 2023 provision on Cycle Test Co. A. No crash. |
+| Accounting/Payroll/PayrollRunCreate | Opened OK |  | #6 fixed. An October 2026 draft was created and then deleted. |
 | Accounting/Payroll/PayrollRunIndex | Opened OK |  | Page opened while signed in. No crash. |
-| Accounting/Payroll/PayrollRunShow | Not opened |  | No payroll run of this company could be opened. |
+| Accounting/Payroll/PayrollRunShow | Opened OK |  | #6 fixed. January 2023 on Cycle Test Co. A opened, and the NileTD October draft opened before it was removed. |
 | Accounting/PurchaseOrders/Form | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/PurchaseOrders/Index | Opened OK |  | Page opened while signed in. No crash. |
 | Accounting/PurchaseReturns/Index | Opened OK |  | Page opened while signed in. No crash. |
@@ -275,7 +327,7 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | Auth/ConfirmPassword | Opened OK |  | Page opened while signed in. No crash. |
 | Auth/ForgotPassword | Opened OK |  | While signed in, the address sends you to the dashboard. |
 | Auth/Login | Opened OK |  | Sign-in with the company user succeeded. A later visit while already signed in goes to the dashboard. |
-| Auth/ResetPassword | Not opened |  | Needs a real reset link from an email. Not requested. |
+| Auth/ResetPassword | Opened OK |  | The form opened (email, new password, confirm). It was not submitted. |
 | Auth/VerifyEmail | Opened OK |  | Page opened while signed in. No crash. |
 | ComingSoon | Opened OK |  | Page opened while signed in. No crash. |
 | Companies/Form | Closed to this user |  | Same as the companies list. |
@@ -298,8 +350,8 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | FinancialInstitutions/Banks/Facilities/LetterOfGuaranteeIndex | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Banks/Facilities/MtlForm | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Banks/Facilities/MtlIndex | Opened OK |  | Page opened while signed in. No crash. |
-| FinancialInstitutions/Banks/Facilities/MtlScheduleIndex | Not opened |  | No medium-term loan schedule for the id that was tried. The loan list and the new-loan form opened. |
-| FinancialInstitutions/Banks/Facilities/MtlSettlementForm | Not opened |  | No loan instalment of this company was opened. |
+| FinancialInstitutions/Banks/Facilities/MtlScheduleIndex | Opened OK |  | Opened Expansion Loan 2023 on Cycle Test Co. A. No crash. |
+| FinancialInstitutions/Banks/Facilities/MtlSettlementForm | Opened OK |  | The instalment payment screen opened. Nothing was paid. |
 | FinancialInstitutions/Banks/Form | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Banks/Index | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Dashboard/CashStatus | Opened OK |  | Page opened while signed in. No crash. |
@@ -309,13 +361,13 @@ This is a different test from the 10 Oct report. That report opened pages agains
 | FinancialInstitutions/Factoring/AgreementsIndex | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Factoring/CompaniesIndex | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Factoring/CompanyForm | Opened OK |  | Page opened while signed in. No crash. |
-| FinancialInstitutions/Leasing/AmortizationSchedule | Not opened |  | No leasing contract of this company was opened. The contract list and the new-contract form opened. |
+| FinancialInstitutions/Leasing/AmortizationSchedule | Opened OK |  | Opened the Delivery van contract schedule on Cycle Test Co. A. No crash. |
 | FinancialInstitutions/Leasing/CompaniesIndex | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Leasing/CompanyForm | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Leasing/ContractForm | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Leasing/ContractsIndex | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Reconciliation/Index | Opened OK |  | Page opened while signed in. No crash. |
-| FinancialInstitutions/Reconciliation/Reconcile | Not opened |  | No bank reconciliation of this company was opened. The reconciliation list opened. |
+| FinancialInstitutions/Reconciliation/Reconcile | Opened OK |  | Started a draft on NileTD's CIB account, saw the reconcile screen, then deleted the draft. The list is empty again. |
 | FinancialInstitutions/Shared/InstitutionCompanyForm | Opened OK |  | Shared form inside Add Leasing Company and Add Factoring Company, both of which opened. |
 | FinancialInstitutions/Treasury/BuySellCurrencyForm | Opened OK |  | Page opened while signed in. No crash. |
 | FinancialInstitutions/Treasury/BuySellCurrencyIndex | Opened OK |  | Page opened while signed in. No crash. |
@@ -406,14 +458,13 @@ This is a different test from the 10 Oct report. That report opened pages agains
 
 - Deep form behaviour (fast switching of customer, supplier, bank or currency; a failed save keeping what you typed; double-click; negative, zero and very large numbers; Arabic and phone width) was **not** repeated on all 252 pages in this pass. The 10 Oct report covered that against a fake server. This pass answers "does the screen open on NileTD?"
 - The plan steps and the result pages (general ledger, bank statement, safe statement, supplier invoices, project inventory) were opened later with real records. See the continuation section.
-- These still have no saved document for NileTD, so the detail screen cannot be opened: expense claim, fixed asset, job order, production order, payroll run, end-of-service run, leasing contract, bank reconciliation, and a manual journal.
+- Approving a manual journal was retested after migration `000318`. JE/2026/10/00001 and its reversal JE/2026/10/00002 remain on Cycle Test Co. C and cancel each other.
 - Companies list and company form: this user is a company admin, and those screens correctly refuse him. They were not opened as the system owner.
-- Password reset was not opened. It needs a real email link.
-- On this database, migrations `000312` through `000326` are still pending. Besides #2 and #3, saving a **new** numbered document (collection, invoice, bill) crashed earlier today because the numbering table from `000321` is missing. I did not run those migrations, and I did not create a document in this pass. If your server already has them, saving there should not hit that crash.
+- Password reset was opened earlier and not submitted.
+- Migrations `000312` through `000326` are applied on this database. A brand-new invoice was still not saved in this pass.
 
 ## 7. Suggested next steps
 
-1. Fix Production Order create (#1). It is a real code mismatch and will crash on an up-to-date database.
-2. On your own server, open Stock adjustments, Leave holidays, and create one payroll run. If they work, #2, #3 and #6 are only this copy of the database (migrations `000312`, `000317` and `000320`).
-3. Remove or repair the unused currency rate address (#4), and either add the Breakeven screen or remove its address (#5).
-4. Tell me if you want the deep form scenarios (the 10 Oct style) run again on the real company, one area at a time. I did not change any code in this pass.
+1. On your own server, run the same pending migrations (`000312` through `000326`) if they are not there yet. The screen fixes for production orders, the spare currency address, and Breakeven are in the code and need a normal deploy. Breakeven also needs the front end rebuilt.
+2. The two cancelling journals on Cycle Test Co. C can stay. They net to zero.
+3. The deep form scenarios (fast switching, negative numbers, Arabic, phone width) were still not repeated on all 252 pages.

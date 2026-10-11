@@ -53,7 +53,7 @@ class ProductionOrderController extends Controller
 
         return Inertia::render('Accounting/Manufacturing/ProductionOrderForm', [
             'products'  => Product::where('company_id', $companyId)->where('nature', Product::NATURE_MANUFACTURED)->forDropdown()->get(),
-            'boms'      => BillOfMaterial::where('company_id', $companyId)->where('is_active', true)->with('product:id,name_en')->get(),
+            'boms'      => BillOfMaterial::where('company_id', $companyId)->active()->with('product:id,name_en')->get(),
             'locations' => InventoryLocation::where('company_id', $companyId)->active()->orderBy('name_en')->get(['id', 'code', 'name_en']),
         ]);
     }
