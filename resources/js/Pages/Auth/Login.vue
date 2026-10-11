@@ -209,20 +209,27 @@ function switchLocale(lang) {
 <style scoped>
 .login-shell {
     position: relative;
+    box-sizing: border-box;
     min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    align-items: end;
+    column-gap: clamp(20px, 3vw, 48px);
+    padding: 28px clamp(20px, 3vw, 48px) clamp(20px, 3vh, 32px);
     background-color: #0B1C3E;
     background-image: url('/images/auth.jpeg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center center;
     background-size: cover;
-    background-attachment: fixed;
+    overflow: auto;
 }
 
 .login-story {
-    position: absolute;
-    left: 36px;
-    bottom: 28px;
-    width: min(520px, 34vw);
+    position: relative;
+    width: auto;
+    max-width: 560px;
+    justify-self: start;
     z-index: 2;
     color: #FFFFFF;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
@@ -239,11 +246,12 @@ function switchLocale(lang) {
 
 .login-headline {
     margin: 0 0 10px;
-    font-size: 32px;
+    font-size: clamp(26px, 2.4vw, 32px);
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.03em;
     color: #FFFFFF;
+    overflow-wrap: anywhere;
 }
 
 .login-lead {
@@ -294,15 +302,19 @@ function switchLocale(lang) {
 }
 
 .login-feature strong {
+    min-width: 0;
     font-size: 13px;
     font-weight: 700;
     color: #FFFFFF;
+    overflow-wrap: anywhere;
 }
 
 .login-feature span {
+    min-width: 0;
     font-size: 12px;
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.78);
+    overflow-wrap: anywhere;
 }
 
 .login-closer {
@@ -313,23 +325,30 @@ function switchLocale(lang) {
 }
 
 .login-column {
-    position: absolute;
-    top: 42%;
-    left: 43.1%;
-    transform: translateX(-50%);
-    width: min(360px, calc(100vw - 32px));
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 380px;
+    justify-self: end;
+    align-self: center;
     margin: 0;
+    padding-top: 140px;
     z-index: 3;
 }
 
 .login-logo {
-    position: fixed;
-    top: 20px;
-    right: 28px;
+    position: absolute;
+    top: 16px;
+    right: 24px;
     left: auto;
     z-index: 5;
-    width: 210px;
+    width: auto;
     height: auto;
+    max-width: min(200px, 22vw);
+    max-height: 112px;
+    object-fit: contain;
     filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
 }
 
@@ -443,6 +462,8 @@ function switchLocale(lang) {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
     margin: 2px 0 12px;
 }
 
@@ -573,9 +594,15 @@ function switchLocale(lang) {
     margin-top: 12px;
 }
 
-[dir="rtl"] .login-story {
-    left: 36px;
-    right: auto;
+/* The photograph keeps the glass panel on the left, so the columns
+   stay in that order even when the page is Arabic. */
+[dir="rtl"] .login-shell {
+    direction: ltr;
+}
+
+[dir="rtl"] .login-story,
+[dir="rtl"] .login-column {
+    direction: rtl;
 }
 
 [dir="rtl"] .login-kicker,
@@ -583,15 +610,8 @@ function switchLocale(lang) {
     letter-spacing: 0;
 }
 
-[dir="rtl"] .login-column {
-    left: 43.1%;
-    right: auto;
-    margin: 0;
-    transform: translateX(-50%);
-}
-
 [dir="rtl"] .login-logo {
-    right: 28px;
+    right: 24px;
     left: auto;
 }
 
@@ -605,18 +625,21 @@ function switchLocale(lang) {
     padding-inline-end: 42px;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1100px), (max-height: 680px) {
     .login-shell {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        align-items: stretch;
         gap: 16px;
-        padding: 140px 16px 20px;
+        padding: 120px 16px 24px;
         background-image:
-            linear-gradient(rgba(11, 28, 62, 0.55), rgba(11, 28, 62, 0.55)),
+            linear-gradient(rgba(11, 28, 62, 0.78), rgba(11, 28, 62, 0.82)),
             url('/images/auth.jpeg');
-        background-attachment: scroll;
     }
+
+    .login-column { order: 1; }
+    .login-story { order: 2; }
 
     .login-story,
     .login-column {
@@ -627,7 +650,11 @@ function switchLocale(lang) {
         bottom: auto;
         transform: none;
         width: min(520px, 100%);
+        max-width: 520px;
         margin: 0 auto;
+        padding-top: 0;
+        justify-self: stretch;
+        align-self: stretch;
     }
 
     [dir="rtl"] .login-story,
@@ -642,7 +669,8 @@ function switchLocale(lang) {
     .login-logo {
         top: 12px;
         right: 12px;
-        width: 132px;
+        max-width: 120px;
+        max-height: 96px;
     }
 
     [dir="rtl"] .login-logo {
@@ -652,7 +680,9 @@ function switchLocale(lang) {
 }
 
 @media (max-width: 480px) {
-    .login-card { padding: 24px 18px 18px; }
+    .login-card { padding: 20px 16px 16px; }
     .login-form-title { font-size: 20px; }
+    .login-features { grid-template-columns: 1fr; }
+    .login-options { gap: 8px; flex-wrap: wrap; }
 }
 </style>
