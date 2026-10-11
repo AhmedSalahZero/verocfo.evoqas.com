@@ -1,0 +1,1 @@
+.gr-balance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.gr-balance-card{padding:1rem 1.25rem;display:flex;flex-direction:column;align-items:flex-start;gap:.5rem}.gr-balance-label{font-size:.8125rem;color:var(--zv-text-secondary)}.gr-balance-figure{font-size:1.5rem;font-weight:700;color:var(--zv-text-primary);margin-bottom:.25rem}

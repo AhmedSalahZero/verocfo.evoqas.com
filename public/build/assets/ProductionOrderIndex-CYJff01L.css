@@ -1,0 +1,1 @@
+.poi-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem}@media(max-width:900px){.poi-kpi-grid{grid-template-columns:1fr}}.bom-version-chip{font-weight:700;color:var(--zv-text-secondary, #475569)}

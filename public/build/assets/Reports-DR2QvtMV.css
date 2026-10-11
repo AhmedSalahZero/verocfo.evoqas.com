@@ -1,0 +1,1 @@
+.ea-report-type-group{grid-template-columns:repeat(4,1fr)}@media(max-width:900px){.ea-report-type-group{grid-template-columns:repeat(2,1fr)}}.zv-tile-sub{font-size:.75rem;color:var(--zv-text-muted);margin-top:2px}.d-block{display:block}.ea-period-row{align-items:end;margin-bottom:.75rem}.ea-period-remove{display:flex;align-items:end}

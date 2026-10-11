@@ -1,0 +1,1 @@
+@media(min-width:901px){.is-filter-grid{grid-template-columns:.8fr 1.6fr 1.2fr .8fr .8fr}}.is-in{color:var(--zv-green, #10b981)}.is-out{color:var(--zv-danger, #ef4444)}.is-ending{font-weight:700}.is-pagination{display:flex;align-items:center;justify-content:center;gap:1rem;padding:.875rem}.is-pagination-label{font-size:.8125rem;color:var(--zv-text-muted)}
