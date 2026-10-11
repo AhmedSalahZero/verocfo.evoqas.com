@@ -212,11 +212,12 @@ function switchLocale(lang) {
     box-sizing: border-box;
     min-height: 100vh;
     min-height: 100dvh;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
-    align-items: end;
-    column-gap: clamp(20px, 3vw, 48px);
-    padding: 28px clamp(20px, 3vw, 48px) clamp(20px, 3vh, 32px);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: clamp(40px, 8vw, 200px);
+    padding: 120px 48px 40px 40px;
     background-color: #0B1C3E;
     background-image: url('/images/auth.jpeg');
     background-repeat: no-repeat;
@@ -227,9 +228,13 @@ function switchLocale(lang) {
 
 .login-story {
     position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    flex: 1 1 440px;
     width: auto;
-    max-width: 560px;
-    justify-self: start;
+    max-width: 520px;
+    min-width: 280px;
     z-index: 2;
     color: #FFFFFF;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
@@ -328,26 +333,25 @@ function switchLocale(lang) {
     position: relative;
     top: auto;
     left: auto;
+    right: auto;
     transform: none;
-    width: 100%;
-    max-width: 380px;
-    justify-self: end;
-    align-self: center;
+    flex: 0 0 360px;
+    width: 360px;
+    max-width: 100%;
     margin: 0;
-    padding-top: 140px;
+    padding: 0;
     z-index: 3;
 }
 
 .login-logo {
     position: absolute;
-    top: 16px;
-    right: 24px;
+    top: 20px;
+    right: 28px;
     left: auto;
     z-index: 5;
-    width: auto;
+    width: 180px;
+    max-width: 22vw;
     height: auto;
-    max-width: min(200px, 22vw);
-    max-height: 112px;
     object-fit: contain;
     filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
 }
@@ -625,56 +629,41 @@ function switchLocale(lang) {
     padding-inline-end: 42px;
 }
 
-@media (max-width: 1100px), (max-height: 680px) {
-    .login-shell {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-        gap: 16px;
-        padding: 120px 16px 24px;
-        background-image:
-            linear-gradient(rgba(11, 28, 62, 0.78), rgba(11, 28, 62, 0.82)),
-            url('/images/auth.jpeg');
-    }
+@media (min-width: 1181px) and (max-height: 860px) {
+    .login-headline { font-size: 26px; }
+    .login-lead { margin-bottom: 8px; }
+    .login-pill { margin-bottom: 8px; }
+    .login-feature { padding: 8px 10px; }
+    .login-features { margin-bottom: 8px; }
+}
 
-    .login-column { order: 1; }
-    .login-story { order: 2; }
+@media (max-width: 960px) {
+    .login-shell {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 28px;
+        padding: 108px 16px 28px;
+    }
 
     .login-story,
     .login-column {
-        position: relative;
-        left: auto;
-        right: auto;
-        top: auto;
-        bottom: auto;
-        transform: none;
-        width: min(520px, 100%);
-        max-width: 520px;
-        margin: 0 auto;
-        padding-top: 0;
-        justify-self: stretch;
-        align-self: stretch;
-    }
-
-    [dir="rtl"] .login-story,
-    [dir="rtl"] .login-column {
-        left: auto;
-        right: auto;
-        transform: none;
+        flex: 1 1 100%;
+        width: min(440px, 100%);
+        max-width: 440px;
+        min-width: 0;
     }
 
     .login-headline { font-size: 26px; }
 
     .login-logo {
-        top: 12px;
-        right: 12px;
-        max-width: 120px;
-        max-height: 96px;
+        top: 14px;
+        right: 14px;
+        width: 120px;
     }
 
     [dir="rtl"] .login-logo {
-        right: 12px;
+        right: 14px;
         left: auto;
     }
 }
@@ -684,5 +673,19 @@ function switchLocale(lang) {
     .login-form-title { font-size: 20px; }
     .login-features { grid-template-columns: 1fr; }
     .login-options { gap: 8px; flex-wrap: wrap; }
+}
+
+@media (max-height: 460px) {
+    .login-shell { padding: 48px 16px 8px; gap: 8px; }
+    .login-logo { top: 6px; max-width: 64px; max-height: 36px; }
+    .login-card { padding: 10px 14px 8px; }
+    .login-form-title { font-size: 18px; }
+    .login-form-header { margin-bottom: 6px; }
+    .login-field { margin-bottom: 6px; }
+    .login-input { padding-top: 8px; padding-bottom: 8px; }
+    .login-btn { padding: 9px; }
+    .login-options { margin-bottom: 6px; }
+    .login-lang-divider { margin: 6px 0 4px; }
+    .login-trust, .login-copyright { display: none; }
 }
 </style>
