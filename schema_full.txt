@@ -1,4 +1,7 @@
 
+
+
+
 === accounting_periods ===
   id  |  bigint unsigned  |  NOT NULL
   company_id  |  bigint unsigned  |  NOT NULL
