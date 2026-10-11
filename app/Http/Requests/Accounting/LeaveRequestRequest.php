@@ -62,4 +62,14 @@ class LeaveRequestRequest extends FormRequest
             'leave_type_id.exists'   => 'Choose an active leave type belonging to this company.',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'partner_id'    => 'employee',
+            'leave_type_id' => 'leave type',
+            'from_date'     => 'from date',
+            'to_date'       => 'to date',
+        ];
+    }
 }

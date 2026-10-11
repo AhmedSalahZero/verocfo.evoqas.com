@@ -54,7 +54,7 @@ export default {
             reason: 'السبب',
             reasonPlaceholder: 'أي معلومات يحتاجها المعتمد',
             daysRequested: 'عدد الأيام المطلوبة',
-            inclusiveOfBothDates: 'شاملة تاريخي البداية والنهاية',
+            inclusiveOfBothDates: 'شاملة تاريخي البداية والنهاية — أيام تقويم. إذا كان نوع الإجازة يتخطى أيام الراحة والعطلات، يظهر العدد الدقيق لأيام العمل بعد الحفظ.',
             currentBalances: 'الأرصدة الحالية',
             entitlement: 'الاستحقاق',
             taken: 'المستخدم',

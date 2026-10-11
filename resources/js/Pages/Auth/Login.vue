@@ -1,55 +1,30 @@
 <template>
     <div class="login-shell">
+        <img
+            src="/images/logo-mark.png"
+            alt="Vero CFO"
+            class="login-logo"
+        />
 
         <div class="login-story">
-            <div class="login-story-panel">
-                <div class="login-brand">
-                    <div class="login-brand-icon">
-                        <img
-                            src="/images/logo-mark.png"
-                            alt="Vero CFO"
-                            class="login-brand-img"
-                            @error="logoError = true"
-                        />
-                        <svg
-                            v-if="logoError"
-                            width="26" height="26"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            aria-hidden="true"
-                        >
-                            <path d="M3 19 L12 4 L16 12 L20 7" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16 12 L20 7 L22 9" stroke="#D4A017" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="18" cy="17" r="4" stroke="#60A5FA" stroke-width="1.5" fill="none"/>
-                        </svg>
-                    </div>
-                    <div class="login-brand-name">
-                        Vero <span>CFO</span>
-                    </div>
+            <p class="login-kicker">{{ t('auth.login.storyKicker') }}</p>
+            <h1 class="login-headline">{{ t('auth.login.storyHeadline') }}</h1>
+            <p class="login-lead">{{ t('auth.login.storyLead') }}</p>
+            <p class="login-pill">{{ t('auth.login.storyPill') }}</p>
+            <div class="login-features">
+                <div v-for="item in features" :key="item.title" class="login-feature">
+                    <i :class="item.icon" aria-hidden="true"></i>
+                    <strong>{{ t(item.title) }}</strong>
+                    <span>{{ t(item.text) }}</span>
                 </div>
-
-                <p class="login-story-eyebrow">{{ t('auth.login.productEyebrow') }}</p>
-                <h1 class="login-story-title">{{ t('auth.login.productTitle') }}</h1>
-                <p class="login-story-body">{{ t('auth.login.productBody') }}</p>
             </div>
+            <p class="login-closer">{{ t('auth.login.storyCloser') }}</p>
         </div>
 
-        <div class="login-card">
-            <div class="login-card-story">
-                <p class="login-card-eyebrow">{{ t('auth.login.productEyebrow') }}</p>
-                <h1 class="login-card-title">{{ t('auth.login.productTitle') }}</h1>
-                <p class="login-card-body">{{ t('auth.login.productBody') }}</p>
-            </div>
-
+        <div class="login-column">
+            <div class="login-card">
             <div class="login-form-header">
-                <div class="login-form-eyebrow">
-                    <i class="ti ti-shield-lock" aria-hidden="true"></i>
-                    {{ t('auth.login.secureAccess') }}
-                </div>
                 <h2 class="login-form-title">{{ t('auth.login.welcomeBack') }}</h2>
-                <p class="login-form-sub">
-                    {{ t('auth.login.signInToYourVeroCFO') }}
-                </p>
             </div>
 
             <form @submit.prevent="submit" novalidate>
@@ -187,6 +162,7 @@
             <div class="login-copyright">
                 © {{ currentYear }} Vero CFO · {{ t('auth.login.allRightsReserved') }}
             </div>
+            </div>
         </div>
 
     </div>
@@ -203,7 +179,13 @@ const currentLocale  = computed(() => locale.value)
 const currentYear    = new Date().getFullYear()
 
 const showPassword = ref(false)
-const logoError    = ref(false)
+
+const features = [
+    { icon: 'ti ti-file-invoice', title: 'auth.login.featureInvoices', text: 'auth.login.featureInvoicesText' },
+    { icon: 'ti ti-packages', title: 'auth.login.featureStock', text: 'auth.login.featureStockText' },
+    { icon: 'ti ti-building-bank', title: 'auth.login.featureTreasury', text: 'auth.login.featureTreasuryText' },
+    { icon: 'ti ti-chart-line', title: 'auth.login.featurePlan', text: 'auth.login.featurePlanText' },
+]
 
 const form = useForm({
     email:    '',
@@ -226,161 +208,154 @@ function switchLocale(lang) {
 
 <style scoped>
 .login-shell {
+    position: relative;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 40px 48px;
     background-color: #0B1C3E;
     background-image: url('/images/auth.jpeg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .login-story {
     position: absolute;
-    left: 48px;
-    bottom: 40px;
-    width: min(440px, calc(100% - 560px));
-    z-index: 1;
-}
-
-.login-story-panel {
-    padding: 22px 24px 20px;
-    border-radius: 16px;
-    background: rgba(8, 18, 40, 0.62);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    backdrop-filter: blur(10px);
-}
-
-.login-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.login-brand-icon {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    overflow: hidden;
-}
-
-.login-brand-img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-}
-
-.login-brand-name {
-    font-size: 20px;
-    font-weight: 700;
+    left: 36px;
+    bottom: 28px;
+    width: min(520px, 34vw);
+    z-index: 2;
     color: #FFFFFF;
-    letter-spacing: -0.025em;
-    line-height: 1;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
 }
 
-.login-brand-name span { color: #E8C56B; }
-
-.login-story-eyebrow,
-.login-card-eyebrow {
+.login-kicker {
     margin: 0 0 8px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.82);
 }
 
-.login-story-eyebrow { color: #E8C56B; }
-
-.login-story-title {
+.login-headline {
     margin: 0 0 10px;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.2;
     letter-spacing: -0.03em;
     color: #FFFFFF;
 }
 
-.login-story-body {
-    margin: 0;
+.login-lead {
+    margin: 0 0 14px;
+    max-width: 46ch;
     font-size: 14px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.login-pill {
+    display: inline-block;
+    margin: 0 0 14px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(15, 23, 42, 0.35);
+    font-size: 12px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.login-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.login-feature {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    column-gap: 8px;
+    row-gap: 2px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(15, 23, 42, 0.38);
+    backdrop-filter: blur(8px);
+    text-shadow: none;
+}
+
+.login-feature i {
+    grid-row: span 2;
+    align-self: center;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.login-feature strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.login-feature span {
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.login-closer {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.login-column {
+    position: absolute;
+    top: 42%;
+    left: 43.1%;
+    transform: translateX(-50%);
+    width: min(360px, calc(100vw - 32px));
+    margin: 0;
+    z-index: 3;
+}
+
+.login-logo {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    left: auto;
+    z-index: 5;
+    width: 210px;
+    height: auto;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
 }
 
 .login-card {
     position: relative;
-    z-index: 2;
-    width: min(420px, 100%);
-    max-height: calc(100vh - 48px);
-    overflow: auto;
-    padding: 32px 32px 24px;
-    background: #FFFFFF;
+    width: 100%;
+    overflow: visible;
+    padding: 18px 20px 14px;
+    background: rgba(15, 23, 42, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 18px;
-    box-shadow: 0 24px 64px rgba(8, 18, 40, 0.28);
+    box-shadow: 0 18px 48px rgba(8, 18, 40, 0.28);
+    backdrop-filter: blur(16px);
 }
 
-.login-card-story { display: none; }
-
-.login-card-eyebrow { color: #2563EB; }
-
-.login-card-title {
-    margin: 0 0 8px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-    color: #0F172A;
-}
-
-.login-card-body {
-    margin: 0 0 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #64748B;
-}
-
-.login-form-header { margin-bottom: 22px; }
-
-.login-form-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #2563EB;
-    margin-bottom: 8px;
-}
-
-.login-form-eyebrow i { font-size: 13px; }
+.login-form-header { margin-bottom: 14px; }
 
 .login-form-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    color: #0F172A;
+    color: #FFFFFF;
     letter-spacing: -0.025em;
-    margin: 0 0 6px;
-}
-
-.login-form-sub {
     margin: 0;
-    font-size: 13px;
-    color: #64748B;
-    line-height: 1.6;
 }
 
-.login-field { margin-bottom: 16px; }
+.login-field { margin-bottom: 12px; }
 
 .login-label {
     display: block;
@@ -388,7 +363,7 @@ function switchLocale(lang) {
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.78);
     margin-bottom: 7px;
 }
 
@@ -401,7 +376,7 @@ function switchLocale(lang) {
 .login-input-icon {
     position: absolute;
     inset-inline-start: 12px;
-    color: #94A3B8;
+    color: rgba(255, 255, 255, 0.7);
     font-size: 16px;
     pointer-events: none;
 }
@@ -409,25 +384,25 @@ function switchLocale(lang) {
 .login-input {
     width: 100%;
     padding: 11px 12px 11px 38px;
-    border: 1.5px solid #E2E8F0;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
     border-radius: 9px;
     font-size: 13px;
-    color: #0F172A;
+    color: #FFFFFF;
     outline: none;
     font-family: inherit;
-    background: #F8FAFC;
+    background: rgba(255, 255, 255, 0.12);
     transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
 .login-input--password { padding-inline-end: 42px; }
 
 .login-input:focus {
-    border-color: #2563EB;
-    background: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
 }
 
-.login-input::placeholder { color: #CBD5E1; }
+.login-input::placeholder { color: rgba(255, 255, 255, 0.5); }
 .login-input:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .login-input-wrap--error .login-input {
@@ -444,7 +419,7 @@ function switchLocale(lang) {
     inset-inline-end: 10px;
     background: none;
     border: none;
-    color: #94A3B8;
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     padding: 4px;
     font-size: 16px;
@@ -453,7 +428,7 @@ function switchLocale(lang) {
     border-radius: 4px;
 }
 
-.login-eye-btn:hover { color: #475569; }
+.login-eye-btn:hover { color: #FFFFFF; }
 
 .login-field-error {
     display: flex;
@@ -468,7 +443,7 @@ function switchLocale(lang) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 4px 0 18px;
+    margin: 2px 0 12px;
 }
 
 .login-remember {
@@ -476,7 +451,7 @@ function switchLocale(lang) {
     align-items: center;
     gap: 7px;
     font-size: 12.5px;
-    color: #475569;
+    color: rgba(255, 255, 255, 0.86);
     cursor: pointer;
     user-select: none;
 }
@@ -490,17 +465,17 @@ function switchLocale(lang) {
 
 .login-forgot {
     font-size: 12.5px;
-    color: #2563EB;
+    color: #BFDBFE;
     text-decoration: none;
     font-weight: 500;
 }
 
-.login-forgot:hover { color: #1D4ED8; text-decoration: underline; }
+.login-forgot:hover { color: #FFFFFF; text-decoration: underline; }
 
 .login-btn {
     width: 100%;
     padding: 12.5px;
-    background: #0F2554;
+    background: #2563EB;
     color: #FFFFFF;
     border: none;
     border-radius: 9px;
@@ -510,7 +485,7 @@ function switchLocale(lang) {
     font-family: inherit;
 }
 
-.login-btn:hover:not(:disabled) { background: #1A3A6B; }
+.login-btn:hover:not(:disabled) { background: #1D4ED8; }
 .login-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
 .login-btn-inner {
@@ -537,18 +512,18 @@ function switchLocale(lang) {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 20px 0 12px;
+    margin: 14px 0 10px;
 }
 
 .login-lang-line {
     flex: 1;
     height: 1px;
-    background: #F1F5F9;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .login-lang-divider span {
     font-size: 11px;
-    color: #CBD5E1;
+    color: rgba(255, 255, 255, 0.65);
     white-space: nowrap;
 }
 
@@ -565,16 +540,16 @@ function switchLocale(lang) {
     font-weight: 500;
     cursor: pointer;
     font-family: inherit;
-    border: 1.5px solid #E2E8F0;
-    background: #F8FAFC;
-    color: #64748B;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.86);
 }
 
 .login-lang-btn--active,
 .login-lang-btn:hover {
-    background: #EFF6FF;
-    border-color: #BFDBFE;
-    color: #1D4ED8;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.55);
+    color: #FFFFFF;
 }
 
 .login-lang-btn--active { font-weight: 600; }
@@ -585,7 +560,7 @@ function switchLocale(lang) {
     justify-content: center;
     gap: 6px;
     font-size: 11.5px;
-    color: #94A3B8;
+    color: rgba(255, 255, 255, 0.72);
     margin-top: 16px;
 }
 
@@ -593,18 +568,31 @@ function switchLocale(lang) {
 
 .login-copyright {
     font-size: 11px;
-    color: #CBD5E1;
+    color: rgba(255, 255, 255, 0.55);
     text-align: center;
     margin-top: 12px;
 }
 
-[dir="rtl"] .login-shell {
-    justify-content: flex-start;
+[dir="rtl"] .login-story {
+    left: 36px;
+    right: auto;
 }
 
-[dir="rtl"] .login-story {
-    left: 48px;
+[dir="rtl"] .login-kicker,
+[dir="rtl"] .login-label {
+    letter-spacing: 0;
+}
+
+[dir="rtl"] .login-column {
+    left: 43.1%;
     right: auto;
+    margin: 0;
+    transform: translateX(-50%);
+}
+
+[dir="rtl"] .login-logo {
+    right: 28px;
+    left: auto;
 }
 
 [dir="rtl"] .login-input {
@@ -617,33 +605,50 @@ function switchLocale(lang) {
     padding-inline-end: 42px;
 }
 
-[dir="rtl"] .login-story-eyebrow,
-[dir="rtl"] .login-card-eyebrow,
-[dir="rtl"] .login-form-eyebrow {
-    letter-spacing: 0;
-}
-
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .login-shell {
-        justify-content: center;
-        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        gap: 16px;
+        padding: 140px 16px 20px;
         background-image:
-            linear-gradient(rgba(11, 28, 62, 0.62), rgba(11, 28, 62, 0.62)),
+            linear-gradient(rgba(11, 28, 62, 0.55), rgba(11, 28, 62, 0.55)),
             url('/images/auth.jpeg');
+        background-attachment: scroll;
     }
 
-    [dir="rtl"] .login-shell {
-        justify-content: center;
+    .login-story,
+    .login-column {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        transform: none;
+        width: min(520px, 100%);
+        margin: 0 auto;
     }
 
-    .login-story { display: none; }
-
-    .login-card {
-        width: min(460px, 100%);
-        max-height: calc(100vh - 32px);
+    [dir="rtl"] .login-story,
+    [dir="rtl"] .login-column {
+        left: auto;
+        right: auto;
+        transform: none;
     }
 
-    .login-card-story { display: block; }
+    .login-headline { font-size: 26px; }
+
+    .login-logo {
+        top: 12px;
+        right: 12px;
+        width: 132px;
+    }
+
+    [dir="rtl"] .login-logo {
+        right: 12px;
+        left: auto;
+    }
 }
 
 @media (max-width: 480px) {

@@ -55,6 +55,7 @@ export default {
             totalCredit: 'إجمالي الدائن',
             balanced: 'متوازن',
             outOfBalanceBy: 'غير متوازن بمقدار',
+            linesNeedAccountAndAmount: 'المبالغ متساوية. اختر حساباً ومبلغاً أكبر من صفر في كل بند.',
             debitAndCreditMustBalanceBeforePosting: 'يجب أن يتساوى إجمالي المدين مع إجمالي الدائن قبل الترحيل.',
             posting: 'جارٍ الترحيل...',
             postJournalEntry: 'ترحيل القيد',

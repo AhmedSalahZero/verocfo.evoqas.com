@@ -186,8 +186,11 @@
               </svg>
               {{ t('accounting.journalEntries.form.balanced') }}
             </span>
-            <span v-else class="je-unbalanced">
+            <span v-else-if="difference >= 0.005" class="je-unbalanced">
               {{ t('accounting.journalEntries.form.outOfBalanceBy') }} {{ fmt(difference) }}
+            </span>
+            <span v-else class="je-unbalanced">
+              {{ t('accounting.journalEntries.form.linesNeedAccountAndAmount') }}
             </span>
           </div>
         </div>
@@ -196,7 +199,7 @@
       <div class="zv-card">
         <div class="zv-card-footer flex items-center justify-end gap-3">
           <Link :href="route('accounting.journal-entries.index')" class="zv-btn zv-btn-ghost">{{ t('common.cancel') }}</Link>
-          <button type="submit" :disabled="form.processing || !isBalanced" class="zv-btn zv-btn-primary" :title="!isBalanced ? t('accounting.journalEntries.form.debitAndCreditMustBalanceBeforePosting') : null">
+          <button type="submit" :disabled="form.processing || !isBalanced" class="zv-btn zv-btn-primary" :title="!isBalanced ? (difference >= 0.005 ? t('accounting.journalEntries.form.debitAndCreditMustBalanceBeforePosting') : t('accounting.journalEntries.form.linesNeedAccountAndAmount')) : null">
             {{ form.processing ? t('accounting.journalEntries.form.posting') : t('accounting.journalEntries.form.postJournalEntry') }}
           </button>
         </div>

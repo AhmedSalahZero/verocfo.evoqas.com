@@ -116,7 +116,7 @@
               <span class="lv-days-value">{{ dayCount }}</span>
               <span class="lv-days-label">
                 {{ t('accounting.hr.leaveForm.daysRequested') }}
-                <small>{{ t('accounting.hr.leaveForm.inclusiveOfBothDates') }} — calendar days. For leave types that skip rest days and holidays, the saved request shows the exact working-day count.</small>
+                <small>{{ t('accounting.hr.leaveForm.inclusiveOfBothDates') }}</small>
               </span>
             </div>
 

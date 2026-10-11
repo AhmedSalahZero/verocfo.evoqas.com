@@ -55,6 +55,7 @@ export default {
             totalCredit: 'Total Credit',
             balanced: 'Balanced',
             outOfBalanceBy: 'Out of balance by',
+            linesNeedAccountAndAmount: 'Amounts match. Choose an account and an amount above zero on every line.',
             debitAndCreditMustBalanceBeforePosting: 'Total debit and total credit must be equal before this can be posted.',
             posting: 'Posting…',
             postJournalEntry: 'Post Journal Entry',

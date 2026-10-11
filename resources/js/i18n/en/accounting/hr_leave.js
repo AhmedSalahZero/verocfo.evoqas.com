@@ -58,7 +58,7 @@ export default {
             reason: 'Reason',
             reasonPlaceholder: 'Anything the approver should know',
             daysRequested: 'Days requested',
-            inclusiveOfBothDates: 'Inclusive of both dates',
+            inclusiveOfBothDates: 'Inclusive of both dates — calendar days. For leave types that skip rest days and holidays, the saved request shows the exact working-day count.',
             currentBalances: 'Current balances',
             entitlement: 'Entitlement',
             taken: 'Taken',
