@@ -1,0 +1,31 @@
+export default {
+    banks: {
+        facilities: {
+            mtlIndex: {
+                drawn: 'Drawn',
+                available: 'Available',
+                banks: 'Banks',
+                mediumTermLoan: 'Medium Term Loan',
+                mediumTermLoans: 'Medium Term Loans',
+                termLoansWithAManuallyEntered: 'Term loans with a manually entered or uploaded repayment schedule.',
+                addLoan: 'Add Loan',
+                chooseABankToBegin: 'Choose a bank to begin',
+                loans: 'Loans',
+                noLoansYet: 'No loans yet',
+                active: 'active',
+                totalLimit: 'Total Limit',
+                pastDueInstallments: 'Past Due Installments',
+                needsAttention: 'Needs attention',
+                allCurrent: 'All current',
+                allBanks: 'All Banks',
+                loans2: 'loans',
+                noMediumTermLoansYet: 'No Medium Term Loans yet',
+                bank: 'Bank',
+                currency: 'Currency',
+                limit: 'Limit',
+                interestRate: 'Interest Rate',
+                loanSchedule: 'Loan Schedule',
+            },
+        },
+    },
+}

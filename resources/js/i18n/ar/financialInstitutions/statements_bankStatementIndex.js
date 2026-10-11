@@ -1,0 +1,27 @@
+export default {
+    statements: {
+        bankStatementIndex: {
+            statement: 'كشف حساب',
+            bankStatement: 'كشف حساب بنكي',
+            pickAnAccountAndDateRange: 'اختر حسابًا بنكيًا ونطاق تاريخ لعرض كشف حسابه.',
+            noBankAccountsFound: 'لم يتم العثور على حسابات بنكية.',
+            bankAccount: 'الحساب البنكي',
+            selectAccount: 'اختر الحساب...',
+            bankAccountsGroup: 'الحسابات البنكية',
+            creditFacilitiesGroup: 'التسهيلات الائتمانية (مكشوف)',
+            leaveBlankForFromTheBeginning: 'اتركه فارغًا للبدء من البداية.',
+            leaveBlankForUpToToday: 'اتركه فارغًا حتى اليوم.',
+            endDateCannotBeInTheFuture: 'لا يمكن أن يكون تاريخ النهاية في المستقبل.',
+            viewStatement: 'عرض كشف الحساب',
+            currentAccount: 'حساب جاري',
+            timeDeposit: 'وديعة لأجل',
+            escrow: 'حساب ضمان',
+            lgCashCover: 'غطاء نقدي لخطاب ضمان',
+            lcCashCover: 'غطاء نقدي لاعتماد مستندي',
+            cleanOverdraft: 'مكشوف نظيف',
+            commercialPaperOverdraft: 'مكشوف مقابل أوراق تجارية',
+            contractAssignmentOverdraft: 'مكشوف مقابل تنازل عن عقد/أمر بيع',
+            fullySecuredOverdraft: 'مكشوف مضمون بالكامل',
+        },
+    },
+}

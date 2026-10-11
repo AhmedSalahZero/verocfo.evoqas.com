@@ -1,0 +1,28 @@
+export default {
+    manufacturing: {
+        jobOrderTemplateForm: {
+            jobOrderTemplates: 'Job Order Templates',
+            new: 'New',
+            editTemplate: 'Edit Template',
+            newJobOrderTemplate: 'New Job Order Template',
+            anOptionalStartingPointJobsCan: 'An optional starting point — jobs can also be created with materials entered fresh instead.',
+            identity: 'Identity',
+            aNameForThisRecurringJob: 'A name for this recurring job type',
+            templateName: 'Template Name',
+            eGModelXRackStandard: 'e.g. Model X Rack, Standard Enclosure',
+            usualProduct: 'Usual Product',
+            notSpecified: 'Not specified',
+            optionalJustForReference: 'Optional — just for reference',
+            notes: 'Notes',
+            materialComponents: 'Material Components',
+            perUnitScaledAutomaticallyToWhatever: 'Per unit — scaled automatically to whatever quantity a job actually needs',
+            component: 'Component',
+            qtyUnit: 'Qty / Unit',
+            uOM: 'UOM',
+            selectComponent: 'Select component…',
+            removeLine: 'Remove line',
+            addComponent: 'Add Component',
+            createTemplate: 'Create Template',
+        },
+    },
+}

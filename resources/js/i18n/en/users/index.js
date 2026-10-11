@@ -1,0 +1,20 @@
+export default {
+    index: {
+        settings: 'Settings',
+        users: 'Users',
+        usersInThisCompany: 'users in this company',
+        newUser: 'New User',
+        searchByNameOrEmail: 'Search by name or email...',
+        companyAdmin: 'Company Admin',
+        user: 'User',
+        allStatuses: 'All statuses',
+        email: 'Email',
+        role: 'Role',
+        jobLevel: 'Job Level',
+        lastLogin: 'Last Login',
+        noUsersFound: 'No users found',
+        tryAdjustingYourSearchOrFilters: 'Try adjusting your search or filters',
+        permissions: 'Permissions',
+        activeSeatsUsed: 'active user seats used',
+    },
+}

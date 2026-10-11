@@ -1,0 +1,1711 @@
+
+=== accounting_periods ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  fiscal_year_id  |  bigint unsigned  |  NOT NULL
+  name  |  varchar(30)  |  NOT NULL
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  period_number  |  tinyint unsigned  |  NOT NULL
+  status  |  varchar(10)  |  NOT NULL DEFAULT 'open'
+  closed_at  |  timestamp  |  NULL
+  closed_by  |  bigint unsigned  |  NULL
+  was_reopened  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  reopened_at  |  timestamp  |  NULL
+  reopened_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== accruals ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  accrual_code  |  varchar(30)  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  chart_of_account_id  |  bigint unsigned  |  NOT NULL
+  cost_center_id  |  bigint unsigned  |  NULL
+  project_id  |  bigint unsigned  |  NULL
+  sales_order_id  |  bigint unsigned  |  NULL
+  description  |  varchar(500)  |  NOT NULL
+  accrual_date  |  date  |  NOT NULL
+  amount  |  decimal(15,2)  |  NOT NULL
+  settled_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  status  |  enum('open','partially_settled','fully_settled','cancelled')  |  NOT NULL DEFAULT 'open'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== audit_log ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  user_id  |  bigint unsigned  |  NULL
+  impersonated_by  |  bigint unsigned  |  NULL
+  action  |  varchar(30)  |  NOT NULL
+  auditable_type  |  varchar(100)  |  NOT NULL
+  auditable_id  |  bigint unsigned  |  NULL
+  before  |  json  |  NULL
+  after  |  json  |  NULL
+  ip_address  |  varchar(45)  |  NULL
+  user_agent  |  varchar(255)  |  NULL
+  created_at  |  timestamp  |  NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+
+=== bank_account_td_events ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NOT NULL
+  event_type  |  enum('interest','break','maturity','renewal')  |  NOT NULL
+  event_date  |  date  |  NOT NULL
+  interest_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  principal_amount  |  decimal(15,2)  |  NULL
+  old_maturity_date  |  date  |  NULL
+  new_maturity_date  |  date  |  NULL
+  old_interest_rate  |  decimal(8,4)  |  NULL
+  new_interest_rate  |  decimal(8,4)  |  NULL
+  credit_bank_account_id  |  bigint unsigned  |  NOT NULL
+  journal_entry_id  |  bigint unsigned  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== bank_account_terms_history ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NOT NULL
+  field  |  varchar(40)  |  NOT NULL
+  old_value  |  varchar(255)  |  NULL
+  new_value  |  varchar(255)  |  NULL
+  effective_date  |  date  |  NOT NULL
+  changed_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+
+=== bank_accounts ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bank_id  |  bigint unsigned  |  NOT NULL
+  account_name  |  varchar(200)  |  NOT NULL
+  account_number  |  varchar(100)  |  NULL
+  account_type  |  enum('current','time_deposit','escrow','lg_cash_cover','lc_cash_cover')  |  NOT NULL DEFAULT 'current'
+  td_entry_type  |  enum('new','existing')  |  NULL
+  td_funding_bank_account_id  |  bigint unsigned  |  NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  coa_account_id  |  bigint unsigned  |  NOT NULL
+  interest_rate  |  decimal(8,4)  |  NULL
+  minimum_balance_for_interest  |  decimal(15,2)  |  NULL
+  is_cash_cover  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  linked_facility_id  |  bigint unsigned  |  NULL
+  td_start_date  |  date  |  NULL
+  td_maturity_date  |  date  |  NULL
+  td_interest_rate  |  decimal(8,4)  |  NULL
+  td_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== banks ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(200)  |  NOT NULL
+  name_ar  |  varchar(200)  |  NULL
+  branch_name  |  varchar(200)  |  NULL
+  branch_address  |  varchar(500)  |  NULL
+  contact_person  |  varchar(150)  |  NULL
+  phone  |  varchar(50)  |  NULL
+  email  |  varchar(150)  |  NULL
+  swift_code  |  varchar(20)  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== bill_of_materials ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  version  |  int unsigned  |  NOT NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  output_quantity  |  decimal(15,4)  |  NOT NULL
+  standard_labor_hours_per_batch  |  decimal(15,4)  |  NULL
+  standard_machine_hours_per_batch  |  decimal(15,4)  |  NULL
+  effective_date  |  date  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== bom_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bill_of_material_id  |  bigint unsigned  |  NOT NULL
+  component_product_id  |  bigint unsigned  |  NOT NULL
+  quantity_per_batch  |  decimal(15,4)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== business_sectors ===
+  id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  sort_order  |  smallint unsigned  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== cache ===
+  key  |  varchar(255)  |  NOT NULL
+  value  |  mediumtext  |  NOT NULL
+  expiration  |  int  |  NOT NULL
+
+=== cache_locks ===
+  key  |  varchar(255)  |  NOT NULL
+  owner  |  varchar(255)  |  NOT NULL
+  expiration  |  int  |  NOT NULL
+
+=== cbe_corridor_rates ===
+  id  |  bigint unsigned  |  NOT NULL
+  rate  |  decimal(8,4)  |  NOT NULL
+  previous_rate  |  decimal(8,4)  |  NULL
+  effective_date  |  date  |  NOT NULL
+  direction  |  varchar(10)  |  NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== chart_of_accounts ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  code  |  varchar(20)  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  account_type  |  varchar(50)  |  NOT NULL
+  normal_balance  |  varchar(6)  |  NOT NULL
+  parent_id  |  bigint unsigned  |  NULL
+  level  |  tinyint unsigned  |  NOT NULL DEFAULT '1'
+  section  |  varchar(20)  |  NOT NULL DEFAULT 'balance_sheet'
+  class  |  varchar(20)  |  NOT NULL DEFAULT 'assets'
+  is_postable  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  allow_currency  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_system  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  requires_cost_center  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  currency_id  |  bigint unsigned  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== cheques_receivable ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  customer_payment_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  drawee_bank_id  |  bigint unsigned  |  NOT NULL
+  cheque_amount  |  decimal(15,2)  |  NOT NULL
+  cheque_number  |  varchar(100)  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  receiving_safe_account_id  |  bigint unsigned  |  NULL
+  status  |  enum('received','sent_for_collection','collected','rejected')  |  NOT NULL DEFAULT 'received'
+  collection_destination_type  |  enum('bank_account','credit_facility')  |  NULL
+  collection_destination_bank_account_id  |  bigint unsigned  |  NULL
+  collection_destination_credit_facility_id  |  bigint unsigned  |  NULL
+  sent_for_collection_at  |  timestamp  |  NULL
+  collected_journal_entry_id  |  bigint unsigned  |  NULL
+  collected_at  |  timestamp  |  NULL
+  rejected_journal_entry_id  |  bigint unsigned  |  NULL
+  rejected_at  |  timestamp  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== commercial_paper_lending_tiers ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  due_within_days  |  int unsigned  |  NOT NULL
+  lending_rate_pct  |  decimal(5,2)  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== companies ===
+  id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  logo_path  |  varchar(255)  |  NULL
+  tax_registration_number  |  varchar(255)  |  NULL
+  company_type  |  json  |  NULL
+  grn_policy  |  enum('po_required','allow_ad_hoc')  |  NOT NULL DEFAULT 'po_required'
+  business_sector_id  |  bigint unsigned  |  NULL
+  legal_structure  |  varchar(50)  |  NULL
+  base_currency  |  varchar(3)  |  NOT NULL DEFAULT 'EGP'
+  fiscal_year_start_month  |  tinyint unsigned  |  NOT NULL DEFAULT '1'
+  opening_balance_date  |  date  |  NULL
+  country  |  varchar(50)  |  NOT NULL DEFAULT 'Egypt'
+  timezone  |  varchar(50)  |  NOT NULL DEFAULT 'Africa/Cairo'
+  phone  |  varchar(30)  |  NULL
+  address  |  varchar(255)  |  NULL
+  parent_company_id  |  bigint unsigned  |  NULL
+  subscription_tier  |  varchar(20)  |  NOT NULL DEFAULT 'Starter'
+  additional_users  |  smallint unsigned  |  NOT NULL DEFAULT '0'
+  subscription_expires_at  |  timestamp  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== company_active_currencies ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  is_functional  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== company_tax_settings ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  vat_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  debit_wht_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== cost_centers ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  code  |  varchar(20)  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  parent_id  |  bigint unsigned  |  NULL
+  level  |  tinyint unsigned  |  NOT NULL DEFAULT '1'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== credit_facilities ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bank_id  |  bigint unsigned  |  NOT NULL
+  facility_reference  |  varchar(100)  |  NULL
+  name  |  varchar(200)  |  NULL
+  account_number  |  varchar(100)  |  NULL
+  facility_type  |  enum('clean_od','commercial_paper','contract_so','cheque_discount','import_lc','letter_guarantee','mtl','stl')  |  NOT NULL
+  entry_type  |  enum('new','existing')  |  NULL
+  lc_security_type  |  enum('unsecured','fully_secured')  |  NULL
+  lc_td_account_id  |  bigint unsigned  |  NULL
+  lc_td_currency_id  |  bigint unsigned  |  NULL
+  lc_td_amount  |  decimal(15,2)  |  NULL
+  lc_td_interest_rate  |  decimal(6,4)  |  NULL
+  lc_td_lending_pct  |  decimal(5,2)  |  NULL
+  coa_account_id  |  bigint unsigned  |  NULL
+  bank_account_id  |  bigint unsigned  |  NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  facility_limit  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  installment_interval  |  enum('monthly','quarterly','semi_annual','annual')  |  NULL
+  outstanding_balance  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  balance_date  |  date  |  NULL
+  interest_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  min_interest_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  hdb_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  admin_fee_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  settled_max_days  |  int  |  NULL
+  follows_corridor_rate  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  max_lending_limit_per_customer  |  decimal(15,2)  |  NULL
+  max_lending_limit_per_contract  |  decimal(15,2)  |  NULL
+  borrowing_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  bank_margin_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  start_date  |  date  |  NOT NULL
+  review_date  |  date  |  NULL
+  expiry_date  |  date  |  NULL
+  purpose  |  varchar(500)  |  NULL
+  collateral_type  |  enum('project','sales_order')  |  NULL
+  collateral_project_id  |  bigint unsigned  |  NULL
+  collateral_so_id  |  bigint unsigned  |  NULL
+  collateral_status  |  enum('valid','expired','warning')  |  NOT NULL DEFAULT 'valid'
+  principal_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  tenure_months  |  int  |  NULL
+  first_payment_date  |  date  |  NULL
+  cheque_recourse  |  enum('with_recourse','without_recourse')  |  NULL
+  status  |  enum('active','expired','closed','cancelled')  |  NOT NULL DEFAULT 'active'
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== credit_note_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_note_id  |  bigint unsigned  |  NOT NULL
+  customer_invoice_line_id  |  bigint unsigned  |  NOT NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '1.0000'
+  unit_price  |  decimal(15,2)  |  NOT NULL
+  line_subtotal  |  decimal(15,2)  |  NOT NULL
+  vat_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  line_total  |  decimal(15,2)  |  NOT NULL
+  sort_order  |  smallint  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== credit_notes ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_note_code  |  varchar(30)  |  NOT NULL
+  customer_invoice_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  credit_date  |  date  |  NOT NULL
+  credit_reason  |  varchar(500)  |  NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  subtotal_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  credit_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  subtotal_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  credit_value_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== currencies ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  code  |  varchar(3)  |  NOT NULL
+  name_en  |  varchar(50)  |  NOT NULL
+  name_ar  |  varchar(50)  |  NULL
+  symbol  |  varchar(10)  |  NULL
+  is_base  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== customer_invoice_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  customer_invoice_id  |  bigint unsigned  |  NOT NULL
+  sales_order_line_id  |  bigint unsigned  |  NOT NULL
+  delivery_note_line_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '1.0000'
+  uom_id  |  bigint unsigned  |  NULL
+  unit_price  |  decimal(15,2)  |  NOT NULL
+  line_subtotal  |  decimal(15,2)  |  NOT NULL
+  vat_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  line_total  |  decimal(15,2)  |  NOT NULL
+  revenue_account_id  |  bigint unsigned  |  NOT NULL
+  cost_center_id  |  bigint unsigned  |  NULL
+  sort_order  |  smallint  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+  accrued_cleared_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  deferred_created_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  price_variance_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+
+=== customer_invoices ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  invoice_code  |  varchar(30)  |  NOT NULL
+  sales_order_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  invoice_date  |  date  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  subtotal_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  invoice_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  subtotal_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  invoice_value_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  amount_paid  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  amount_credited  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  amount_outstanding  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  payment_term_id  |  bigint unsigned  |  NULL
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== customer_payment_allocations ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  customer_payment_id  |  bigint unsigned  |  NOT NULL
+  customer_invoice_id  |  bigint unsigned  |  NOT NULL
+  allocated_amount  |  decimal(15,2)  |  NOT NULL
+  journal_entry_id  |  bigint unsigned  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== customer_payments ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  payment_code  |  varchar(30)  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  collection_type  |  enum('settlement','down_payment')  |  NOT NULL DEFAULT 'settlement'
+  payment_date  |  date  |  NOT NULL
+  money_type  |  enum('bank_deposit','incoming_transfer','cash_in_safe','cheque')  |  NOT NULL DEFAULT 'bank_deposit'
+  reference_number  |  varchar(100)  |  NULL
+  receive_currency_id  |  bigint unsigned  |  NOT NULL
+  invoice_currency_id  |  bigint unsigned  |  NULL
+  invoice_to_receive_exchange_rate  |  decimal(15,6)  |  NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  allocated_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  unallocated_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+  down_payment_project_id  |  bigint unsigned  |  NULL
+  down_payment_sales_order_id  |  bigint unsigned  |  NULL
+  destination_type  |  enum('bank_account','credit_facility')  |  NULL
+  destination_bank_account_id  |  bigint unsigned  |  NULL
+  destination_credit_facility_id  |  bigint unsigned  |  NULL
+  safe_account_id  |  bigint unsigned  |  NULL
+  receipt_number  |  varchar(100)  |  NULL
+
+=== delivery_note_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  delivery_note_id  |  bigint unsigned  |  NOT NULL
+  sales_order_line_id  |  bigint unsigned  |  NOT NULL
+  location_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NULL
+  unit_price  |  decimal(15,2)  |  NOT NULL
+  line_revenue_amount  |  decimal(15,2)  |  NOT NULL
+  wac_unit_cost  |  decimal(15,2)  |  NOT NULL
+  wac_total_value  |  decimal(15,2)  |  NOT NULL
+  stock_movement_id  |  bigint unsigned  |  NULL
+  deferred_cleared_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  accrued_created_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  sort_order  |  smallint  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== delivery_notes ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  delivery_code  |  varchar(30)  |  NOT NULL
+  sales_order_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  delivery_date  |  date  |  NOT NULL
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  inventory_journal_entry_id  |  bigint unsigned  |  NULL
+  revenue_journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== exchange_rates ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  rate  |  decimal(15,6)  |  NOT NULL
+  rate_date  |  date  |  NOT NULL
+  source  |  varchar(20)  |  NOT NULL DEFAULT 'manual'
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+
+=== facility_contract_assignments ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  collateral_type  |  enum('project','sales_order')  |  NOT NULL
+  collateral_project_id  |  bigint unsigned  |  NULL
+  collateral_so_id  |  bigint unsigned  |  NULL
+  assignment_date  |  date  |  NOT NULL
+  lending_pct  |  decimal(5,2)  |  NOT NULL
+  lending_amount  |  decimal(15,2)  |  NOT NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== facility_daily_balances ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  balance_date  |  date  |  NOT NULL
+  opening_balance  |  decimal(15,2)  |  NOT NULL
+  withdrawals_today  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  charges_today  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  settlements_today  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  closing_balance  |  decimal(15,2)  |  NOT NULL
+  daily_interest_amount  |  decimal(15,6)  |  NOT NULL
+  is_quarter_peak  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== facility_lc_types ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  lc_type  |  varchar(150)  |  NOT NULL
+  cash_cover_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  commission_rate_pct  |  decimal(6,4)  |  NOT NULL DEFAULT '0.0000'
+  min_commission_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  issuance_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== facility_lg_types ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  lg_type  |  varchar(150)  |  NOT NULL
+  cash_cover_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  commission_rate_pct  |  decimal(6,4)  |  NOT NULL DEFAULT '0.0000'
+  commission_interval  |  enum('monthly','quarterly','semi_annual','annual')  |  NOT NULL DEFAULT 'quarterly'
+  min_commission_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  issuance_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== facility_liability_charges ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NULL
+  charge_type  |  enum('interest','highest_debit_balance','admin_fee')  |  NOT NULL
+  period_label  |  varchar(20)  |  NOT NULL
+  charge_date  |  date  |  NOT NULL
+  theoretical_amount  |  decimal(15,2)  |  NOT NULL
+  actual_amount  |  decimal(15,2)  |  NOT NULL
+  difference_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  user_overridden  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  override_reason  |  text  |  NULL
+  status  |  enum('pending','posted')  |  NOT NULL DEFAULT 'pending'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== facility_withdrawals ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NULL
+  withdrawal_date  |  date  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  amount  |  decimal(15,2)  |  NOT NULL
+  settled_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  remaining_amount  |  decimal(15,2)  |  NOT NULL
+  status  |  enum('open','partial','settled')  |  NOT NULL DEFAULT 'open'
+  is_opening_balance  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  description  |  text  |  NULL
+  journal_entry_id  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== factoring_agreements ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  factoring_company_id  |  bigint unsigned  |  NOT NULL
+  agreement_reference  |  varchar(100)  |  NULL
+  agreement_type  |  enum('direct','reverse')  |  NOT NULL
+  recourse_type  |  enum('with_recourse','without_recourse')  |  NULL
+  discount_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  coa_account_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NOT NULL
+  eligible_partner_id  |  bigint unsigned  |  NULL
+  min_invoice_age_days  |  int  |  NULL
+  min_invoice_amount  |  decimal(15,2)  |  NULL
+  extended_payment_days  |  int  |  NULL
+  start_date  |  date  |  NULL
+  end_date  |  date  |  NULL
+  status  |  enum('active','inactive')  |  NOT NULL DEFAULT 'active'
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== factoring_companies ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(200)  |  NOT NULL
+  name_ar  |  varchar(200)  |  NULL
+  contact_person  |  varchar(150)  |  NULL
+  phone  |  varchar(50)  |  NULL
+  email  |  varchar(150)  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== failed_jobs ===
+  id  |  bigint unsigned  |  NOT NULL
+  uuid  |  varchar(255)  |  NOT NULL
+  connection  |  text  |  NOT NULL
+  queue  |  text  |  NOT NULL
+  payload  |  longtext  |  NOT NULL
+  exception  |  longtext  |  NOT NULL
+  failed_at  |  timestamp  |  NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+
+=== fiscal_years ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name  |  varchar(20)  |  NOT NULL
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  status  |  varchar(10)  |  NOT NULL DEFAULT 'open'
+  closed_at  |  timestamp  |  NULL
+  closed_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== goods_receipt_note_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  goods_receipt_note_id  |  bigint unsigned  |  NOT NULL
+  purchase_order_line_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  description  |  varchar(500)  |  NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  billed_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  uom_id  |  bigint unsigned  |  NULL
+  unit_cost  |  decimal(15,2)  |  NOT NULL
+  line_total  |  decimal(15,2)  |  NOT NULL
+  project_id  |  bigint unsigned  |  NULL
+  sales_order_id  |  bigint unsigned  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== goods_receipt_notes ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  grn_code  |  varchar(30)  |  NOT NULL
+  purchase_order_id  |  bigint unsigned  |  NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  inventory_location_id  |  bigint unsigned  |  NOT NULL
+  received_date  |  date  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  grn_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  supplier_reference  |  varchar(100)  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== inventory_locations ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  parent_id  |  bigint unsigned  |  NULL
+  code  |  varchar(30)  |  NOT NULL
+  name_en  |  varchar(150)  |  NOT NULL
+  name_ar  |  varchar(150)  |  NULL
+  type  |  varchar(20)  |  NOT NULL DEFAULT 'warehouse'
+  level  |  tinyint unsigned  |  NOT NULL DEFAULT '1'
+  project_id  |  bigint unsigned  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== job_batches ===
+  id  |  varchar(255)  |  NOT NULL
+  name  |  varchar(255)  |  NOT NULL
+  total_jobs  |  int  |  NOT NULL
+  pending_jobs  |  int  |  NOT NULL
+  failed_jobs  |  int  |  NOT NULL
+  failed_job_ids  |  longtext  |  NOT NULL
+  options  |  mediumtext  |  NULL
+  cancelled_at  |  int  |  NULL
+  created_at  |  int  |  NOT NULL
+  finished_at  |  int  |  NULL
+
+=== job_order_cost_entries ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  job_order_id  |  bigint unsigned  |  NOT NULL
+  entry_type  |  enum('labor','overhead')  |  NOT NULL
+  overhead_pool_id  |  bigint unsigned  |  NULL
+  base_quantity  |  decimal(15,4)  |  NOT NULL
+  rate_applied  |  decimal(15,4)  |  NOT NULL
+  actual_amount  |  decimal(15,2)  |  NOT NULL
+  entry_date  |  date  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== job_order_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  job_order_id  |  bigint unsigned  |  NOT NULL
+  component_product_id  |  bigint unsigned  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== job_order_template_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  job_order_template_id  |  bigint unsigned  |  NOT NULL
+  component_product_id  |  bigint unsigned  |  NOT NULL
+  quantity_per_unit  |  decimal(15,4)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== job_order_templates ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name  |  varchar(150)  |  NOT NULL
+  product_id  |  bigint unsigned  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== job_orders ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  job_code  |  varchar(30)  |  NOT NULL
+  job_order_template_id  |  bigint unsigned  |  NULL
+  sales_order_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  quantity_to_produce  |  decimal(15,4)  |  NOT NULL
+  raw_material_location_id  |  bigint unsigned  |  NOT NULL
+  output_location_id  |  bigint unsigned  |  NOT NULL
+  status  |  enum('draft','in_progress','completed','closed','cancelled')  |  NOT NULL DEFAULT 'draft'
+  planned_start_date  |  date  |  NULL
+  actual_start_date  |  date  |  NULL
+  actual_completion_date  |  date  |  NULL
+  estimated_material_cost_per_unit  |  decimal(15,4)  |  NULL
+  estimated_labor_cost_per_unit  |  decimal(15,4)  |  NULL
+  estimated_overhead_cost_per_unit  |  decimal(15,4)  |  NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== jobs ===
+  id  |  bigint unsigned  |  NOT NULL
+  queue  |  varchar(255)  |  NOT NULL
+  payload  |  longtext  |  NOT NULL
+  attempts  |  tinyint unsigned  |  NOT NULL
+  reserved_at  |  int unsigned  |  NULL
+  available_at  |  int unsigned  |  NOT NULL
+  created_at  |  int unsigned  |  NOT NULL
+
+=== journal_entries ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  entry_number  |  varchar(30)  |  NOT NULL
+  entry_date  |  date  |  NOT NULL
+  source_type  |  varchar(50)  |  NOT NULL
+  source_id  |  bigint unsigned  |  NULL
+  narration  |  text  |  NOT NULL
+  status  |  enum('posted','reversed')  |  NOT NULL DEFAULT 'posted'
+  reverses_journal_entry_id  |  bigint unsigned  |  NULL
+  reversed_by_journal_entry_id  |  bigint unsigned  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== journal_entry_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  journal_entry_id  |  bigint unsigned  |  NOT NULL
+  chart_of_account_id  |  bigint unsigned  |  NOT NULL
+  cost_center_id  |  bigint unsigned  |  NULL
+  debit  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  credit  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  description  |  varchar(500)  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lease_amortization_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  leasing_contract_id  |  bigint unsigned  |  NOT NULL
+  period_number  |  int  |  NOT NULL
+  payment_date  |  date  |  NOT NULL
+  payment_amount  |  decimal(15,2)  |  NOT NULL
+  principal_amount  |  decimal(15,2)  |  NOT NULL
+  interest_amount  |  decimal(15,2)  |  NOT NULL
+  balance_after  |  decimal(15,2)  |  NOT NULL
+  is_paid  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lease_cheques ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  leasing_contract_id  |  bigint unsigned  |  NOT NULL
+  bank_account_id  |  bigint unsigned  |  NULL
+  payment_date  |  date  |  NOT NULL
+  beginning_balance  |  decimal(15,2)  |  NULL
+  cheque_number  |  varchar(50)  |  NOT NULL
+  cheque_amount  |  decimal(15,2)  |  NOT NULL
+  principal_amount  |  decimal(15,2)  |  NOT NULL
+  interest_amount  |  decimal(15,2)  |  NOT NULL
+  end_balance  |  decimal(15,2)  |  NULL
+  status  |  enum('pending','withdrawn','bounced')  |  NOT NULL DEFAULT 'pending'
+  withdrawn_date  |  date  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lease_wear_down_entries ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  leasing_contract_id  |  bigint unsigned  |  NOT NULL
+  period_number  |  int  |  NOT NULL
+  entry_date  |  date  |  NOT NULL
+  amount  |  decimal(15,2)  |  NOT NULL
+  journal_entry_id  |  bigint unsigned  |  NULL
+  reversal_journal_entry_id  |  bigint unsigned  |  NULL
+  status  |  enum('posted','reversed')  |  NOT NULL DEFAULT 'posted'
+  posted_by  |  bigint unsigned  |  NULL
+  reversed_by  |  bigint unsigned  |  NULL
+  reversed_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== leasing_companies ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(200)  |  NOT NULL
+  name_ar  |  varchar(200)  |  NULL
+  contact_person  |  varchar(150)  |  NULL
+  phone  |  varchar(50)  |  NULL
+  email  |  varchar(150)  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== leasing_contracts ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  contract_reference  |  varchar(100)  |  NULL
+  leasing_company_id  |  bigint unsigned  |  NOT NULL
+  contract_type  |  enum('operational','capital')  |  NOT NULL
+  entry_type  |  enum('new','existing')  |  NOT NULL DEFAULT 'new'
+  opening_balance_amount  |  decimal(15,2)  |  NULL
+  opening_balance_as_of_date  |  date  |  NULL
+  opening_remaining_installments  |  int  |  NULL
+  asset_description  |  varchar(300)  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  accounting_treatment  |  enum('expense_a','rou_b')  |  NULL
+  expense_account_id  |  bigint unsigned  |  NULL
+  total_contract_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  installment_interval  |  enum('monthly','quarterly','semi_annual','annual')  |  NOT NULL DEFAULT 'monthly'
+  installment_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  duration_months  |  int  |  NOT NULL
+  borrowing_rate  |  decimal(8,4)  |  NOT NULL DEFAULT '0.0000'
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  first_payment_date  |  date  |  NULL
+  purchase_date  |  date  |  NULL
+  total_financed_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  payment_frequency  |  enum('monthly','quarterly')  |  NOT NULL DEFAULT 'monthly'
+  asset_category_id  |  bigint unsigned  |  NULL
+  rou_asset_account_id  |  bigint unsigned  |  NULL
+  rou_amort_account_id  |  bigint unsigned  |  NULL
+  fixed_asset_account_id  |  bigint unsigned  |  NULL
+  accumulated_depreciation_account_id  |  bigint unsigned  |  NULL
+  lease_liability_lt_account_id  |  bigint unsigned  |  NULL
+  lease_liability_current_account_id  |  bigint unsigned  |  NULL
+  bank_account_id  |  bigint unsigned  |  NOT NULL
+  bank_liability_account_id  |  bigint unsigned  |  NULL
+  initial_rou_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  initial_lease_liability  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  status  |  enum('draft','active','closed','cancelled')  |  NOT NULL DEFAULT 'draft'
+  activated_at  |  timestamp  |  NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lg_issuance_history ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  lg_issuance_id  |  bigint unsigned  |  NOT NULL
+  event_type  |  enum('renewal','decrease','cancel','liquidate')  |  NOT NULL
+  event_date  |  date  |  NOT NULL
+  old_end_date  |  date  |  NULL
+  new_end_date  |  date  |  NULL
+  renewal_fee_amount  |  decimal(15,2)  |  NULL
+  decrease_amount  |  decimal(15,2)  |  NULL
+  balance_after_event  |  decimal(15,2)  |  NULL
+  shortfall_amount  |  decimal(15,2)  |  NULL
+  shortfall_account_id  |  bigint unsigned  |  NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lg_issuance_movements ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  lg_issuance_id  |  bigint unsigned  |  NOT NULL
+  movement_type  |  enum('cash_cover_placement','contingent_liability','commission_accrual','issuance_fee','renewal_fee','cash_cover_release_cancel','cash_cover_release_liquidate','liquidation_shortfall','decrease_adjustment')  |  NOT NULL
+  movement_date  |  date  |  NOT NULL
+  debit_coa_account_id  |  bigint unsigned  |  NULL
+  credit_coa_account_id  |  bigint unsigned  |  NULL
+  debit_bank_account_id  |  bigint unsigned  |  NULL
+  credit_bank_account_id  |  bigint unsigned  |  NULL
+  amount  |  decimal(15,2)  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  description  |  varchar(300)  |  NOT NULL
+  status  |  enum('pending_gl_posting','posted')  |  NOT NULL DEFAULT 'pending_gl_posting'
+  posted_at  |  timestamp  |  NULL
+  posted_journal_entry_id  |  bigint unsigned  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== lg_issuances ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  issuance_type  |  enum('facility','cash_cover','time_deposit')  |  NOT NULL
+  posting_mode  |  enum('new_issuance','opening_issuance')  |  NOT NULL DEFAULT 'new_issuance'
+  credit_facility_id  |  bigint unsigned  |  NULL
+  facility_lg_type_id  |  bigint unsigned  |  NULL
+  lg_type  |  varchar(150)  |  NOT NULL
+  transaction_name  |  varchar(200)  |  NOT NULL
+  bank_id  |  bigint unsigned  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  lg_code  |  varchar(100)  |  NULL
+  beneficiary_partner_id  |  bigint unsigned  |  NOT NULL
+  contract_reference_project_id  |  bigint unsigned  |  NULL
+  purchase_order_so_id  |  bigint unsigned  |  NULL
+  purchase_order_date  |  date  |  NULL
+  issuance_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  renewed_at  |  date  |  NULL
+  duration_months  |  smallint unsigned  |  NOT NULL
+  lg_amount  |  decimal(15,2)  |  NOT NULL
+  current_amount  |  decimal(15,2)  |  NOT NULL
+  cash_cover_pct  |  decimal(5,2)  |  NULL
+  cash_cover_amount  |  decimal(15,2)  |  NULL
+  cash_cover_currency_id  |  bigint unsigned  |  NULL
+  commission_fees_currency_id  |  bigint unsigned  |  NULL
+  commission_rate_pct  |  decimal(6,4)  |  NOT NULL
+  commission_amount  |  decimal(15,2)  |  NOT NULL
+  min_commission_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  issuance_fee_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  commission_interval  |  enum('monthly','quarterly','semi_annual','annual')  |  NOT NULL DEFAULT 'quarterly'
+  cash_cover_account_id  |  bigint unsigned  |  NULL
+  fees_commission_account_id  |  bigint unsigned  |  NULL
+  time_deposit_account_id  |  bigint unsigned  |  NULL
+  status  |  enum('running','expired','cancelled')  |  NOT NULL DEFAULT 'running'
+  cancelled_at  |  date  |  NULL
+  cancelled_reversal_account_id  |  bigint unsigned  |  NULL
+  liquidated_at  |  date  |  NULL
+  liquidation_shortfall_amount  |  decimal(15,2)  |  NULL
+  liquidation_shortfall_account_id  |  bigint unsigned  |  NULL
+  liquidation_expense_account_id  |  bigint unsigned  |  NULL
+  comment  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== migrations ===
+  id  |  int unsigned  |  NOT NULL
+  migration  |  varchar(255)  |  NOT NULL
+  batch  |  int  |  NOT NULL
+
+=== mtl_schedule_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  credit_facility_id  |  bigint unsigned  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  beginning_balance  |  decimal(15,2)  |  NOT NULL
+  schedule_payment  |  decimal(15,2)  |  NOT NULL
+  interest_amount  |  decimal(15,2)  |  NOT NULL
+  principal_amount  |  decimal(15,2)  |  NOT NULL
+  end_balance  |  decimal(15,2)  |  NOT NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== mtl_settlements ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  mtl_schedule_line_id  |  bigint unsigned  |  NOT NULL
+  settlement_date  |  date  |  NOT NULL
+  settlement_amount  |  decimal(15,2)  |  NOT NULL
+  current_account_id  |  bigint unsigned  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== notifications ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  user_id  |  bigint unsigned  |  NOT NULL
+  type  |  varchar(20)  |  NOT NULL DEFAULT 'info'
+  severity  |  varchar(10)  |  NOT NULL DEFAULT 'low'
+  title  |  varchar(255)  |  NOT NULL
+  message  |  text  |  NOT NULL
+  action_url  |  varchar(255)  |  NULL
+  action_label  |  varchar(255)  |  NULL
+  source  |  varchar(100)  |  NULL
+  is_read  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  read_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_coa_balances ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  account_id  |  bigint unsigned  |  NOT NULL
+  entry_side  |  varchar(6)  |  NOT NULL
+  amount  |  decimal(18,4)  |  NOT NULL DEFAULT '0.0000'
+  currency_id  |  bigint unsigned  |  NULL
+  amount_foreign  |  decimal(18,4)  |  NULL
+  exchange_rate  |  decimal(15,6)  |  NULL
+  auto_populated  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_inventory_stock ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  location_id  |  bigint unsigned  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  total_value  |  decimal(18,4)  |  NOT NULL
+  unit_cost  |  decimal(15,6)  |  NOT NULL DEFAULT '0.000000'
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_notes_payable ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  check_number  |  varchar(50)  |  NOT NULL
+  drawl_bank  |  varchar(150)  |  NOT NULL
+  check_date  |  date  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  is_post_dated  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  amount  |  decimal(18,4)  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NULL
+  amount_foreign  |  decimal(18,4)  |  NULL
+  exchange_rate  |  decimal(15,6)  |  NULL
+  status  |  varchar(20)  |  NOT NULL DEFAULT 'issued'
+  bank_account_id  |  bigint unsigned  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_notes_receivable ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  check_number  |  varchar(50)  |  NOT NULL
+  drawee_bank  |  varchar(150)  |  NOT NULL
+  check_date  |  date  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  is_post_dated  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  amount  |  decimal(18,4)  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NULL
+  amount_foreign  |  decimal(18,4)  |  NULL
+  exchange_rate  |  decimal(15,6)  |  NULL
+  status  |  varchar(20)  |  NOT NULL DEFAULT 'in_safe'
+  bank_account_id  |  bigint unsigned  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_partner_invoices ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  partner_type  |  varchar(10)  |  NOT NULL
+  account_id  |  bigint unsigned  |  NOT NULL
+  invoice_ref  |  varchar(100)  |  NOT NULL
+  invoice_date  |  date  |  NOT NULL
+  due_date  |  date  |  NOT NULL
+  invoice_amount  |  decimal(18,4)  |  NOT NULL
+  previous_collection  |  decimal(18,4)  |  NOT NULL DEFAULT '0.0000'
+  net_balance  |  decimal(18,4)  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NULL
+  amount_foreign  |  decimal(18,4)  |  NULL
+  exchange_rate  |  decimal(15,6)  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== ob_sessions ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  as_of_date  |  date  |  NOT NULL
+  is_posted  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  posted_at  |  timestamp  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  total_debits  |  decimal(18,4)  |  NOT NULL DEFAULT '0.0000'
+  total_credits  |  decimal(18,4)  |  NOT NULL DEFAULT '0.0000'
+  trial_balance_ok  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== overhead_pools ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  name  |  varchar(150)  |  NOT NULL
+  allocation_base  |  enum('labor_hours','machine_hours','production_units')  |  NOT NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== partner_contacts ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  job_title  |  varchar(255)  |  NULL
+  email  |  varchar(255)  |  NULL
+  phone  |  varchar(255)  |  NULL
+  mobile  |  varchar(255)  |  NULL
+  is_primary  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== partner_employee_history ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  field  |  varchar(30)  |  NOT NULL
+  old_value  |  varchar(255)  |  NULL
+  new_value  |  varchar(255)  |  NULL
+  effective_date  |  date  |  NOT NULL
+  changed_by  |  bigint unsigned  |  NOT NULL
+  created_at  |  timestamp  |  NOT NULL DEFAULT 'CURRENT_TIMESTAMP'
+
+=== partners ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  code  |  varchar(20)  |  NULL
+  types  |  json  |  NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  credit_limit  |  decimal(15,2)  |  NULL
+  collection_term_id  |  bigint unsigned  |  NULL
+  payment_term_id  |  bigint unsigned  |  NULL
+  business_sector_id  |  bigint unsigned  |  NULL
+  sales_zone  |  varchar(255)  |  NULL
+  sales_channel_id  |  bigint unsigned  |  NULL
+  sister_company_name  |  varchar(255)  |  NULL
+  expense_category  |  varchar(255)  |  NULL
+  department  |  varchar(255)  |  NULL
+  cost_center_id  |  bigint unsigned  |  NULL
+  equity_pct  |  decimal(5,2)  |  NULL
+  job_title  |  varchar(255)  |  NULL
+  bank_name  |  varchar(255)  |  NULL
+  bank_branch  |  varchar(255)  |  NULL
+  bank_account_number  |  varchar(255)  |  NULL
+  iban  |  varchar(255)  |  NULL
+  swift_code  |  varchar(255)  |  NULL
+  email  |  varchar(255)  |  NULL
+  phone  |  varchar(255)  |  NULL
+  address  |  varchar(255)  |  NULL
+  country  |  varchar(50)  |  NULL
+  tax_number  |  varchar(255)  |  NULL
+  notes  |  text  |  NULL
+  ar_account_id  |  bigint unsigned  |  NULL
+  ap_account_id  |  bigint unsigned  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== password_reset_tokens ===
+  email  |  varchar(255)  |  NOT NULL
+  token  |  varchar(255)  |  NOT NULL
+  created_at  |  timestamp  |  NULL
+
+=== payment_term_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  payment_term_id  |  bigint unsigned  |  NOT NULL
+  percentage  |  decimal(5,2)  |  NOT NULL
+  due_days  |  smallint unsigned  |  NOT NULL DEFAULT '0'
+  reference_point  |  varchar(20)  |  NOT NULL DEFAULT 'invoice_date'
+  label  |  varchar(255)  |  NULL
+  sort_order  |  tinyint unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== payment_terms ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  code  |  varchar(20)  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  is_system  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== product_categories ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  parent_id  |  bigint unsigned  |  NULL
+  name_en  |  varchar(150)  |  NOT NULL
+  name_ar  |  varchar(150)  |  NULL
+  level  |  tinyint unsigned  |  NOT NULL DEFAULT '1'
+  cost_treatment  |  varchar(20)  |  NULL
+  expense_account_id  |  bigint unsigned  |  NULL
+  raw_material_account_id  |  bigint unsigned  |  NULL
+  finished_goods_account_id  |  bigint unsigned  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== product_location_stock ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  inventory_location_id  |  bigint unsigned  |  NOT NULL
+  quantity_on_hand  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== product_prices ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  price_type  |  varchar(20)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  price  |  decimal(15,4)  |  NOT NULL
+  effective_date  |  date  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+
+=== product_stock_balances ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  quantity_on_hand  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  wac_unit_cost  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  wac_total_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== product_uom_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NOT NULL
+  conversion_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  is_primary  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  use_for_purchase  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  use_for_sales  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== production_order_cost_entries ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  production_order_id  |  bigint unsigned  |  NOT NULL
+  entry_type  |  enum('labor','overhead')  |  NOT NULL
+  overhead_pool_id  |  bigint unsigned  |  NULL
+  base_quantity  |  decimal(15,4)  |  NOT NULL
+  rate_applied  |  decimal(15,4)  |  NOT NULL
+  standard_amount  |  decimal(15,2)  |  NOT NULL
+  actual_amount  |  decimal(15,2)  |  NOT NULL
+  entry_date  |  date  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== production_orders ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  order_code  |  varchar(30)  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  bill_of_material_id  |  bigint unsigned  |  NOT NULL
+  quantity_to_produce  |  decimal(15,4)  |  NOT NULL
+  raw_material_location_id  |  bigint unsigned  |  NOT NULL
+  output_location_id  |  bigint unsigned  |  NOT NULL
+  status  |  enum('draft','in_progress','completed','closed','cancelled')  |  NOT NULL DEFAULT 'draft'
+  planned_start_date  |  date  |  NULL
+  actual_start_date  |  date  |  NULL
+  actual_completion_date  |  date  |  NULL
+  standard_material_cost_per_unit  |  decimal(15,4)  |  NULL
+  standard_labor_cost_per_unit  |  decimal(15,4)  |  NULL
+  standard_overhead_cost_per_unit  |  decimal(15,4)  |  NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== products ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  code  |  varchar(30)  |  NOT NULL
+  name_en  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  barcode  |  varchar(50)  |  NULL
+  description  |  text  |  NULL
+  category_id  |  bigint unsigned  |  NOT NULL
+  usage_types  |  json  |  NOT NULL
+  nature  |  varchar(20)  |  NULL
+  has_stock  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  primary_uom_id  |  bigint unsigned  |  NOT NULL
+  revenue_account_id  |  bigint unsigned  |  NULL
+  cogs_account_id  |  bigint unsigned  |  NULL
+  inventory_account_id  |  bigint unsigned  |  NULL
+  weight  |  decimal(10,4)  |  NULL
+  weight_uom_id  |  bigint unsigned  |  NULL
+  reorder_level  |  decimal(15,4)  |  NULL
+  reorder_qty  |  decimal(15,4)  |  NULL
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== projects ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  contract_code  |  varchar(40)  |  NOT NULL
+  name_en  |  varchar(200)  |  NOT NULL
+  name_ar  |  varchar(200)  |  NULL
+  description  |  text  |  NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  contract_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  status  |  enum('active','on_hold','closed','cancelled')  |  NOT NULL DEFAULT 'active'
+  project_site_location_id  |  bigint unsigned  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== purchase_order_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  purchase_order_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  uom_id  |  bigint unsigned  |  NULL
+  unit_price  |  decimal(15,2)  |  NOT NULL
+  discount_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  line_total  |  decimal(15,2)  |  NOT NULL
+  received_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  tolerance_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  has_price_variance  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  price_variance_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  price_variance_note  |  text  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== purchase_orders ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  po_code  |  varchar(30)  |  NOT NULL
+  project_id  |  bigint unsigned  |  NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  subject  |  varchar(300)  |  NULL
+  description  |  text  |  NULL
+  po_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  billed_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  payment_term_id  |  bigint unsigned  |  NULL
+  status  |  enum('draft','active','on_hold','closed','cancelled')  |  NOT NULL DEFAULT 'draft'
+  receipt_status  |  enum('not_received','partially_received','fully_received')  |  NOT NULL DEFAULT 'not_received'
+  billing_status  |  enum('not_billed','partially_billed','fully_billed')  |  NOT NULL DEFAULT 'not_billed'
+  has_price_variance  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  price_variance_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  closure_reason  |  text  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== sales_channels ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  name_en  |  varchar(100)  |  NOT NULL
+  name_ar  |  varchar(100)  |  NULL
+  is_system  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  sort_order  |  smallint unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== sales_order_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  sales_order_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '1.0000'
+  delivered_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  invoiced_quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '0.0000'
+  uom_id  |  bigint unsigned  |  NULL
+  unit_price  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  discount_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  line_total  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  revenue_account_id  |  bigint unsigned  |  NULL
+  cost_center_id  |  bigint unsigned  |  NULL
+  sort_order  |  int  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== sales_orders ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  so_code  |  varchar(30)  |  NOT NULL
+  project_id  |  bigint unsigned  |  NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  subject  |  varchar(300)  |  NULL
+  description  |  text  |  NULL
+  so_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  invoiced_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  start_date  |  date  |  NOT NULL
+  end_date  |  date  |  NOT NULL
+  payment_term_id  |  bigint unsigned  |  NULL
+  status  |  enum('draft','active','on_hold','closed','cancelled')  |  NOT NULL DEFAULT 'draft'
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== sessions ===
+  id  |  varchar(255)  |  NOT NULL
+  user_id  |  bigint unsigned  |  NULL
+  ip_address  |  varchar(45)  |  NULL
+  user_agent  |  text  |  NULL
+  payload  |  longtext  |  NOT NULL
+  last_activity  |  int  |  NOT NULL
+
+=== standard_rate_monthly_overrides ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  standard_rate_id  |  bigint unsigned  |  NOT NULL
+  year  |  smallint unsigned  |  NOT NULL
+  month  |  tinyint unsigned  |  NOT NULL
+  rate  |  decimal(15,4)  |  NOT NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== standard_rates ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  fiscal_year_id  |  bigint unsigned  |  NOT NULL
+  rate_type  |  enum('labor','overhead_pool')  |  NOT NULL
+  overhead_pool_id  |  bigint unsigned  |  NULL
+  annual_rate  |  decimal(15,4)  |  NOT NULL
+  notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== stock_movements ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  inventory_location_id  |  bigint unsigned  |  NOT NULL
+  movement_type  |  enum('receipt','issue','transfer_out','transfer_in','adjustment_in','adjustment_out','production_consumption','production_receipt','job_consumption','job_receipt','opening_balance')  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  wac_unit_cost  |  decimal(15,4)  |  NOT NULL
+  wac_total_value  |  decimal(15,2)  |  NOT NULL
+  actual_unit_cost  |  decimal(15,4)  |  NULL
+  actual_total_value  |  decimal(15,2)  |  NULL
+  project_id  |  bigint unsigned  |  NULL
+  reference_type  |  varchar(255)  |  NULL
+  reference_id  |  bigint unsigned  |  NULL
+  movement_date  |  date  |  NOT NULL
+  created_by  |  bigint unsigned  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== stock_reservations ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  sales_order_id  |  bigint unsigned  |  NOT NULL
+  sales_order_line_id  |  bigint unsigned  |  NOT NULL
+  product_id  |  bigint unsigned  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL
+  status  |  enum('active','released')  |  NOT NULL DEFAULT 'active'
+  reserved_by  |  bigint unsigned  |  NOT NULL
+  reserved_at  |  timestamp  |  NOT NULL
+  released_by  |  bigint unsigned  |  NULL
+  released_at  |  timestamp  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== supplier_bill_lines ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  supplier_bill_id  |  bigint unsigned  |  NOT NULL
+  goods_receipt_note_line_id  |  bigint unsigned  |  NULL
+  chart_of_account_id  |  bigint unsigned  |  NULL
+  accrual_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NULL
+  description  |  varchar(500)  |  NOT NULL
+  quantity  |  decimal(15,4)  |  NOT NULL DEFAULT '1.0000'
+  uom_id  |  bigint unsigned  |  NULL
+  unit_price  |  decimal(15,2)  |  NOT NULL
+  line_subtotal  |  decimal(15,2)  |  NOT NULL
+  vat_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  withholding_tax_rate  |  decimal(5,2)  |  NOT NULL DEFAULT '0.00'
+  withholding_tax_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  line_total  |  decimal(15,2)  |  NOT NULL
+  variance_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  variance_inventory_pct  |  decimal(5,2)  |  NOT NULL DEFAULT '100.00'
+  cost_center_id  |  bigint unsigned  |  NULL
+  project_id  |  bigint unsigned  |  NULL
+  sales_order_id  |  bigint unsigned  |  NULL
+  sort_order  |  int unsigned  |  NOT NULL DEFAULT '0'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== supplier_bills ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  bill_code  |  varchar(30)  |  NOT NULL
+  bill_type  |  enum('goods','expense')  |  NOT NULL
+  partner_id  |  bigint unsigned  |  NOT NULL
+  purchase_order_id  |  bigint unsigned  |  NULL
+  supplier_invoice_number  |  varchar(100)  |  NULL
+  supplier_invoice_date  |  date  |  NULL
+  bill_date  |  date  |  NOT NULL
+  currency_id  |  bigint unsigned  |  NOT NULL
+  exchange_rate  |  decimal(15,6)  |  NOT NULL DEFAULT '1.000000'
+  subtotal_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  bill_value  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  subtotal_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  vat_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  withholding_tax_amount  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  withholding_tax_amount_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  bill_value_functional  |  decimal(15,2)  |  NOT NULL DEFAULT '0.00'
+  payment_term_id  |  bigint unsigned  |  NULL
+  status  |  enum('draft','posted','cancelled')  |  NOT NULL DEFAULT 'draft'
+  journal_entry_id  |  bigint unsigned  |  NULL
+  internal_notes  |  text  |  NULL
+  created_by  |  bigint unsigned  |  NOT NULL
+  updated_by  |  bigint unsigned  |  NULL
+  posted_by  |  bigint unsigned  |  NULL
+  posted_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== tax_overrides ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  category_id  |  bigint unsigned  |  NULL
+  product_id  |  bigint unsigned  |  NULL
+  vat_rate  |  decimal(5,2)  |  NULL
+  debit_wht_rate  |  decimal(5,2)  |  NULL
+  notes  |  text  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== units_of_measure ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NULL
+  code  |  varchar(20)  |  NOT NULL
+  name_en  |  varchar(100)  |  NOT NULL
+  name_ar  |  varchar(100)  |  NULL
+  type  |  varchar(20)  |  NOT NULL DEFAULT 'count'
+  is_system  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== user_module_permissions ===
+  id  |  bigint unsigned  |  NOT NULL
+  company_id  |  bigint unsigned  |  NOT NULL
+  user_id  |  bigint unsigned  |  NOT NULL
+  module  |  varchar(20)  |  NOT NULL
+  feature  |  varchar(40)  |  NOT NULL
+  can_view  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  can_create  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  can_edit  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  can_reverse  |  tinyint(1)  |  NOT NULL DEFAULT '0'
+  granted_by  |  bigint unsigned  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL
+
+=== users ===
+  id  |  bigint unsigned  |  NOT NULL
+  name  |  varchar(255)  |  NOT NULL
+  name_ar  |  varchar(255)  |  NULL
+  email  |  varchar(255)  |  NOT NULL
+  email_verified_at  |  timestamp  |  NULL
+  password  |  varchar(255)  |  NOT NULL
+  remember_token  |  varchar(100)  |  NULL
+  company_id  |  bigint unsigned  |  NULL
+  role  |  varchar(20)  |  NOT NULL DEFAULT 'user'
+  job_title_en  |  varchar(255)  |  NULL
+  job_title_ar  |  varchar(255)  |  NULL
+  job_level  |  varchar(20)  |  NULL
+  lang_pref  |  varchar(2)  |  NOT NULL DEFAULT 'en'
+  timezone  |  varchar(50)  |  NOT NULL DEFAULT 'Africa/Cairo'
+  is_active  |  tinyint(1)  |  NOT NULL DEFAULT '1'
+  last_login_at  |  timestamp  |  NULL
+  created_at  |  timestamp  |  NULL
+  updated_at  |  timestamp  |  NULL

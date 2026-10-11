@@ -1,0 +1,25 @@
+export default {
+  statements: {
+    withdrawalStatementIndex: {
+      statement: 'Statement',
+      withdrawalStatement: 'Withdrawal Statement',
+      subtitle: 'Every withdrawal against an OD facility — due date, settlement, and remaining amount, traceable by bank.',
+      bank: 'Bank',
+      allBanks: 'All Banks',
+      facility: 'Facility',
+      allFacilities: 'All Facilities',
+      status: 'Status',
+      allStatuses: 'All Statuses',
+      statusOpen: 'Open',
+      statusPartial: 'Partially Settled',
+      statusSettled: 'Settled',
+      statusOverdue: 'Overdue',
+      groupBy: 'Group By',
+      noGrouping: 'No Grouping',
+      byBank: 'By Bank',
+      byFacility: 'By Facility',
+      endDateCannotBeInTheFuture: 'End date cannot be in the future.',
+      viewStatement: 'View Statement',
+    },
+  },
+}

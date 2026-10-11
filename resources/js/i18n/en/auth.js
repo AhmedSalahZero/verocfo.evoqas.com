@@ -1,0 +1,23 @@
+export default {
+    login: {
+        productEyebrow: 'Finance office',
+        productTitle: 'One system for the books, the bank, and the plan',
+        productBody: 'Invoices, stock, treasury, and the plan post to the same ledger. English and Arabic.',
+        secureAccess: 'Secure Access',
+        welcomeBack: 'Welcome back',
+        signInToYourVeroCFO: 'Sign in to the company books.',
+        emailAddress: 'Email address',
+        password: 'Password',
+        enterYourPassword: 'Enter your password',
+        hidePassword: 'Hide password',
+        showPassword: 'Show password',
+        rememberMe: 'Remember me',
+        forgotPassword: 'Forgot password?',
+        signInToVeroCFO: 'Sign in to Vero CFO',
+        signingIn: 'Signing in…',
+        language: 'Language',
+        languageSelection: 'Language selection',
+        '256BitSSLEncryptedYourData': '256-bit SSL encrypted · Your data is fully protected',
+        allRightsReserved: 'All rights reserved',
+    },
+}

@@ -1,0 +1,26 @@
+export default {
+  dashboard: {
+    lgLcStatus: {
+      dashboard: 'لوحة التحكم',
+      subtitle: 'خطابات الضمان والاعتماد — الحدود، الأرصدة القائمة والتغطية النقدية',
+      lettersOfGuarantee: 'خطابات الضمان',
+      lettersOfCredit: 'اعتمادات الاستيراد',
+      limit: 'الحد',
+      outstandingBalance: 'الرصيد القائم',
+      availableRoom: 'المتاح',
+      cashCover: 'التغطية النقدية',
+      outstandingPerType: 'القائم حسب النوع',
+      outstandingPerInstitution: 'القائم حسب المؤسسة المالية',
+      institution: 'المؤسسة المالية',
+      type: 'النوع',
+      source: 'المصدر',
+      status: 'الحالة',
+      count: 'العدد',
+      outstanding: 'القائم',
+      noneOutstanding: 'لا توجد تسهيلات قائمة لعملة',
+      limitDetails: 'تفاصيل الحد',
+      room: 'المتاح',
+      noFacilitiesFound: 'لا توجد تسهيلات.',
+    },
+  },
+}

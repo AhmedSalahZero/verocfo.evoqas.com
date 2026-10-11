@@ -1,0 +1,25 @@
+export default {
+    hr: {
+        advancesSettlementsShow: {
+            advancesSettlements: 'Advances & Settlements',
+            everyAdvanceGivenAndEverySettlement: 'Every advance given and every settlement, oldest to newest',
+            advanceFromSalaryBalance: 'Advance from Salary Balance',
+            giveNewAdvance: 'Give New Advance',
+            recordSettlement: 'Record Settlement',
+            custodyBalance: 'Custody Balance',
+            giveNewCustody: 'Give New Custody',
+            noHistoryYet: 'No history yet',
+            givingAnAdvanceOrCustodyWillShow: 'Giving an advance or custody to this employee will show up here.',
+            date: 'Date',
+            type: 'Type',
+            description: 'Description',
+            given: 'Given',
+            settled: 'Settled',
+            reference: 'Reference',
+            custody: 'Custody',
+            advanceFromSalary: 'Advance from Salary',
+            advanceGiven: 'Advance Given',
+            settlement: 'Settlement',
+        },
+    },
+}

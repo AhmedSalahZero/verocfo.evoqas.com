@@ -1,0 +1,28 @@
+export default {
+    manufacturing: {
+        jobOrderTemplateForm: {
+            jobOrderTemplates: 'قوالب أوامر التشغيل',
+            new: 'جديد',
+            editTemplate: 'تعديل القالب',
+            newJobOrderTemplate: 'قالب أمر تشغيل جديد',
+            anOptionalStartingPointJobsCan: 'نقطة بداية اختيارية — يمكن أيضاً إنشاء أوامر التشغيل بإدخال المواد من جديد بدلاً منه.',
+            identity: 'البيانات الأساسية',
+            aNameForThisRecurringJob: 'اسم لنوع أمر التشغيل المتكرر هذا',
+            templateName: 'اسم القالب',
+            eGModelXRackStandard: 'مثال: رف طراز X، غلاف قياسي',
+            usualProduct: 'المنتج المعتاد',
+            notSpecified: 'غير محدد',
+            optionalJustForReference: 'اختياري — للمرجعية فقط',
+            notes: 'ملاحظات',
+            materialComponents: 'مكونات المواد',
+            perUnitScaledAutomaticallyToWhatever: 'لكل وحدة — تتناسب تلقائياً مع أي كمية يحتاجها التشغيل فعلياً',
+            component: 'المكوّن',
+            qtyUnit: 'الكمية / الوحدة',
+            uOM: 'وحدة القياس',
+            selectComponent: 'اختر مكوّناً…',
+            removeLine: 'إزالة البند',
+            addComponent: 'إضافة مكوّن',
+            createTemplate: 'إنشاء قالب',
+        },
+    },
+}

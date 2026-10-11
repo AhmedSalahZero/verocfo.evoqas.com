@@ -1,0 +1,20 @@
+export default {
+    index: {
+        settings: 'الإعدادات',
+        users: 'المستخدمون',
+        usersInThisCompany: 'مستخدم في هذه الشركة',
+        newUser: 'مستخدم جديد',
+        searchByNameOrEmail: 'ابحث بالاسم أو البريد الإلكتروني...',
+        companyAdmin: 'مسؤول الشركة',
+        user: 'مستخدم',
+        allStatuses: 'جميع الحالات',
+        email: 'البريد الإلكتروني',
+        role: 'الدور',
+        jobLevel: 'المستوى الوظيفي',
+        lastLogin: 'آخر دخول',
+        noUsersFound: 'لا يوجد مستخدمون',
+        tryAdjustingYourSearchOrFilters: 'حاول تعديل البحث أو الفلاتر',
+        permissions: 'الصلاحيات',
+        activeSeatsUsed: 'مقاعد مستخدمين نشطة مستخدمة',
+    },
+}

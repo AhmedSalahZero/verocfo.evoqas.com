@@ -1,0 +1,3248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ══════════════════════════════════════════════════════════════════
+   VERO CFO — Global Theme & Component Stylesheet
+   ─────────────────────────────────────────────────────────────────
+   Theme       : Light — White & Navy
+   Page bg     : #FFFFFF
+   Surface     : #F8FAFC
+   Card        : #FFFFFF  (border: 1px solid #E2E8F0)
+   Input bg    : #FFFFFF
+   Nav (top+side): #0F2554 (unified navy)
+   ─────────────────────────────────────────────────────────────────
+   Accents     : Blue #2563EB · Green #059669 · Amber #D97706
+   ─────────────────────────────────────────────────────────────────
+   NUMBER COLOR RULE (mandatory across all modules & developers)
+     --zv-num          #0F172A   standard monetary amounts, table cells
+     --zv-num-blue     #1D4ED8   KPI headlines, ratios, dashboard figures
+     --zv-num-green    #047857   positive deltas, favorable variance
+     --zv-num-amber    #B45309   warning-level, at-risk, high utilization
+     --zv-num-danger   #DC2626   negative deltas, overdue, below threshold
+   ─────────────────────────────────────────────────────────────────
+   Prefix      : --zv-   (vero cfo specific)
+   Bilingual   : Arabic (RTL) + English (LTR) — both first-class
+                 All layout uses CSS logical properties throughout
+   Stack       : Laravel 12 · Vue 3 · Inertia.js · Tailwind CSS
+══════════════════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS
+══════════════════════════════════════════════════════════════════ */
+
+:root {
+
+    /* ── Page & Surface ──────────────────────────────────────── */
+    --zv-bg:              #FFFFFF;
+    --zv-bg-surface:      #F8FAFC;
+    --zv-bg-surface-alt:  #F1F5F9;
+    --zv-bg-card:         #FFFFFF;
+    --zv-bg-input:        #FFFFFF;
+    --zv-bg-hover:        #F1F5F9;
+    --zv-bg-modal:        #FFFFFF;
+
+    /* ── Navigation — unified navy (top bar + sidebar) ───────── */
+    --zv-nav-bg:               #0F2554;
+    --zv-nav-bg-deep:          #0B1C3E;
+    --zv-nav-bg-hover:         rgba(255, 255, 255, 0.08);
+    --zv-nav-active-bg:        #1E4DB7;
+    --zv-nav-active-border:    #60A5FA;
+    --zv-nav-text:             rgba(255, 255, 255, 0.60);
+    --zv-nav-text-active:      #FFFFFF;
+    --zv-nav-text-muted:       rgba(14, 10, 223, 0.822);
+    --zv-nav-icon:             rgba(255, 255, 255, 0.40);
+    --zv-nav-divider:          rgba(255, 255, 255, 0.08);
+
+    /* ── Borders ────────────────────────────────────────────── */
+    --zv-border:          #E2E8F0;
+    --zv-border-md:       #CBD5E1;
+    --zv-border-focus:    #2563EB;
+    --zv-border-input:    #CBD5E1;
+
+    /* ── Text ───────────────────────────────────────────────── */
+    --zv-text-primary:    #0F172A;
+    --zv-text-secondary:  #1D4ED8;
+    --zv-text-muted:      #1D4ED8;
+    --zv-text-placeholder:#CBD5E1;
+    --zv-text-on-nav:     #FFFFFF;
+    --zv-text-on-blue:    #FFFFFF;
+    --zv-text-on-green:   #FFFFFF;
+    --zv-text-on-amber:   #FFFFFF;
+
+    /* ── Blue — primary action, links, active states ─────────── */
+    --zv-blue:            #2563EB;
+    --zv-blue-hover:      #1D4ED8;
+    --zv-blue-deep:       #1E40AF;
+    --zv-blue-light:      #0f6fec;
+    --zv-blue-border:     #BFDBFE;
+    --zv-blue-text:       #1D4ED8;
+
+    /* ── Brand accents — Navy + Gold (Bible Rule 24) ─────────────
+       Added July 2026: the list-page header's icon box and primary
+       "New X" button originally matched Purchase Orders' one-off
+       design (brand navy button, gold-tinted icon), while the shared
+       PageHeader component used the more generic --zv-blue instead.
+       These two tokens let every page's header match the brand
+       colors instead of the generic blue — see PageHeader.vue and
+       the "Header primary action" button override below. */
+    --zv-brand-navy:       #0F2554;
+    --zv-brand-navy-hover: #1A3A7A;
+    --zv-brand-gold-bg:    rgba(255, 191, 0, 0.1);
+    --zv-brand-gold-text:  #B8860B;
+
+    /* ── Green — success, positive, confirm, save ────────────── */
+    --zv-green:           #059669;
+    --zv-green-hover:     #047857;
+    --zv-green-light:     #ECFDF5;
+    --zv-green-border:    #A7F3D0;
+    --zv-green-text:      #047857;
+
+    /* ── Amber — warning, at-risk, attention ─────────────────── */
+    --zv-amber:           #D97706;
+    --zv-amber-hover:     #B45309;
+    --zv-amber-light:     #FFFBEB;
+    --zv-amber-border:    #FDE68A;
+    --zv-amber-text:      #B45309;
+
+    /* ── Red — danger, overdue, delete, negative ─────────────── */
+    --zv-danger:          #DC2626;
+    --zv-danger-hover:    #B91C1C;
+    --zv-danger-light:    #FEF2F2;
+    --zv-danger-border:   #FECACA;
+    --zv-danger-text:     #DC2626;
+
+    /* ── Semantic (maps to above) ────────────────────────────── */
+    --zv-success:         var(--zv-green);
+    --zv-success-bg:      var(--zv-green-light);
+    --zv-success-border:  var(--zv-green-border);
+    --zv-success-text:    var(--zv-green-text);
+
+    --zv-warning:         var(--zv-amber);
+    --zv-warning-bg:      var(--zv-amber-light);
+    --zv-warning-border:  var(--zv-amber-border);
+    --zv-warning-text:    var(--zv-amber-text);
+
+    --zv-info:            var(--zv-blue);
+    --zv-info-bg:         var(--zv-blue-light);
+    --zv-info-border:     var(--zv-blue-border);
+    --zv-info-text:       var(--zv-blue-text);
+
+    /* ── NUMBER COLOR RULE ───────────────────────────────────── */
+    --zv-num:             #0F172A;    /* standard amounts, table cells */
+    --zv-num-blue:        #1D4ED8;    /* KPI headlines, ratios */
+    --zv-num-green:       #047857;    /* positive deltas, favorable */
+    --zv-num-amber:       #B45309;    /* warning, at-risk, tight */
+    --zv-num-danger:      #DC2626;    /* negative, overdue, breach */
+
+    /* ── Shadows ─────────────────────────────────────────────── */
+    --zv-shadow-sm:       0 1px 3px  rgba(15, 23, 42, 0.08);
+    --zv-shadow:          0 4px 12px rgba(15, 23, 42, 0.10);
+    --zv-shadow-md:       0 8px 24px rgba(15, 23, 42, 0.12);
+    --zv-shadow-focus:    0 0 0 3px  rgba(37, 99, 235, 0.18);
+    --zv-shadow-nav:      2px 0 12px rgba(11, 28, 62, 0.18);
+
+    /* ── Radius ──────────────────────────────────────────────── */
+    --zv-radius-sm:       5px;
+    --zv-radius:          8px;
+    --zv-radius-md:       10px;
+    --zv-radius-lg:       14px;
+    --zv-radius-xl:       18px;
+
+    /* ── Transitions ─────────────────────────────────────────── */
+    --zv-transition:      color 0.15s ease,
+                          background-color 0.15s ease,
+                          border-color 0.15s ease,
+                          box-shadow 0.15s ease,
+                          opacity 0.15s ease;
+    --zv-transition-slow: color 0.25s ease,
+                          background-color 0.25s ease,
+                          border-color 0.25s ease,
+                          box-shadow 0.25s ease;
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    --zv-sidebar-width:     240px;
+    --zv-sidebar-collapsed: 64px;
+    --zv-topbar-height:     56px;
+    --zv-zindex-dropdown:   100;
+    --zv-zindex-sticky:     200;
+    --zv-zindex-modal:      300;
+    --zv-zindex-toast:      400;
+}
+
+
+/* ── LEGACY ALIASES  --vero-*  →  --zv-*  ─────────────────────────
+   Found Sept 2026 during the Accounting design pass: 17 files
+   (AppLayout.vue, PurchaseOrders/Index.vue, Banks/Index.vue,
+   Projects/Index.vue, …) style themselves with a `--vero-` token
+   family that was never defined anywhere in this sheet — an older
+   naming scheme that was renamed to `--zv-` without those files
+   being updated. An undefined custom property makes the whole
+   declaration invalid at computed-value time, so every one of those
+   rules was silently doing nothing: `background: var(--vero-card)`
+   rendered as no background at all, `border-color: var(--vero-border)`
+   fell back to currentColor.
+
+   Aliasing them is the low-risk fix — those declarations go from
+   broken to doing what their authors wrote, and nothing that
+   currently renders correctly is touched. The files should still be
+   migrated to `--zv-` names as each module gets its design pass;
+   this block is what keeps them looking right until then. */
+:root {
+    --vero-bg:         var(--zv-bg-surface);
+    --vero-card:       var(--zv-bg-card);
+    --vero-input:      var(--zv-bg-input);
+    --vero-hover:      var(--zv-bg-hover);
+    --vero-border:     var(--zv-border);
+    --vero-text:       var(--zv-text-primary);
+    --vero-text-muted: var(--zv-text-muted);
+    --vero-muted:      var(--zv-text-muted);
+    --vero-nav:        var(--zv-nav-bg);
+    --vero-sidebar:    var(--zv-nav-bg);
+    --vero-danger:     var(--zv-danger);
+
+    /* Teal/gold accents — these never had a --zv- equivalent; they
+       are the brand gold already defined above plus the blue the
+       rest of the app uses where these files said "teal". */
+    --vero-teal:        var(--zv-blue);
+    --vero-teal-dim:    rgba(37, 99, 235, 0.10);
+    --vero-teal-border: rgba(37, 99, 235, 0.24);
+    --vero-gold:        var(--zv-brand-gold-text);
+    --vero-gold-dim:    var(--zv-brand-gold-bg);
+    --vero-gold-border: rgba(184, 134, 11, 0.26);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   2. GLOBAL BASE
+══════════════════════════════════════════════════════════════════ */
+
+html, body {
+    background-color: var(--zv-bg-surface);
+    color: var(--zv-text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Thin scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--zv-border-md) transparent;
+}
+*::-webkit-scrollbar       { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--zv-border-md); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--zv-text-muted); }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   3. UTILITY CLASSES
+══════════════════════════════════════════════════════════════════ */
+
+.zv-bg             { background-color: var(--zv-bg); }
+.zv-bg-surface     { background-color: var(--zv-bg-surface); }
+.zv-bg-surface-alt { background-color: var(--zv-bg-surface-alt); }
+.zv-bg-card        { background-color: var(--zv-bg-card); }
+.zv-bg-nav         { background-color: var(--zv-nav-bg); }
+
+.zv-text-primary   { color: var(--zv-text-primary); }
+.zv-text-secondary { color: var(--zv-text-secondary); }
+.zv-text-muted     { color: var(--zv-text-muted); }
+.zv-text-blue      { color: var(--zv-blue-text); }
+.zv-text-green     { color: var(--zv-green-text); }
+.zv-text-amber     { color: var(--zv-amber-text); }
+.zv-text-danger    { color: var(--zv-danger-text); }
+
+/* Number rule utilities */
+.zv-num            { color: var(--zv-num);        font-variant-numeric: tabular-nums; }
+.zv-num-blue       { color: var(--zv-num-blue);   font-variant-numeric: tabular-nums; }
+.zv-num-green      { color: var(--zv-num-green);  font-variant-numeric: tabular-nums; }
+.zv-num-amber      { color: var(--zv-num-amber);  font-variant-numeric: tabular-nums; }
+.zv-num-danger     { color: var(--zv-num-danger); font-variant-numeric: tabular-nums; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   4. LAYOUT SHELL
+══════════════════════════════════════════════════════════════════ */
+
+/* Top navigation bar */
+.zv-topbar {
+    position: fixed;
+    top: 0; inset-inline-start: 0; inset-inline-end: 0;
+    height: var(--zv-topbar-height);
+    background-color: var(--zv-nav-bg);
+    border-bottom: 1px solid var(--zv-nav-divider);
+    display: flex;
+    align-items: center;
+    z-index: var(--zv-zindex-sticky);
+    box-shadow: var(--zv-shadow-nav);
+}
+
+.zv-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-inline: 1.25rem;
+    width: var(--zv-sidebar-width);
+    flex-shrink: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--zv-text-on-nav);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    border-inline-end: 1px solid var(--zv-nav-divider);
+}
+
+.zv-topbar-brand-collapsed {
+    width: var(--zv-sidebar-collapsed);
+}
+
+.zv-topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    padding-inline: 1rem;
+    flex: 1;
+    height: 100%;
+}
+
+.zv-topbar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.875rem;
+    height: 100%;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--zv-nav-text);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: var(--zv-transition);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.zv-topbar-item:hover {
+    color: var(--zv-nav-text-active);
+    background-color: var(--zv-nav-bg-hover);
+}
+
+.zv-topbar-item.active {
+    color: var(--zv-nav-text-active);
+    border-bottom-color: var(--zv-nav-active-border);
+    background-color: var(--zv-nav-bg-hover);
+}
+
+.zv-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding-inline-end: 1rem;
+    margin-inline-start: auto;
+}
+
+/* Sidebar */
+.zv-sidebar {
+    position: fixed;
+    top: var(--zv-topbar-height);
+    inset-inline-start: 0;
+    bottom: 0;
+    width: var(--zv-sidebar-width);
+    background-color: var(--zv-nav-bg);
+    border-inline-end: 1px solid var(--zv-nav-divider);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: var(--zv-zindex-sticky);
+    transition: width 0.22s ease;
+    box-shadow: var(--zv-shadow-nav);
+}
+
+.zv-sidebar-collapsed {
+    width: var(--zv-sidebar-collapsed);
+}
+
+.zv-sidebar-section {
+    padding: 1.25rem 0 0.5rem;
+}
+
+.zv-sidebar-section-label {
+    padding: 0 0.875rem 0.375rem;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--zv-nav-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.zv-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5625rem 0.875rem;
+    margin: 0.125rem 0.5rem;
+    border-radius: var(--zv-radius);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--zv-nav-text);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--zv-transition);
+    white-space: nowrap;
+    overflow: hidden;
+    border-inline-start: 2px solid transparent;
+}
+
+.zv-sidebar-item:hover {
+    background-color: var(--zv-nav-bg-hover);
+    color: var(--zv-nav-text-active);
+}
+
+.zv-sidebar-item.active {
+    background-color: var(--zv-nav-active-bg);
+    color: var(--zv-nav-text-active);
+    font-weight: 500;
+    border-inline-start-color: var(--zv-nav-active-border);
+}
+
+.zv-sidebar-item-icon {
+    font-size: 1.0625rem;
+    flex-shrink: 0;
+    color: var(--zv-nav-icon);
+    transition: color 0.15s ease;
+}
+
+.zv-sidebar-item:hover .zv-sidebar-item-icon,
+.zv-sidebar-item.active .zv-sidebar-item-icon {
+    color: var(--zv-nav-text-active);
+}
+
+.zv-sidebar-item-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Collapse toggle button */
+.zv-sidebar-collapse-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: var(--zv-radius);
+    background: var(--zv-nav-bg-hover);
+    color: var(--zv-nav-text);
+    border: none;
+    cursor: pointer;
+    transition: var(--zv-transition);
+    flex-shrink: 0;
+}
+.zv-sidebar-collapse-btn:hover {
+    background: rgba(255,255,255,0.15);
+    color: var(--zv-nav-text-active);
+}
+
+/* Main content area */
+.zv-main {
+    margin-inline-start: var(--zv-sidebar-width);
+    margin-top: var(--zv-topbar-height);
+    min-height: calc(100vh - var(--zv-topbar-height));
+    transition: margin-inline-start 0.22s ease;
+    background-color: var(--zv-bg-surface);
+}
+
+.zv-main-collapsed {
+    margin-inline-start: var(--zv-sidebar-collapsed);
+}
+
+.zv-page {
+    padding: 1.5rem;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   5. PAGE HEADER
+══════════════════════════════════════════════════════════════════ */
+
+.zv-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.zv-page-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--zv-text-primary);
+    line-height: 1.3;
+}
+
+.zv-page-subtitle {
+    font-size: 0.9rem;
+    color: var(--zv-text-secondary);
+    margin-top: 0.1875rem;
+}
+
+.zv-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--zv-text-muted);
+    margin-bottom: 0.375rem;
+}
+
+.zv-breadcrumb-sep { opacity: 0.4; }
+.zv-breadcrumb a   { color: var(--zv-blue-text); text-decoration: none; }
+.zv-breadcrumb a:hover { text-decoration: underline; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   6. CARDS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-card {
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-lg);
+    box-shadow: var(--zv-shadow-sm);
+}
+
+.zv-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--zv-border);
+    gap: 0.75rem;
+}
+
+.zv-card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--zv-text-primary);
+}
+
+.zv-card-body {
+    padding: 1.25rem;
+}
+
+.zv-card-footer {
+    padding: 0.875rem 1.25rem;
+    border-top: 1px solid var(--zv-border);
+    background-color: var(--zv-bg-surface);
+    border-radius: 0 0 var(--zv-radius-lg) var(--zv-radius-lg);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   7. KPI / STAT CARDS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-kpi-card {
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-lg);
+    padding: 1.125rem 1.25rem;
+    box-shadow: var(--zv-shadow-sm);
+}
+
+.zv-kpi-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--zv-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.375rem;
+}
+
+.zv-kpi-value {
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--zv-num);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+}
+
+.zv-kpi-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.375rem;
+}
+
+.zv-kpi-delta-up   { color: var(--zv-num-green); }
+.zv-kpi-delta-down { color: var(--zv-num-danger); }
+.zv-kpi-delta-warn { color: var(--zv-num-amber); }
+
+.zv-kpi-sub {
+    font-size: 0.75rem;
+    color: var(--zv-green-hover);
+    margin-top: 0.25rem;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   8. BUTTONS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--zv-radius);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: var(--zv-transition);
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.zv-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Primary — Blue */
+.zv-btn-primary {
+    background-color: var(--zv-blue);
+    color: var(--zv-text-on-blue);
+    border-color: var(--zv-blue);
+}
+.zv-btn-primary:hover {
+    background-color: var(--zv-blue-hover);
+    border-color: var(--zv-blue-hover);
+}
+
+/* Success — Green */
+.zv-btn-success {
+    background-color: var(--zv-green);
+    color: var(--zv-text-on-green);
+    border-color: var(--zv-green);
+}
+.zv-btn-success:hover {
+    background-color: var(--zv-green-hover);
+    border-color: var(--zv-green-hover);
+}
+
+/* Warning — Amber */
+.zv-btn-warning {
+    background-color: var(--zv-amber);
+    color: var(--zv-text-on-amber);
+    border-color: var(--zv-amber);
+}
+.zv-btn-warning:hover {
+    background-color: var(--zv-amber-hover);
+    border-color: var(--zv-amber-hover);
+}
+
+/* Danger — Red */
+.zv-btn-danger {
+    background-color: var(--zv-danger-light);
+    color: var(--zv-danger-text);
+    border-color: var(--zv-danger-border);
+}
+.zv-btn-danger:hover {
+    background-color: var(--zv-danger);
+    color: #FFFFFF;
+    border-color: var(--zv-danger);
+}
+
+/* Secondary — Ghost */
+.zv-btn-secondary {
+    background-color: var(--zv-bg-card);
+    color: var(--zv-text-secondary);
+    border-color: var(--zv-border-md);
+}
+.zv-btn-secondary:hover {
+    background-color: var(--zv-bg-hover);
+    color: var(--zv-text-primary);
+    border-color: var(--zv-border-md);
+}
+
+/* Ghost — no background */
+.zv-btn-ghost {
+    background-color: transparent;
+    color: var(--zv-text-secondary);
+    border-color: transparent;
+}
+.zv-btn-ghost:hover {
+    background-color: var(--zv-bg-hover);
+    color: var(--zv-text-primary);
+}
+
+/* Icon button */
+.zv-btn-icon {
+    padding: 0.4375rem;
+    border-radius: var(--zv-radius);
+}
+
+/* Button sizes */
+.zv-btn-sm {
+    padding: 0.3125rem 0.75rem;
+    font-size: 0.75rem;
+}
+.zv-btn-lg {
+    padding: 0.6875rem 1.375rem;
+    font-size: 0.9375rem;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   9. FORM ELEMENTS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--zv-text-secondary);
+    margin-bottom: 0.375rem;
+}
+
+.zv-label-required::after {
+    content: ' *';
+    color: var(--zv-danger);
+}
+
+.zv-input,
+.zv-select,
+.zv-textarea {
+    display: block;
+    width: 100%;
+    background-color: var(--zv-bg-input);
+    border: 1px solid var(--zv-border-input);
+    border-radius: var(--zv-radius);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    font-family: inherit;
+    outline: none;
+    transition: var(--zv-transition);
+    line-height: 1.5;
+}
+
+.zv-input::placeholder,
+.zv-textarea::placeholder {
+    color: var(--zv-text-placeholder);
+}
+
+.zv-input:hover,
+.zv-select:hover,
+.zv-textarea:hover {
+    border-color: var(--zv-border-md);
+}
+
+.zv-input:focus,
+.zv-select:focus,
+.zv-textarea:focus {
+    border-color: var(--zv-border-focus);
+    box-shadow: var(--zv-shadow-focus);
+}
+
+.zv-input:disabled,
+.zv-select:disabled,
+.zv-textarea:disabled {
+    background-color: var(--zv-bg-surface);
+    color: #000000;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Arabic input */
+.zv-input-ar,
+.zv-textarea-ar {
+    direction: rtl;
+    text-align: end;
+}
+
+/* Input states */
+.zv-input-error   { border-color: var(--zv-danger) !important; }
+.zv-input-success { border-color: var(--zv-green)  !important; }
+
+/* Error message */
+.zv-field-error {
+    font-size: 0.75rem;
+    color: var(--zv-danger-text);
+    margin-top: 0.3125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Input with prefix/suffix icon */
+.zv-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.zv-input-prefix {
+    position: absolute;
+    inset-inline-start: 0.75rem;
+    color: var(--zv-text-muted);
+    pointer-events: none;
+    font-size: 0.875rem;
+}
+.zv-input-suffix {
+    position: absolute;
+    inset-inline-end: 0.75rem;
+    color: var(--zv-text-muted);
+    pointer-events: none;
+    font-size: 0.875rem;
+}
+.zv-input-has-prefix { padding-inline-start: 2.25rem; }
+.zv-input-has-suffix { padding-inline-end: 2.25rem; }
+
+/* ══════════════════════════════════════════════════════════════════
+   9b. FORM SECTIONS & FIELD GRIDS
+   Promoted to global — previously these were copy-pasted into every
+   form's local <style> block (first defined in CleanOverdraftForm.vue),
+   which caused new pages to render unstyled whenever a developer
+   reused the class names assuming they were global like .zv-input /
+   .zv-label / .zv-btn. Defined once here so that stops happening.
+══════════════════════════════════════════════════════════════════ */
+
+/* Card-style section with icon header, used on every create/edit form */
+.form-section {
+    background: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-lg);
+    box-shadow: var(--zv-shadow-sm);
+    overflow: hidden;
+}
+.form-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.125rem 1.375rem;
+    background: var(--zv-bg-surface);
+    border-bottom: 1px solid var(--zv-border);
+}
+.form-section-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--zv-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.form-section-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--zv-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+.form-section-sub {
+    font-size: 0.75rem;
+    color: var(--zv-text-muted);
+    margin-top: 2px;
+}
+.form-section-body { padding: 1.375rem; }
+
+/* Field grids — responsive column layouts inside a form-section-body */
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+.field-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.field-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.field-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.field-grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+.field-group { display: flex; flex-direction: column; gap: 5px; }
+.field-group-span-2 { grid-column: span 2; }
+.field-group-span-3 { grid-column: span 3; }
+.field-group-span-4 { grid-column: span 4; }
+
+.field-hint {
+    font-size: 0.6875rem;
+    color: var(--zv-text-muted);
+    font-style: italic;
+}
+
+/* Section divider with centered label, e.g. "Interest Rates" */
+.field-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--zv-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.field-divider::before,
+.field-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--zv-border);
+}
+
+/* Read-only display field, e.g. "Financial Institution" / "Bank" name */
+.zv-readonly-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius);
+    background: var(--zv-bg-surface-alt);
+    color: var(--zv-text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 38px;
+}
+.zv-readonly-sub { color: var(--zv-text-muted); font-size: 12px; font-weight: 400; }
+
+/* Responsive collapse for field grids */
+@media (max-width: 900px) {
+    .field-grid-2, .field-grid-3, .field-grid-4, .field-grid-5 {
+        grid-template-columns: 1fr 1fr;
+    }
+    .field-group-span-2, .field-group-span-3, .field-group-span-4 {
+        grid-column: span 2;
+    }
+}
+@media (max-width: 600px) {
+    .field-grid-2, .field-grid-3, .field-grid-4, .field-grid-5 {
+        grid-template-columns: 1fr;
+    }
+    .field-group-span-2, .field-group-span-3, .field-group-span-4 {
+        grid-column: span 1;
+    }
+}
+/* .zv-form-grid-2-2-2-4-2 {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 4fr 2fr;
+    gap: 1rem;
+}
+@media (max-width: 900px) {
+    .zv-form-grid-2-2-2-4-2
+  {
+        grid-template-columns: 1fr;
+    }
+    .cvr-form-row-unapplied > div {
+        width: 100%;
+    }
+} */
+
+
+
+
+/* ── Toggle switch (e.g. Active/Inactive, corridor-rate link) ────── */
+.zv-toggle {
+    width: 42px; height: 24px; border-radius: 12px;
+    background: var(--zv-border); border: none; cursor: pointer;
+    position: relative; transition: background 0.2s; padding: 0; flex-shrink: 0;
+}
+.zv-toggle-on { background: #10b981; }
+.zv-toggle-knob {
+    position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+    border-radius: 50%; background: #fff; transition: left 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.zv-toggle-on .zv-toggle-knob { left: 21px; }
+.zv-toggle-row { display: flex; align-items: center; gap: 12px; }
+.zv-toggle-row-label { font-size: 13px; font-weight: 500; color: var(--zv-text-primary); }
+
+/* ── Toggle card (toggle + title + description, e.g. CBE Corridor) ─ */
+.zv-toggle-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 16px 18px; border: 1px solid var(--zv-border); border-radius: var(--zv-radius-lg);
+    background: var(--zv-bg-surface);
+}
+.zv-toggle-card-info { flex: 1; }
+.zv-toggle-card-title { font-size: 13.5px; font-weight: 600; color: var(--zv-text-primary); margin-bottom: 4px; }
+.zv-toggle-card-desc  { font-size: 12px; color: var(--zv-text-muted); line-height: 1.5; }
+
+/* ── Selection tiles (e.g. Contract Type, Treatment) ─────────────── */
+.zv-tile-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.zv-tile {
+    padding: 14px 16px; border: 2px solid var(--zv-border); border-radius: var(--zv-radius-md);
+    background: var(--zv-bg-input); cursor: pointer; text-align: start; transition: all 0.15s;
+}
+.zv-tile:hover:not(:disabled) { border-color: #1490A8; }
+.zv-tile-active { border-color: #06aff1 !important; background: #06aff1 !important; }
+[data-theme="dark"] .zv-tile-active { background: rgba(255,255,255,0.06) !important; }
+.zv-tile:disabled { opacity: 0.5; cursor: not-allowed; }
+.zv-tile-label { font-size: 13px; font-weight: 700; color: var(--zv-text-primary); margin-bottom: 4px; }
+.zv-tile-desc { font-size: 12px; color: var(--zv-text-muted); line-height: 1.4; }
+
+@media (max-width: 600px) {
+    .zv-tile-group { grid-template-columns: 1fr; }
+}
+
+
+
+/* Checkbox & Radio */
+.zv-checkbox,
+.zv-radio {
+    width: 1rem; height: 1rem;
+    border: 1.5px solid var(--zv-border-md);
+    border-radius: 3px;
+    cursor: pointer;
+    accent-color: var(--zv-blue);
+}
+.zv-radio { border-radius: 50%; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   10. TABLES
+══════════════════════════════════════════════════════════════════ */
+
+.zv-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--zv-radius-lg);
+    border: 1px solid var(--zv-border);
+    background-color: var(--zv-bg-card);
+    box-shadow: var(--zv-shadow-sm);
+}
+
+.zv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+}
+
+.zv-table thead {
+    background-color: #0F2554;
+    border-bottom: 1px solid #0F2554;
+}
+
+.zv-table thead th {
+    padding: 0.6875rem 1rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: start;
+    white-space: nowrap;
+}
+
+/* FIX (July 2026): a table header must never change color on hover —
+   reported as "second header goes white" (white text disappearing
+   against the light background). Locking both color and background
+   explicitly on hover, regardless of what triggered the drift. */
+.zv-table thead th:hover,
+.zv-table thead tr:hover th {
+    color: #FFFFFF !important;
+    background-color: #0F2554 !important;
+}
+
+/* Numeric columns — ONE shared rule for header AND data cell, so a
+   header can never visually drift from the values beneath it (was
+   reported as "header shifted right, numbers shifted left"). Use
+   this same class on both <th> and <td> for any numeric column. */
+.zv-table th.zv-table-num {
+    text-align: end;
+}
+
+.zv-table tbody tr {
+    border-bottom: 1px solid var(--zv-border);
+    transition: background-color 0.1s ease;
+}
+
+.zv-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.zv-table tbody tr:hover {
+    background-color: var(--zv-bg-surface);
+}
+
+.zv-table tbody td {
+    padding: 0.75rem 1rem;
+    color: var(--zv-text-primary);
+    vertical-align: middle;
+}
+
+/* Numeric column — number rule */
+.zv-table-num {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+    color: var(--zv-num);
+}
+
+/* Table footer totals row */
+.zv-table tfoot tr {
+    background-color: var(--zv-bg-surface);
+    border-top: 2px solid var(--zv-border-md);
+    font-weight: 600;
+}
+
+.zv-table tfoot td {
+    padding: 0.75rem 1rem;
+    color: var(--zv-text-primary);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   11. BADGES & STATUS PILLS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1875rem 0.5625rem;
+    border-radius: 20px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.zv-badge-blue    { background: var(--zv-blue-light);   color: #ffffff;   border: 1px solid var(--zv-blue-border); }
+.zv-badge-green   { background: var(--zv-green-light);  color: var(--zv-green-text);  border: 1px solid var(--zv-green-border); }
+.zv-badge-amber   { background: var(--zv-amber-light);  color: var(--zv-amber-text);  border: 1px solid var(--zv-amber-border); }
+.zv-badge-danger  { background: var(--zv-danger-light); color: var(--zv-danger-text); border: 1px solid var(--zv-danger-border); }
+.zv-badge-gray    { background: #F1F5F9; color: #475569; border: 1px solid #E2E8F0; }
+.zv-badge-navy    { background: var(--zv-nav-bg); color: #fff; border: 1px solid var(--zv-nav-bg); }
+
+/* Status dot */
+.zv-status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.zv-status-dot-green  { background-color: var(--zv-green); }
+.zv-status-dot-amber  { background-color: var(--zv-amber); }
+.zv-status-dot-danger { background-color: var(--zv-danger); }
+.zv-status-dot-gray   { background-color: var(--zv-text-muted); }
+.zv-status-dot-blue   { background-color: var(--zv-blue); }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   12. MODALS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: var(--zv-zindex-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.zv-modal {
+    background-color: var(--zv-bg-modal);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-xl);
+    box-shadow: var(--zv-shadow-md);
+    width: 100%;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.zv-modal-sm  { max-width: 500px; }
+.zv-modal-md  { max-width: 700px; }
+.zv-modal-lg  { max-width: 900px; }
+.zv-modal-xl  { max-width: 1100px; }
+
+.zv-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.125rem 1.375rem;
+    border-bottom: 1px solid var(--zv-border);
+    flex-shrink: 0;
+}
+
+.zv-modal-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--zv-text-primary);
+}
+
+.zv-modal-body {
+    padding: 1.375rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.zv-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.625rem;
+    padding: 1rem 1.375rem;
+    border-top: 1px solid var(--zv-border);
+    background-color: var(--zv-bg-surface);
+    border-radius: 0 0 var(--zv-radius-xl) var(--zv-radius-xl);
+    flex-shrink: 0;
+}
+
+.zv-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: var(--zv-radius);
+    background: transparent;
+    border: none;
+    color: var(--zv-text-muted);
+    cursor: pointer;
+    transition: var(--zv-transition);
+}
+.zv-modal-close:hover {
+    background-color: var(--zv-bg-hover);
+    color: var(--zv-text-primary);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   13. DROPDOWNS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-dropdown {
+    position: absolute;
+    z-index: var(--zv-zindex-dropdown);
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-md);
+    box-shadow: var(--zv-shadow-md);
+    min-width: 160px;
+    overflow: hidden;
+    padding: 0.3125rem;
+}
+
+.zv-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--zv-radius);
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.zv-dropdown-item:hover {
+    background-color: var(--zv-bg-hover);
+}
+
+.zv-dropdown-item-danger {
+    color: var(--zv-danger-text);
+}
+
+.zv-dropdown-item-danger:hover {
+    background-color: var(--zv-danger-light);
+}
+
+.zv-dropdown-divider {
+    height: 1px;
+    background-color: var(--zv-border);
+    margin: 0.3125rem 0;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   14. ALERTS & TOASTS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--zv-radius-md);
+    border: 1px solid;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+}
+
+.zv-alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.0625rem; }
+
+.zv-alert-info    { background: var(--zv-blue-light);   border-color: var(--zv-blue-border);   color: var(--zv-blue-text); }
+.zv-alert-success { background: var(--zv-green-light);  border-color: var(--zv-green-border);  color: var(--zv-green-text); }
+.zv-alert-warning { background: var(--zv-amber-light);  border-color: var(--zv-amber-border);  color: var(--zv-amber-text); }
+.zv-alert-danger  { background: var(--zv-danger-light); border-color: var(--zv-danger-border); color: var(--zv-danger-text); }
+
+/* Toast notification */
+.zv-toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    inset-inline-end: 1.5rem;
+    z-index: var(--zv-zindex-toast);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.zv-toast {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--zv-radius-md);
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    box-shadow: var(--zv-shadow-md);
+    font-size: 0.8125rem;
+    min-width: 280px;
+    max-width: 380px;
+    pointer-events: all;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   15. TABS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--zv-border);
+    gap: 0;
+    overflow-x: auto;
+}
+
+.zv-tab {
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--zv-text-muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--zv-transition);
+    text-decoration: none;
+    background: none;
+    border-top: none;
+    border-inline: none;
+}
+
+.zv-tab:hover {
+    color: var(--zv-text-secondary);
+    border-bottom-color: var(--zv-border-md);
+}
+
+.zv-tab.active {
+    color: var(--zv-blue-text);
+    border-bottom-color: var(--zv-blue);
+    font-weight: 600;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   16. PAGINATION
+══════════════════════════════════════════════════════════════════ */
+
+.zv-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--zv-border);
+    font-size: 0.75rem;
+    color: var(--zv-text-secondary);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.zv-pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.zv-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px; height: 30px;
+    padding: 0 0.375rem;
+    border-radius: var(--zv-radius);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--zv-text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--zv-transition);
+}
+
+.zv-page-btn:hover {
+    background-color: var(--zv-bg-hover);
+    border-color: var(--zv-border);
+}
+
+.zv-page-btn.active {
+    background-color: var(--zv-blue);
+    color: #FFFFFF;
+    border-color: var(--zv-blue);
+}
+
+.zv-page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   17. SEARCH & FILTER BAR
+══════════════════════════════════════════════════════════════════ */
+
+.zv-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--zv-border);
+    background-color: var(--zv-bg-surface);
+    flex-wrap: wrap;
+}
+
+.zv-search-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border-input);
+    border-radius: var(--zv-radius);
+    padding: 0.4375rem 0.75rem;
+    min-width: 220px;
+    transition: var(--zv-transition);
+}
+
+.zv-search-input:focus-within {
+    border-color: var(--zv-border-focus);
+    box-shadow: var(--zv-shadow-focus);
+}
+
+.zv-search-input input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    font-family: inherit;
+    width: 100%;
+}
+
+.zv-search-input input::placeholder { color: var(--zv-text-placeholder); }
+
+/* FIX (July 2026): .zv-input / .zv-select default to width:100% —
+   correct for a form field stacked in its own row, wrong for a small
+   filter dropdown sitting directly inside .zv-filter-bar with no
+   wrapper. A bare 100%-width select inside a flex bar claims the
+   entire row by itself instead of sizing to its own content. This
+   affected every index page that uses FilterBar.vue (~14 pages),
+   not just one — same shared component, same fix everywhere at once. */
+.zv-filter-bar > .zv-select {
+    width: auto;
+    min-width: 140px;
+    max-width: 220px;
+    flex: 0 0 auto;
+}
+.zv-filter-bar > .zv-input {
+    width: auto;
+    min-width: 200px;
+    max-width: 320px;
+    flex: 1 1 240px;
+}
+
+@media (max-width: 640px) {
+    .zv-filter-bar > .zv-select,
+    .zv-filter-bar > .zv-input {
+        max-width: none;
+        flex: 1 1 100%;
+    }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   18. FINANCIAL TOTALS BLOCK
+══════════════════════════════════════════════════════════════════ */
+
+.zv-totals {
+    background: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-md);
+    overflow: hidden;
+}
+
+.zv-totals-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.625rem 1.125rem;
+    border-bottom: 1px solid var(--zv-border);
+    font-size: 0.8125rem;
+}
+
+.zv-totals-row:last-child            { border-bottom: none; }
+.zv-totals-label                     { color: var(--zv-text-secondary); }
+.zv-totals-value                     { color: var(--zv-num); font-weight: 600; font-variant-numeric: tabular-nums; }
+.zv-totals-total                     { background: var(--zv-bg-surface); }
+.zv-totals-total .zv-totals-label    { color: var(--zv-text-primary); font-weight: 600; }
+.zv-totals-total .zv-totals-value    { color: var(--zv-num-blue); font-size: 1rem; font-weight: 700; }
+.zv-totals-deduct .zv-totals-value   { color: var(--zv-num-danger); }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   19. INLINE TABLE CELL INPUTS
+══════════════════════════════════════════════════════════════════ */
+
+.zv-cell-input,
+.zv-cell-select {
+    background: var(--zv-bg-input);
+    border: 1px solid var(--zv-border-input);
+    color: var(--zv-text-primary);
+    border-radius: var(--zv-radius-sm);
+    padding: 0.1875rem 0.375rem;
+    font-size: 0.75rem;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.12s ease;
+}
+
+.zv-cell-input:focus,
+.zv-cell-select:focus   { border-color: var(--zv-border-focus); box-shadow: var(--zv-shadow-focus); }
+.zv-cell-input:disabled,
+.zv-cell-select:disabled { opacity: 0.45; cursor: not-allowed; color:#000000 }
+
+.zv-cell-input-num {
+    text-align: end;
+    color: var(--zv-num);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    width: 88px;
+    transition: width 0.15s ease, border-color 0.12s ease;
+    -moz-appearance: textfield;
+}
+.zv-cell-input-num:focus                        { width: 130px; }
+.zv-cell-input-num::placeholder                 { color: var(--zv-text-placeholder); }
+.zv-cell-input-num::-webkit-outer-spin-button,
+.zv-cell-input-num::-webkit-inner-spin-button   { -webkit-appearance: none; margin: 0; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   20. SECTION TITLES & EMPTY STATES
+══════════════════════════════════════════════════════════════════ */
+
+.zv-section-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--zv-text-secondary);
+    margin-bottom: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.zv-section-eyebrow {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--zv-blue-text);
+    margin-bottom: 0.25rem;
+}
+
+.zv-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 1rem;
+    text-align: center;
+    color: var(--zv-text-muted);
+}
+
+.zv-empty-icon  { font-size: 2.25rem; margin-bottom: 0.75rem; opacity: 0.25; }
+.zv-empty-title { font-size: 0.9375rem; font-weight: 600; color: var(--zv-text-secondary); margin-bottom: 0.3125rem; }
+.zv-empty-sub   { font-size: 0.8125rem; color: var(--zv-text-muted); max-width: 28rem; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   21. LOGIN PAGE
+══════════════════════════════════════════════════════════════════ */
+
+.zv-login-wrap {
+    min-height: 100vh;
+    display: flex;
+    background-color: var(--zv-bg-surface);
+}
+
+.zv-login-panel-left {
+    flex: 1;
+    background-color: var(--zv-nav-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.zv-login-panel-right {
+    width: 460px;
+    flex-shrink: 0;
+    background-color: var(--zv-bg-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    border-inline-start: 1px solid var(--zv-border);
+}
+
+/* Dot-grid geometric background for login left panel */
+.zv-login-geo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(circle, rgba(96, 165, 250, 0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.08) 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.08) 100%);
+}
+
+.zv-login-input {
+    width: 100%;
+    background: var(--zv-bg-input);
+    border: 1px solid var(--zv-border-input);
+    border-radius: var(--zv-radius);
+    padding: 0.625rem 0.8125rem;
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    font-family: inherit;
+    outline: none;
+    transition: var(--zv-transition);
+}
+
+.zv-login-input:focus {
+    border-color: var(--zv-border-focus);
+    box-shadow: var(--zv-shadow-focus);
+}
+
+.zv-login-input::placeholder { color: var(--zv-text-placeholder); }
+
+.zv-login-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--zv-text-secondary);
+    margin-bottom: 0.375rem;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   22. LOADING & SKELETON
+══════════════════════════════════════════════════════════════════ */
+
+.zv-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--zv-bg-surface) 25%,
+        var(--zv-bg-surface-alt) 50%,
+        var(--zv-bg-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: zv-shimmer 1.6s infinite;
+    border-radius: var(--zv-radius-sm);
+}
+
+@keyframes zv-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.zv-spinner {
+    width: 20px; height: 20px;
+    border: 2px solid var(--zv-border-md);
+    border-top-color: var(--zv-blue);
+    border-radius: 50%;
+    animation: zv-spin 0.7s linear infinite;
+}
+
+@keyframes zv-spin {
+    to { transform: rotate(360deg); }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   23. VUE TRANSITIONS
+══════════════════════════════════════════════════════════════════ */
+
+.fade-enter-active  { transition: opacity 0.18s ease; }
+.fade-leave-active  { transition: opacity 0.14s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.slide-enter-active { transition: transform 0.25s ease, opacity 0.25s ease; }
+.slide-leave-active { transition: transform 0.20s ease, opacity 0.20s ease; }
+.slide-enter-from, .slide-leave-to { transform: translateX(100%); opacity: 0; }
+
+.slide-up-enter-active { transition: transform 0.20s ease, opacity 0.20s ease; }
+.slide-up-leave-active { transition: transform 0.15s ease, opacity 0.15s ease; }
+.slide-up-enter-from, .slide-up-leave-to { transform: translateY(12px); opacity: 0; }
+
+.scale-enter-active { transition: transform 0.18s ease, opacity 0.18s ease; }
+.scale-leave-active { transition: transform 0.14s ease, opacity 0.14s ease; }
+.scale-enter-from, .scale-leave-to { transform: scale(0.96); opacity: 0; }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   24. RTL SUPPORT
+   Layout uses CSS logical properties throughout (inline-start/end,
+   padding-inline, border-inline, etc.) so RTL works automatically.
+   Only edge cases that need explicit overrides are listed here.
+══════════════════════════════════════════════════════════════════ */
+
+[dir="rtl"] .zv-table thead th,
+[dir="rtl"] .zv-table tbody td       { text-align: end; }
+[dir="rtl"] .zv-table thead th.text-end,
+[dir="rtl"] .zv-table tbody td.text-end { text-align: start; }
+
+[dir="rtl"] .zv-sidebar-item {
+    border-inline-start: none;
+    border-inline-end: 2px solid transparent;
+}
+[dir="rtl"] .zv-sidebar-item.active {
+    border-inline-end-color: var(--zv-nav-active-border);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   25. PRINT
+══════════════════════════════════════════════════════════════════ */
+
+@media print {
+    .zv-topbar,
+    .zv-sidebar         { display: none !important; }
+    .zv-main            { margin: 0 !important; }
+    .zv-page            { padding: 0; }
+    .zv-card            { box-shadow: none; border: 1px solid #E2E8F0; }
+    .zv-modal-backdrop  { position: static; background: none; backdrop-filter: none; }
+    /* All numbers print dark on white paper */
+    .zv-num,
+    .zv-num-blue,
+    .zv-num-green,
+    .zv-num-amber,
+    .zv-num-danger      { color: #0F172A !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   26. ACCOUNTING UI REFRESH   —   scope: .zv-acc
+   ─────────────────────────────────────────────────────────────────
+   Phase 1 of the design enhancement (Sept 2026).
+
+   The shapes, density and component anatomy here are ported from
+   cashvero.evoqas.com's `cvr-` design system — the KPI card with a
+   tinted icon box, the uppercase micro-label typography, the
+   accent-bar section heading, the square icon action buttons, the
+   pill badges, the summary/sub table rows and the accent-topped
+   chart card. What is deliberately NOT ported is its palette:
+   Vero CFO keeps its own navy (#0F2554) + blue (#2563EB) + gold
+   brand colors, so only form and rhythm are borrowed, never color.
+
+   EVERYTHING that re-styles an existing global class is scoped under
+   `.zv-acc` so this phase touches the Accounting module only. Other
+   modules (Projects, Statements, Settings, Financial Institutions)
+   render exactly as before until they opt in by adding `zv-acc` to
+   their page root — that is how phase 2+ will roll out.
+
+   The genuinely NEW components (.zv-kpi-icon, .zv-section-heading,
+   .zv-action-btn, .zv-tag, .zv-chart-card, .zv-summary-row, …) are
+   defined unscoped, because a class that doesn't exist yet can't
+   regress a page that doesn't use it — and that lets other modules
+   adopt them one at a time without waiting for their own scope flip.
+
+   HOW TO OPT A PAGE IN
+     <div class="zv-page zv-acc"> … </div>
+   For a modal teleported to <body> (it leaves the page's DOM
+   subtree, so it leaves the scope too), put `zv-acc` on the
+   teleported overlay as well.
+══════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* Accent = the site's own blue, expressed as the tint/border
+       trio the cvr- system uses everywhere instead of flat fills. */
+    --zv-acc-accent:        var(--zv-blue);
+    --zv-acc-accent-strong: var(--zv-blue-hover);
+    --zv-acc-accent-dim:    rgba(37, 99, 235, 0.08);
+    --zv-acc-accent-border: rgba(37, 99, 235, 0.22);
+
+    /* Brand navy, same trio — used for the "structural" accents
+       (table head, section bars) where blue would be too loud. */
+    --zv-acc-navy:          var(--zv-brand-navy);
+    --zv-acc-navy-dim:      rgba(15, 37, 84, 0.06);
+    --zv-acc-navy-border:   rgba(15, 37, 84, 0.14);
+
+    /* Gold — the third brand color, standing in for cvr's copper. */
+    --zv-acc-gold:          #B8860B;
+    --zv-acc-gold-dim:      rgba(255, 191, 0, 0.13);
+    --zv-acc-gold-border:   rgba(184, 134, 11, 0.26);
+
+    --zv-acc-green-dim:     rgba(5, 150, 105, 0.09);
+    --zv-acc-green-border:  rgba(5, 150, 105, 0.22);
+    --zv-acc-amber-dim:     rgba(217, 119, 6, 0.10);
+    --zv-acc-amber-border:  rgba(217, 119, 6, 0.24);
+    --zv-acc-danger-dim:    rgba(220, 38, 38, 0.09);
+    --zv-acc-danger-border: rgba(220, 38, 38, 0.22);
+
+    /* Page ground — a cool blue-grey, several steps down from card
+       white so surfaces separate without needing heavier borders. */
+    --zv-acc-ground:        #EDF1F7;
+
+    /* Table row tints */
+    --zv-acc-row-hover:     rgba(37, 99, 235, 0.07);
+    --zv-acc-subrow-bg:     rgba(37, 99, 235, 0.05);
+    --zv-acc-subrow-hover:  rgba(37, 99, 235, 0.09);
+    --zv-acc-summary-bg:    #EEF2F7;
+    --zv-acc-summary-hover: #E4EAF2;
+
+    /* Softer, more diffuse shadows than the base sheet's — this is
+       what makes the cvr cards read as "lifted" rather than "boxed". */
+    --zv-acc-shadow-sm:     0 1px 3px  rgba(15, 34, 51, 0.07);
+    --zv-acc-shadow:        0 4px 16px rgba(15, 34, 51, 0.09);
+    --zv-acc-shadow-md:     0 8px 28px rgba(15, 34, 51, 0.12);
+
+    /* Surface edge + lift. Two-part shadows: a 1px contact shadow that
+       defines the edge, plus a wide, mostly-transparent one that does
+       the lifting. One flat blur can only do one of the two. */
+    --zv-acc-edge:          rgba(15, 37, 84, 0.10);
+    --zv-acc-lift:          0 1px 2px rgba(15, 34, 51, 0.06),
+                            0 10px 26px -14px rgba(15, 34, 51, 0.28);
+    --zv-acc-lift-hover:    0 1px 2px rgba(15, 34, 51, 0.07),
+                            0 16px 34px -14px rgba(15, 34, 51, 0.34);
+
+    /* cvr's radius scale — tighter on controls, rounder on surfaces,
+       which is most of why its UI reads differently from ours. */
+    --zv-acc-radius-sm:     6px;
+    --zv-acc-radius:        9px;
+    --zv-acc-radius-md:     12px;
+    --zv-acc-radius-lg:     16px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.1  PAGE SHELL & HEADER
+──────────────────────────────────────────────────────────────── */
+
+/* Padding is bound to the page root, not the bare scope class, because
+   `zv-acc` is also put on teleported modal overlays (which must stay
+   edge-to-edge) so their contents inherit the same component styling. */
+.zv-page.zv-acc,
+.po-page.zv-acc {
+    padding: 1.5rem 1.5rem 2.5rem;
+
+    /* The one change that makes every other change visible. The app's
+       surface (#F8FAFC) is so close to card white that a card had no
+       edge to read against — page and content were the same sheet of
+       paper, and every border, shadow and radius below was being spent
+       on something invisible. Accounting's ground is a cool blue-grey
+       instead, so a card is now an object sitting ON the page rather
+       than a rectangle drawn on it. Same trick cashvero uses (its
+       light ground is #EEF3F7); the tint is Vero's own blue, not
+       theirs. */
+    background-color: var(--zv-acc-ground);
+    min-height: calc(100vh - var(--zv-topbar-height));
+}
+
+.zv-acc .zv-page-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.125rem;
+    border-bottom: 1px solid var(--zv-border);
+}
+
+/* Icon box: cvr's proportions (square-ish, 12px radius, tinted fill
+   rather than a solid brand block). Color stays Vero gold. */
+/* Was a pale gold wash on white — at 40px it read as an empty beige
+   square rather than a brand mark. A solid navy→blue block with a
+   white glyph gives the page a real anchor, and reuses the exact
+   gradient .zv-avatar uses so the two agree. */
+.zv-acc .zv-page-header-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--zv-acc-radius-md);
+    background: linear-gradient(135deg, var(--zv-brand-navy), var(--zv-blue));
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 2px 8px rgba(15, 37, 84, 0.24);
+}
+.zv-acc .zv-page-header-icon svg { width: 1.25rem; height: 1.25rem; }
+
+.zv-acc .zv-page-title {
+    font-size: 1.25rem;
+    letter-spacing: -0.015em;
+}
+
+.zv-acc .zv-section-eyebrow {
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    color: var(--zv-text-muted);
+}
+
+.zv-acc .zv-page-subtitle {
+    color: var(--zv-text-muted);
+    max-width: 56ch;
+}
+
+.zv-acc .zv-page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.2  CARDS
+   cashvero treats list cards, form sections, KPI tiles and chart
+   panels as one family: 12px radius, tinted edge, the same rest/
+   hover lift. Vero had three recipes — 16px lifted list cards,
+   12px flatter form sections, grey-bordered KPIs — so a form and
+   a list on the same module did not feel like the same product.
+
+   One surface. Palette stays Vero (navy edge, blue hover), not
+   cashvero's cyan/green.
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-card,
+.zv-acc .form-section,
+.zv-acc .zv-kpi-card,
+.zv-acc .zv-chart-card {
+    border-color: var(--zv-acc-edge);
+    border-radius: var(--zv-acc-radius-md);
+    box-shadow: var(--zv-acc-lift);
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.zv-acc .zv-card:hover,
+.zv-acc .form-section:hover,
+.zv-acc .zv-kpi-card:hover,
+.zv-acc .zv-chart-card:hover {
+    border-color: var(--zv-acc-accent-border);
+    box-shadow: var(--zv-acc-lift-hover);
+}
+
+.zv-acc .zv-card {
+    /* Needed so the filter bar at the top and the pagination strip at
+       the bottom — both full-bleed rectangles with their own
+       background — are cut to the card's rounded corners instead of
+       poking out of them. The one thing this forbids is an
+       absolutely-positioned menu escaping a card; nothing in
+       Accounting does that today (SearchableSelect teleports its menu
+       to <body> precisely for this reason), but a new dropdown built
+       inside a card would need to do the same. */
+    overflow: hidden;
+}
+
+.zv-acc .zv-card-header {
+    padding: 0.9375rem 1.25rem;
+    background-color: var(--zv-bg-surface);
+    border-inline-start: 3px solid var(--zv-blue);
+}
+
+.zv-acc .zv-card-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--zv-text-primary);
+}
+
+.zv-acc .zv-card-footer {
+    border-radius: 0 0 var(--zv-acc-radius-md) var(--zv-acc-radius-md);
+}
+
+/* Accent-topped card — cvr uses this for every chart/analysis panel
+   so a "reading" surface is distinguishable from a "data" surface
+   at a glance, without needing a heading to say so. */
+.zv-chart-card {
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-top: 3px solid var(--zv-blue);
+    border-radius: var(--zv-radius-md);
+    box-shadow: 0 1px 3px rgba(15, 34, 51, 0.07);
+    padding: 1rem 1.25rem 1.25rem;
+}
+.zv-chart-card-gold  { border-top-color: #D4A017; }
+.zv-chart-card-green { border-top-color: var(--zv-green); }
+.zv-chart-card-navy  { border-top-color: var(--zv-brand-navy); }
+.zv-chart-card > div { min-width: 0; max-width: 100%; }
+
+.zv-acc .zv-chart-card {
+    border-top-width: 3px;
+    border-top-style: solid;
+    border-top-color: var(--zv-blue);
+    padding: 1rem 1.25rem 1.25rem;
+}
+.zv-acc .zv-chart-card-gold  { border-top-color: #D4A017; }
+.zv-acc .zv-chart-card-green { border-top-color: var(--zv-green); }
+.zv-acc .zv-chart-card-navy  { border-top-color: var(--zv-brand-navy); }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.3  SECTION HEADING
+   cvr's accent-bar heading — an inline-start rule plus uppercase
+   text. Replaces the "just a bold line of text" separator used in
+   the longer accounting forms, which gave them no visible rhythm.
+──────────────────────────────────────────────────────────────── */
+
+.zv-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-inline-start: 0.75rem;
+    border-inline-start: 3px solid #D4A017;
+    margin-block: 1.5rem 1rem;
+}
+
+.zv-section-heading h2,
+.zv-section-heading h3,
+.zv-section-heading-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--zv-text-primary);
+    margin: 0;
+}
+
+.zv-section-heading-sub {
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--zv-text-muted);
+}
+
+.zv-section-heading-blue  { border-inline-start-color: var(--zv-blue); }
+.zv-section-heading-navy  { border-inline-start-color: var(--zv-brand-navy); }
+.zv-section-heading-green { border-inline-start-color: var(--zv-green); }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.4  KPI CARDS
+   The biggest single anatomy change: cvr's KPI is a horizontal row
+   — tinted icon box, then a stacked uppercase label + tabular value
+   — instead of our stacked label-over-number block. Both shapes are
+   supported: KpiCard.vue renders the stacked one by default and the
+   icon one when an `icon` is passed, so no existing page changes.
+──────────────────────────────────────────────────────────────── */
+
+.zv-kpi-row,
+.zv-kpi-row-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+.zv-kpi-row-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.zv-kpi-row-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.zv-kpi-row-5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; }
+
+@media (max-width: 1100px) {
+    .zv-kpi-row-4, .zv-kpi-row-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+    .zv-kpi-row, .zv-kpi-row-2, .zv-kpi-row-3,
+    .zv-kpi-row-4, .zv-kpi-row-5 { grid-template-columns: 1fr; }
+}
+
+/* Icon box — one of five brand-safe tints. */
+.zv-kpi-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--zv-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+}
+.zv-kpi-icon svg          { width: 1.125rem; height: 1.125rem; }
+.zv-kpi-icon-blue         { background: var(--zv-acc-accent-dim); color: var(--zv-blue-text);   border-color: var(--zv-acc-accent-border); }
+.zv-kpi-icon-navy         { background: var(--zv-acc-navy-dim);   color: var(--zv-brand-navy);  border-color: var(--zv-acc-navy-border); }
+.zv-kpi-icon-gold         { background: var(--zv-acc-gold-dim);   color: var(--zv-acc-gold);    border-color: var(--zv-acc-gold-border); }
+.zv-kpi-icon-green        { background: var(--zv-acc-green-dim);  color: var(--zv-green-text);  border-color: var(--zv-acc-green-border); }
+.zv-kpi-icon-amber        { background: var(--zv-acc-amber-dim);  color: var(--zv-amber-text);  border-color: var(--zv-acc-amber-border); }
+.zv-kpi-icon-danger       { background: var(--zv-acc-danger-dim); color: var(--zv-danger-text); border-color: var(--zv-acc-danger-border); }
+
+/* Horizontal variant — icon beside the text, cvr's default. */
+.zv-kpi-card-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+}
+.zv-kpi-card-icon .zv-kpi-body { min-width: 0; }
+
+.zv-acc .zv-kpi-icon { border-radius: var(--zv-acc-radius); }
+.zv-acc .zv-kpi-card { padding: 1rem 1.25rem; }
+.zv-acc .zv-kpi-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--zv-text-muted);
+    margin-bottom: 0.25rem;
+}
+.zv-acc .zv-kpi-value {
+    font-size: 1.35rem;
+    line-height: 1.25;
+}
+.zv-acc .zv-kpi-sub {
+    font-size: 0.6875rem;
+    color: var(--zv-text-muted);
+}
+
+/* Compact KPI, for inside a card (cvr-mini-kpi) — e.g. the
+   debit/credit/difference strip above a trial balance. */
+.zv-mini-kpi {
+    background-color: var(--zv-bg-surface);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius);
+    padding: 0.6rem 0.85rem;
+}
+.zv-mini-kpi-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--zv-text-muted);
+}
+.zv-mini-kpi-value {
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--zv-num);
+}
+
+.zv-acc .zv-mini-kpi {
+    border-color: var(--zv-acc-edge);
+    border-radius: var(--zv-acc-radius);
+    box-shadow: none;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.5  TABLES
+   Accounting tables are the module's main surface, so this is where
+   most of the borrowed density lives: tighter cells, uppercase
+   micro-header, isolated LTR numerics (so an amount never reorders
+   inside an Arabic RTL row), a sticky head inside the scroll box,
+   and cvr's summary/sub row types for totals and detail lines.
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-table-wrap {
+    border-radius: var(--zv-acc-radius-md);
+    box-shadow: none;
+    border-color: var(--zv-border);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* A table inside a card shouldn't draw a second border around
+   itself — the card already provides one. */
+.zv-acc .zv-card > .zv-table-wrap {
+    border-inline: none;
+    border-bottom: none;
+    border-radius: 0;
+}
+
+/* NOT sticky, deliberately. `position: sticky` on these <th>s looks
+   like an obvious win for long ledgers, but .zv-table-wrap declares
+   `overflow-x: auto`, which computes `overflow-y` to `auto` as well
+   — so the wrapper, not the viewport, becomes the header's scroll
+   container. The wrapper has no height limit, so it never scrolls
+   vertically and the header would never actually stick: a rule that
+   costs a repaint and does nothing. Making it work means giving
+   every accounting table a fixed max-height, which is a real layout
+   decision, not a styling one — left for whoever wants to make it. */
+.zv-acc .zv-table thead th {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* A gold hairline under the navy band — the third brand color doing
+   the one job it is best at here: separating the header from the data
+   without adding another grey line. */
+.zv-acc .zv-table thead {
+    border-bottom: 2px solid #D4A017;
+}
+
+.zv-acc .zv-table tbody td {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+}
+
+.zv-acc .zv-table tbody tr {
+    transition: background-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Hover: a blue wash plus an inset accent rule on the leading edge,
+   which is how cvr marks the row under the cursor without moving
+   anything. `inset` keeps it from affecting row height. */
+.zv-acc .zv-table tbody tr:hover {
+    background-color: var(--zv-acc-row-hover);
+    box-shadow: inset 3px 0 0 0 var(--zv-blue);
+}
+[dir="rtl"] .zv-acc .zv-table tbody tr:hover {
+    box-shadow: inset -3px 0 0 0 var(--zv-blue);
+}
+
+/* Numeric cells: isolate them as LTR so "1,250.00 EGP" never gets
+   re-ordered by the bidi algorithm inside an Arabic row. cvr does
+   this on every numeric class and it is the correct behavior for a
+   bilingual ledger — an amount is not Arabic text. */
+.zv-acc .zv-table-num,
+.zv-acc .zv-num,
+.zv-acc .zv-num-blue,
+.zv-acc .zv-num-green,
+.zv-acc .zv-num-amber,
+.zv-acc .zv-num-danger {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+[dir="rtl"] .zv-acc .zv-table td.zv-table-num,
+[dir="rtl"] .zv-acc .zv-table th.zv-table-num { text-align: start; }
+
+.zv-acc .zv-table tfoot tr {
+    background-color: var(--zv-acc-summary-bg);
+    border-top: 2px solid var(--zv-border-md);
+}
+.zv-acc .zv-table tfoot td { padding: 0.6875rem 0.875rem; }
+
+/* Row types (cvr-summary-row / cvr-subrow). A summary row is a
+   subtotal line; a sub row is a child/detail line under its parent
+   — the GL and inventory statements need both. */
+.zv-summary-row {
+    background-color: var(--zv-acc-summary-bg);
+    font-weight: 600;
+}
+.zv-summary-row:hover { background-color: var(--zv-acc-summary-hover) !important; }
+
+.zv-subrow { background-color: var(--zv-acc-subrow-bg); }
+.zv-subrow:hover { background-color: var(--zv-acc-subrow-hover) !important; }
+
+.zv-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+/* Document codes. Accounting tables already mark these cells with
+   Tailwind's `font-mono` in 41 files, so styling that selector inside
+   an accounting table upgrades every bill/PO/entry code in the module
+   at once, with no page edits: a code stops being body text that
+   happens to be monospaced and becomes a recognizable reference. */
+.zv-acc .zv-table td.font-mono,
+.zv-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--zv-blue-text);
+    letter-spacing: -0.01em;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+/* Long free-text in a list row (narration, reason, subject, comment)
+   — clamp so one verbose cell cannot push amount/status off screen. */
+.zv-cell-clamp {
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Account / product name sitting after a .zv-code chip. */
+.zv-account-name {
+    margin-inline-start: 0.5rem;
+    font-weight: 600;
+}
+
+.zv-code + .zv-tag { margin-inline-start: 0.5rem; }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.6  BADGES, TAGS, AVATARS
+   cvr badges are uppercase micro-pills with a tinted fill AND a
+   matching border — the border is what keeps them legible against
+   both the white card and the tinted hover row.
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-badge {
+    padding: 0.1875rem 0.5625rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* The base sheet's blue badge is a solid fill with white text, which
+   shouts next to the tinted green/amber/danger ones. Tinted here so
+   the whole set reads as one family. */
+.zv-acc .zv-badge-blue {
+    background: var(--zv-acc-accent-dim);
+    color: var(--zv-blue-text);
+    border-color: var(--zv-acc-accent-border);
+}
+.zv-acc .zv-badge-navy {
+    background: var(--zv-acc-navy-dim);
+    color: var(--zv-brand-navy);
+    border: 1px solid var(--zv-acc-navy-border);
+}
+.zv-acc .zv-badge-gray {
+    background: rgba(100, 116, 139, 0.10);
+    color: #475569;
+    border-color: rgba(100, 116, 139, 0.20);
+}
+.zv-badge-gold {
+    background: var(--zv-acc-gold-dim);
+    color: var(--zv-acc-gold);
+    border: 1px solid var(--zv-acc-gold-border);
+}
+
+.zv-acc .zv-status-dot { width: 6px; height: 6px; }
+
+/* Tag — quieter than a badge, for a code/reference chip inline in
+   a cell (cvr-tag). Mixed case, no letter-spacing. */
+.zv-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    background: var(--zv-acc-accent-dim);
+    color: var(--zv-blue-text);
+    border: 1px solid var(--zv-acc-accent-border);
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--zv-acc-radius-sm);
+    white-space: nowrap;
+}
+.zv-tag-gold  { background: var(--zv-acc-gold-dim);   color: var(--zv-acc-gold);   border-color: var(--zv-acc-gold-border); }
+.zv-tag-gray  { background: rgba(100, 116, 139, 0.09); color: #475569;             border-color: rgba(100, 116, 139, 0.18); }
+.zv-tag-green { background: var(--zv-acc-green-dim);  color: var(--zv-green-text); border-color: var(--zv-acc-green-border); }
+.zv-tag-amber { background: var(--zv-acc-amber-dim);  color: var(--zv-amber-text); border-color: var(--zv-acc-amber-border); }
+
+/* Initials avatar for a partner/supplier/customer cell. */
+.zv-avatar {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, var(--zv-brand-navy), var(--zv-blue));
+    border-radius: var(--zv-acc-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+/* Partner / customer / supplier cell: avatar + truncated name. */
+.zv-partner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+}
+.zv-partner-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Trailing action column — keep it as wide as its buttons, never
+   stretched by an empty <th>. */
+.zv-col-actions {
+    width: 1%;
+    white-space: nowrap;
+    text-align: end;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.7  BUTTONS & ROW ACTIONS
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-btn {
+    border-radius: var(--zv-acc-radius-sm);
+    font-weight: 600;
+}
+
+.zv-acc .zv-btn-primary {
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.20);
+}
+.zv-acc .zv-btn-primary:hover {
+    box-shadow: 0 3px 12px rgba(37, 99, 235, 0.22);
+}
+
+/* Header action keeps the brand navy set by PageHeader.vue; give it
+   the same lift so it doesn't look flat beside the blue ones. */
+.zv-acc .zv-page-header-actions .zv-btn-primary {
+    box-shadow: 0 1px 2px rgba(15, 37, 84, 0.22);
+}
+.zv-acc .zv-page-header-actions .zv-btn-primary:hover {
+    box-shadow: 0 3px 12px rgba(15, 37, 84, 0.26);
+}
+
+.zv-acc .zv-btn-secondary:hover {
+    border-color: var(--zv-blue);
+    color: var(--zv-blue-text);
+    background-color: var(--zv-acc-accent-dim);
+}
+
+.zv-acc .zv-btn-lg { padding: 0.5625rem 1.125rem; font-size: 0.8125rem; }
+
+/* Table row buttons: compact, tinted-on-hover rather than filled,
+   so a row with four actions doesn't turn into a color bar. */
+.zv-acc .zv-table td .zv-btn-sm {
+    padding: 0.25rem 0.5625rem;
+    font-size: 0.6875rem;
+}
+.zv-acc .zv-table td .zv-btn-ghost {
+    border-color: var(--zv-border);
+}
+.zv-acc .zv-table td .zv-btn-ghost:hover {
+    color: var(--zv-blue-text);
+    background-color: var(--zv-acc-accent-dim);
+    border-color: var(--zv-acc-accent-border);
+}
+
+/* Square icon action button (cvr-action-btn) — for icon-only row
+   actions (edit / print / delete). Ghost by default, tinted on
+   hover in the color of what it does. */
+.zv-action-btn {
+    width: 1.875rem;
+    height: 1.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--zv-acc-radius-sm);
+    color: var(--zv-text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--zv-transition);
+    flex-shrink: 0;
+}
+.zv-action-btn svg { width: 0.9375rem; height: 0.9375rem; }
+.zv-action-btn:hover {
+    color: var(--zv-blue-text);
+    background: var(--zv-acc-accent-dim);
+    border-color: var(--zv-acc-accent-border);
+}
+.zv-action-btn-gold:hover {
+    color: var(--zv-acc-gold);
+    background: var(--zv-acc-gold-dim);
+    border-color: var(--zv-acc-gold-border);
+}
+.zv-action-btn-green:hover {
+    color: var(--zv-green-text);
+    background: var(--zv-acc-green-dim);
+    border-color: var(--zv-acc-green-border);
+}
+.zv-action-btn-danger:hover {
+    color: var(--zv-danger-text);
+    background: var(--zv-acc-danger-dim);
+    border-color: var(--zv-acc-danger-border);
+}
+.zv-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* The action cluster in the last cell of a row. */
+.zv-row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.8  FILTER BAR, PILLS & TABS
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-filter-bar {
+    padding: 0.8125rem 1rem;
+    background-color: var(--zv-bg-surface);
+    border-bottom: 1px solid var(--zv-border);
+    gap: 0.5rem;
+}
+
+.zv-acc .zv-filter-bar > .zv-input,
+.zv-acc .zv-filter-bar > .zv-select {
+    border-radius: var(--zv-acc-radius-sm);
+    padding-block: 0.4375rem;
+    font-size: 0.78125rem;
+}
+
+.zv-acc .zv-filter-count {
+    margin-inline-start: auto;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--zv-text-muted);
+    white-space: nowrap;
+}
+
+/* Pill filter (cvr-filter-pill) — for a small set of mutually
+   exclusive filters that deserve to stay visible (All / Draft /
+   Posted) rather than hiding inside a <select>. */
+.zv-filter-pill {
+    font-size: 0.78125rem;
+    font-weight: 600;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--zv-acc-radius);
+    color: var(--zv-text-secondary);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--zv-transition);
+    white-space: nowrap;
+}
+.zv-filter-pill:hover {
+    background: var(--zv-bg-hover);
+    color: var(--zv-text-primary);
+}
+.zv-filter-pill-active,
+.zv-filter-pill.active {
+    background: var(--zv-acc-accent-dim);
+    color: var(--zv-blue-text);
+    border-color: var(--zv-acc-accent-border);
+}
+
+/* Card-style tab strip (cvr-dash-tab) for report/statement switchers. */
+.zv-dash-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
+    padding-bottom: 0.25rem;
+}
+.zv-dash-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    padding: 0.5rem 1.125rem;
+    border-radius: var(--zv-acc-radius-md);
+    border: 1px solid var(--zv-border);
+    background-color: var(--zv-bg-card);
+    color: var(--zv-text-secondary);
+    cursor: pointer;
+    transition: var(--zv-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+.zv-dash-tab:hover {
+    color: var(--zv-text-primary);
+    border-color: var(--zv-acc-accent-border);
+    background-color: var(--zv-bg-hover);
+}
+.zv-dash-tab-active,
+.zv-dash-tab.active {
+    background: linear-gradient(135deg, var(--zv-acc-accent-dim), var(--zv-acc-gold-dim));
+    border-color: var(--zv-acc-accent-border);
+    color: var(--zv-text-primary);
+    box-shadow: var(--zv-acc-shadow-sm);
+}
+
+.zv-acc .zv-tab.active { font-weight: 700; }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.9  FORMS
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-input,
+.zv-acc .zv-select,
+.zv-acc .zv-textarea {
+    border-radius: var(--zv-acc-radius-sm);
+}
+
+/* Sept 2026 correction: this first shipped as an 11px uppercase
+   letter-spaced label, which was cashvero's KPI-tile label pasted
+   onto a form field — the wrong one of their two label styles. A
+   KPI label sits alone above one big number and can afford to
+   shout; a form label sits above a control the user is reading and
+   comparing against eight others, and uppercase costs it both word
+   shape and width. Their form label (.cvr-form-label) is 0.8rem,
+   weight 600, mixed case, in the blue text token — which is what
+   Vero's base .zv-label already was, give or take a step of size. */
+.zv-acc .zv-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--zv-text-secondary);
+    margin-bottom: 0.3125rem;
+}
+
+/* Same leading accent bar as .zv-card-header, so a long form
+   reads as a stack of named blocks instead of one grey run. */
+.zv-acc .form-section-header {
+    padding: 0.9375rem 1.25rem;
+    border-inline-start: 3px solid var(--zv-blue);
+    gap: 0.875rem;
+}
+.zv-acc .form-section-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--zv-acc-radius-sm);
+}
+.zv-acc .form-section-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+.zv-acc .form-section-body { padding: 1.25rem; }
+
+.zv-acc .zv-cell-input,
+.zv-acc .zv-cell-select { border-radius: var(--zv-acc-radius-sm); }
+
+
+/* ── Proportional field rows ──────────────────────────────────────
+   The structural half of cashvero's form system, which Vero had no
+   equivalent for. Their forms lay a row out by how much room each
+   field actually needs — a description gets 4fr next to a quantity's
+   1fr — using a named ratio grid per row (.cvr-form-grid-8-2-2 and
+   fifteen siblings). Vero only had equal-column field-grid-2/3/4/5,
+   so a Currency select ("EGP") is handed exactly as much width as a
+   Notes field, on every form in the module.
+
+   These are the same ratios under Vero's own naming. They are opt-in
+   per row: a form adopts them by splitting its one big field-grid-3
+   into rows that each say what they hold. Nothing changes until a
+   page does that — which is a judgement call per form, not something
+   worth guessing at globally.
+
+     <div class="field-grid field-grid-8-2-2">   description | qty | price
+     <div class="field-grid field-grid-6-3-3">   supplier    | date | currency
+     <div class="field-grid field-grid-2-3-7">   date        | type | partner name
+     <div class="field-grid field-grid-4-8">     date        | reference
+
+   Naming reads as column proportions out of 12, matching the ratios
+   the source system used. */
+.field-grid-8-2-2         { grid-template-columns: 4fr 1fr 1fr; }
+.field-grid-6-2-2-2       { grid-template-columns: 3fr 1fr 1fr 1fr; }
+.field-grid-8-4           { grid-template-columns: 2fr 1fr; }
+.field-grid-4-8           { grid-template-columns: 1fr 2fr; }
+.field-grid-7-3-2         { grid-template-columns: 7fr 3fr 2fr; }
+.field-grid-2-3-7         { grid-template-columns: 2fr 3fr 7fr; }
+.field-grid-3-3-6         { grid-template-columns: 3fr 3fr 6fr; }
+.field-grid-3-6-3         { grid-template-columns: 3fr 6fr 3fr; }
+.field-grid-2-3-6         { grid-template-columns: 3fr 3fr 6fr; }
+.field-grid-4-4-2-2       { grid-template-columns: 4fr 4fr 2fr 2fr; }
+.field-grid-3-5-2-2       { grid-template-columns: 3fr 5fr 2fr 2fr; }
+.field-grid-6-3-3         { grid-template-columns: 2fr 1fr 1fr; }
+.field-grid-6-4-2         { grid-template-columns: 6fr 4fr 2fr; }
+.field-grid-4-6-2         { grid-template-columns: 4fr 6fr 2fr; }
+.field-grid-2-2-8         { grid-template-columns: 1fr 1fr 4fr; }
+.field-grid-3-3-2-2-2     { grid-template-columns: 3fr 3fr 2fr 2fr 2fr; }
+.field-grid-2-2-2-2-2-2   { grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr; }
+.field-grid-2-2-6-2       { grid-template-columns: 2fr 2fr 6fr 2fr; }
+.field-grid-4-5-2-1       { grid-template-columns: 4fr 5fr 2fr 1fr; }
+.field-grid-2-2-2-4-2     { grid-template-columns: 2fr 2fr 2fr 4fr 2fr; }
+.field-grid-2-2-5-1-3     { grid-template-columns: 2fr 2fr 5fr 1fr 3fr; }
+.field-grid-2-2-1-4-1-2   { grid-template-columns: 2fr 2fr 1fr 4fr 1fr 2fr; }
+.field-grid-2-narrow      { grid-template-columns: repeat(2, minmax(0, 200px)); }
+
+/* Cap a field that can never need a full column — a rate, a
+   quantity, a currency code. Put it on the .field-group. */
+.field-narrow { max-width: 200px; }
+
+@media (max-width: 900px) {
+    .field-grid-8-2-2,
+    .field-grid-6-2-2-2,
+    .field-grid-8-4,
+    .field-grid-4-8,
+    .field-grid-7-3-2,
+    .field-grid-2-3-7,
+    .field-grid-3-3-6,
+    .field-grid-3-6-3,
+    .field-grid-4-4-2-2,
+    .field-grid-3-5-2-2,
+    .field-grid-6-3-3,
+    .field-grid-6-4-2,
+    .field-grid-4-6-2,
+    .field-grid-2-2-8,
+    .field-grid-3-3-2-2-2,
+    .field-grid-2-2-2-2-2-2,
+    .field-grid-2-2-6-2,
+    .field-grid-4-5-2-1,
+    .field-grid-2-2-2-4-2,
+    .field-grid-2-2-5-1-3,
+    .field-grid-2-2-1-4-1-2 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+    .field-grid-8-2-2,
+    .field-grid-6-2-2-2,
+    .field-grid-8-4,
+    .field-grid-4-8,
+    .field-grid-7-3-2,
+    .field-grid-2-3-7,
+    .field-grid-3-3-6,
+    .field-grid-3-6-3,
+    .field-grid-4-4-2-2,
+    .field-grid-3-5-2-2,
+    .field-grid-6-3-3,
+    .field-grid-6-4-2,
+    .field-grid-4-6-2,
+    .field-grid-2-2-8,
+    .field-grid-3-3-2-2-2,
+    .field-grid-2-2-2-2-2-2,
+    .field-grid-2-2-6-2,
+    .field-grid-4-5-2-1,
+    .field-grid-2-2-2-4-2,
+    .field-grid-2-2-5-1-3,
+    .field-grid-2-2-1-4-1-2,
+    .field-grid-2-narrow  { grid-template-columns: 1fr; }
+    .field-narrow         { max-width: none; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.13  LINE-ITEM EDITORS
+   19 accounting forms put an editable table inside a form section —
+   invoice lines, bill lines, PO lines, BOM components, payment
+   allocations. They drop a full-size .zv-input into a <td>, so a row
+   of six fields is nearly as tall as a whole form section, and each
+   page fights it with its own inline `style="width:6rem"`.
+
+   cashvero treats a cell control as its own size class, not a form
+   control that happens to be in a table. Vero already had that size
+   class (.zv-cell-input, §19) — no accounting page had ever used it.
+   Rather than edit 19 forms, the same treatment is applied to any
+   control sitting in an accounting table cell, so every line-item
+   editor gets it at once. Pages keep their explicit widths; only the
+   vertical weight changes.
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-table td .zv-input,
+.zv-acc .zv-table td .zv-select,
+.zv-acc .zv-table td .zv-textarea {
+    padding: 0.3125rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: var(--zv-acc-radius-sm);
+    line-height: 1.4;
+}
+
+/* A control in a cell is read as part of its row, so it drops the
+   standing border and only draws one when it is being used. This is
+   what stops a 12-line invoice from looking like 72 boxes. */
+.zv-acc .zv-table td .zv-input,
+.zv-acc .zv-table td .zv-select {
+    border-color: transparent;
+    background-color: var(--zv-bg-surface);
+}
+.zv-acc .zv-table td .zv-input:hover,
+.zv-acc .zv-table td .zv-select:hover {
+    border-color: var(--zv-border-input);
+    background-color: var(--zv-bg-card);
+}
+.zv-acc .zv-table td .zv-input:focus,
+.zv-acc .zv-table td .zv-select:focus {
+    border-color: var(--zv-border-focus);
+    background-color: var(--zv-bg-card);
+}
+/* An invalid cell must stay visible without being focused. */
+.zv-acc .zv-table td .zv-input-error {
+    border-color: var(--zv-danger) !important;
+    background-color: var(--zv-danger-light);
+}
+
+/* Numeric cell controls follow the number rule like any other
+   amount: end-aligned, tabular, and isolated LTR for Arabic rows. */
+.zv-acc .zv-table td .zv-input[type="number"] {
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+/* Remove-line button (cvr-btn-remove-row). The old markup used a
+   ghost icon button, which reads the same as "edit" or "close" —
+   removing a line is destructive and should say so on hover. */
+.zv-btn-remove-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--zv-text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--zv-acc-radius-sm);
+    cursor: pointer;
+    transition: var(--zv-transition);
+}
+.zv-btn-remove-row svg { width: 0.875rem; height: 0.875rem; }
+.zv-btn-remove-row:hover {
+    color: var(--zv-danger-text);
+    background: var(--zv-acc-danger-dim);
+    border-color: var(--zv-acc-danger-border);
+}
+
+/* Right-aligned strip of small amount fields under a line table —
+   "unapplied", "difference", "total allocated" (cvr-form-row-
+   unapplied). Fixed 160px tracks so the figures column-align with
+   each other rather than stretching to the section width. */
+.zv-amount-row {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.zv-amount-row > * { width: 160px; flex: 0 0 auto; }
+@media (max-width: 600px) {
+    .zv-amount-row > * { width: 100%; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.14  PROGRESS BARS
+   cashvero's .cvr-bar-* set. Accounting shows a lot of "how far
+   along is this" state — a PO partially received, an invoice
+   partially collected, a job order partially produced — and today
+   every one of those is a word ("Partial") with no magnitude. A 4px
+   bar under the badge answers "partial by how much" for free.
+──────────────────────────────────────────────────────────────── */
+
+.zv-bar {
+    height: 4px;
+    width: 100%;
+    min-width: 48px;
+    background: var(--zv-bg-surface-alt);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.zv-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--zv-blue);
+    transition: width 0.3s ease;
+}
+.zv-bar-fill-green  { background: var(--zv-green); }
+.zv-bar-fill-amber  { background: var(--zv-amber); }
+.zv-bar-fill-danger { background: var(--zv-danger); }
+.zv-bar-fill-navy   { background: var(--zv-brand-navy); }
+
+/* Badge with the bar under it, for a table cell. */
+.zv-progress-cell {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+    min-width: 92px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.15  SELECTBOX  —  the non-native select
+   Styles Components/SelectBox.vue. Global, not scoped: the component
+   only exists where a page imports it, so it cannot regress a page
+   that hasn't adopted it, and other modules can adopt it directly.
+
+   The trigger deliberately carries .zv-input and adds only what a
+   button needs on top of a text field. That is cashvero's own
+   arrangement (their dropdown trigger is a <button class="cvr-input">)
+   and it is what guarantees a select and an input sitting in the same
+   form row are exactly the same height — no second set of measurements
+   to keep in sync with .zv-input forever.
+──────────────────────────────────────────────────────────────── */
+
+.zv-sb { position: relative; width: 100%; }
+
+/* The error class the forms already bind — `:class="{ 'zv-input-error':
+   form.errors.x }"` — lands on the component's root, not on the trigger
+   inside it. Rather than make 65 call sites swap a class binding for a
+   prop, let the class reach through to the control it was aimed at. The
+   `error` prop does the same thing for new code. */
+.zv-sb.zv-input-error .zv-sb-trigger {
+    border-color: var(--zv-danger) !important;
+}
+
+.zv-sb-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: start;
+    cursor: pointer;
+    /* .zv-input is a block form control; a <button> needs these three
+       reset so it doesn't inherit the browser's button metrics. */
+    font-family: inherit;
+    line-height: 1.5;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.zv-sb-trigger:disabled { cursor: not-allowed; }
+
+.zv-sb-value {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.zv-sb-placeholder { color: var(--zv-text-placeholder); }
+
+.zv-sb-caret {
+    width: 0.9375rem;
+    height: 0.9375rem;
+    flex-shrink: 0;
+    color: var(--zv-text-muted);
+    transition: transform 0.18s ease, color 0.15s ease;
+}
+.zv-sb-open .zv-sb-caret { transform: rotate(180deg); color: var(--zv-blue); }
+
+/* Open state repeats the focus treatment: while the menu is up, the
+   trigger is what the keyboard is acting on, so it must look focused
+   even though focus has moved into the filter field inside the menu. */
+.zv-sb-open {
+    border-color: var(--zv-border-focus);
+    box-shadow: var(--zv-shadow-focus);
+}
+
+.zv-sb-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    color: var(--zv-text-muted);
+    cursor: pointer;
+    transition: var(--zv-transition);
+}
+.zv-sb-clear svg { width: 0.75rem; height: 0.75rem; }
+.zv-sb-clear:hover { background: var(--zv-danger-light); color: var(--zv-danger-text); }
+
+/* Compact variant for a line-item table cell — matches the cell
+   control sizing in §26.13 so a select in a row is the same height as
+   the inputs beside it. */
+.zv-sb-sm {
+    padding: 0.3125rem 0.5rem;
+    font-size: 0.75rem;
+}
+.zv-sb-sm .zv-sb-caret { width: 0.8125rem; height: 0.8125rem; }
+
+/* ── The panel ──────────────────────────────────────────────── */
+
+.zv-sb-menu {
+    z-index: var(--zv-zindex-modal);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 180px;
+    background-color: var(--zv-bg-card);
+    border: 1px solid var(--zv-border);
+    border-radius: var(--zv-radius-md);
+    box-shadow: var(--zv-shadow-md);
+    animation: zv-sb-in 0.12s ease-out;
+}
+@keyframes zv-sb-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .zv-sb-menu { animation: none; }
+    .zv-sb-caret { transition: none; }
+}
+
+.zv-sb-search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--zv-border);
+    background: var(--zv-bg-surface);
+    flex-shrink: 0;
+}
+.zv-sb-search svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    color: var(--zv-text-muted);
+}
+.zv-sb-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    padding: 0;
+}
+.zv-sb-search input::placeholder { color: var(--zv-text-placeholder); }
+/* @tailwindcss/forms gives every bare input a focus ring via box-shadow,
+   which draws a second blue outline inside a panel that is already
+   clearly the focused surface. The field's border and outline are
+   already off; the ring has to be turned off separately. */
+.zv-sb-search input:focus { box-shadow: none; outline: none; border-color: transparent; }
+
+.zv-sb-list {
+    overflow-y: auto;
+    padding: 0.25rem;
+    flex: 1;
+    min-height: 0;
+}
+
+.zv-sb-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4375rem 0.625rem;
+    border-radius: var(--zv-radius-sm);
+    font-size: 0.8125rem;
+    color: var(--zv-text-primary);
+    cursor: pointer;
+}
+.zv-sb-option-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+.zv-sb-option-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.zv-sb-option-sub {
+    font-size: 0.6875rem;
+    color: var(--zv-text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Two distinct states that must not be confused: -active is where the
+   keyboard/pointer currently is, -selected is what the field holds.
+   Both can be true at once, which is why the tick carries the
+   selection and the tint carries the highlight. */
+.zv-sb-option-active {
+    background-color: var(--zv-bg-hover);
+}
+.zv-sb-option-selected {
+    color: var(--zv-blue-text);
+    font-weight: 600;
+}
+/* The "no selection" row reads as a meta-choice, not a value. */
+.zv-sb-option-none {
+    color: var(--zv-text-muted);
+    font-style: italic;
+}
+.zv-sb-option-none.zv-sb-option-selected {
+    color: var(--zv-blue-text);
+    font-style: normal;
+}
+.zv-sb-option-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+.zv-sb-tick {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    color: var(--zv-blue);
+}
+
+.zv-sb-empty {
+    padding: 1.25rem 0.75rem;
+    text-align: center;
+    font-size: 0.78125rem;
+    color: var(--zv-text-muted);
+}
+
+/* A SelectBox in a filter bar sizes like the .zv-select it replaced.
+   The bar's existing rules key off `.zv-select`, which the component's
+   root is not — without this a filter dropdown would stretch to the
+   full row the way a bare .zv-input does. */
+.zv-filter-bar > .zv-sb,
+.zv-filter-bar > .zv-filter-select {
+    flex: 0 0 auto;
+    min-width: 150px;
+    max-width: 220px;
+}
+@media (max-width: 640px) {
+    .zv-filter-bar > .zv-sb,
+    .zv-filter-bar > .zv-filter-select { max-width: none; flex: 1 1 100%; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.16  NATIVE <select> FALLBACK
+   Migrating ~180 selects to SelectBox is a page-by-page job. Until a
+   page is converted its selects are still native, and a native select
+   is the one control that will not take styling past its border — it
+   draws the OS arrow, at OS size, in the OS font. What CAN be done is
+   remove that arrow (`appearance: none`) and paint our own as a
+   background image, which at least makes an unconverted select the
+   same shape and weight as the fields beside it.
+
+   Scoped to .zv-acc so no other module's selects shift underneath it.
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc select.zv-select,
+.zv-acc select.zv-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Chevron, inlined as SVG in the stroke color of --zv-text-muted
+       (#94A3B8). It is a background image, so it cannot be a token —
+       if the muted color ever changes, change it here too. */
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    background-size: 0.9375rem;
+    padding-inline-end: 2rem;
+}
+[dir="rtl"] .zv-acc select.zv-select,
+[dir="rtl"] .zv-acc select.zv-input {
+    background-position: left 0.625rem center;
+}
+/* A cell select is narrower and sits on the row tint, so the arrow
+   moves in and the padding shrinks with it. */
+.zv-acc .zv-table td select.zv-select,
+.zv-acc .zv-table td select.zv-input {
+    background-position: right 0.375rem center;
+    background-size: 0.8125rem;
+    padding-inline-end: 1.5rem;
+}
+[dir="rtl"] .zv-acc .zv-table td select.zv-select,
+[dir="rtl"] .zv-acc .zv-table td select.zv-input {
+    background-position: left 0.375rem center;
+}
+/* Firefox keeps a text highlight on the closed control; kill it. */
+.zv-acc select.zv-select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 var(--zv-text-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.10  ALERTS, MODALS, PAGINATION, EMPTY STATE
+──────────────────────────────────────────────────────────────── */
+
+.zv-acc .zv-alert {
+    border-radius: var(--zv-acc-radius);
+    font-size: 0.78125rem;
+    border-inline-start-width: 3px;
+}
+
+/* The base sheet's info alert uses --zv-blue-light (#0f6fec, a solid
+   blue) as a background with blue text — unreadable. Tinted here to
+   match the other three alert colors. */
+.zv-acc .zv-alert-info {
+    background: var(--zv-acc-accent-dim);
+    color: var(--zv-blue-text);
+    border-color: var(--zv-acc-accent-border);
+    border-inline-start-color: var(--zv-blue);
+}
+.zv-acc .zv-alert-success { border-inline-start-color: var(--zv-green); }
+.zv-acc .zv-alert-warning { border-inline-start-color: var(--zv-amber); }
+.zv-acc .zv-alert-danger  { border-inline-start-color: var(--zv-danger); }
+
+.zv-acc .zv-modal {
+    border-radius: var(--zv-acc-radius-lg);
+    box-shadow: var(--zv-acc-shadow-md);
+}
+.zv-acc .zv-modal-footer { border-radius: 0 0 var(--zv-acc-radius-lg) var(--zv-acc-radius-lg); }
+.zv-acc .zv-modal-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.zv-acc .zv-pagination {
+    padding: 0.6875rem 1rem;
+    background-color: var(--zv-bg-surface);
+}
+.zv-acc .zv-page-btn { border-radius: var(--zv-acc-radius-sm); }
+
+.zv-acc .zv-empty { padding: 3rem 1rem; }
+.zv-acc .zv-empty-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--zv-text-primary);
+}
+.zv-acc .zv-empty-sub { font-size: 0.78125rem; }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.11  RESPONSIVE
+──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+    .zv-page.zv-acc,
+    .po-page.zv-acc { padding: 1rem 1rem 2rem; }
+    .zv-acc .zv-page-header { flex-direction: column; align-items: stretch; }
+    .zv-acc .zv-page-header-actions .zv-btn { width: 100%; }
+    .zv-acc .zv-row-actions { flex-wrap: wrap; justify-content: flex-start; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   26.12  PRINT
+   Accounting pages get printed constantly (statements, GL, trial
+   balance). Drop everything that only exists on screen.
+──────────────────────────────────────────────────────────────── */
+
+@media print {
+    .zv-page.zv-acc,
+    .po-page.zv-acc { padding: 0; }
+    .zv-acc .zv-page-header-actions,
+    .zv-acc .zv-filter-bar,
+    .zv-acc .zv-pagination,
+    .zv-acc .zv-row-actions,
+    .zv-acc .zv-action-btn { display: none !important; }
+    .zv-acc .zv-card,
+    .zv-acc .zv-kpi-card,
+    .zv-acc .form-section,
+    .zv-chart-card { box-shadow: none !important; }
+    .zv-acc .zv-table tbody tr:hover { background: none; box-shadow: none; }
+}

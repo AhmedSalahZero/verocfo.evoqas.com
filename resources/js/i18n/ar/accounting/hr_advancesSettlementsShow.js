@@ -1,0 +1,25 @@
+export default {
+    hr: {
+        advancesSettlementsShow: {
+            advancesSettlements: 'العُهد والسُلف',
+            everyAdvanceGivenAndEverySettlement: 'كل سلفة تم صرفها وكل تسوية، من الأقدم إلى الأحدث',
+            advanceFromSalaryBalance: 'رصيد السلفة على الحساب',
+            giveNewAdvance: 'صرف سلفة جديدة',
+            recordSettlement: 'تسجيل تسوية',
+            custodyBalance: 'رصيد العهدة',
+            giveNewCustody: 'صرف عهدة جديدة',
+            noHistoryYet: 'لا يوجد سجل بعد',
+            givingAnAdvanceOrCustodyWillShow: 'صرف سلفة أو عهدة لهذا الموظف سيظهر هنا.',
+            date: 'التاريخ',
+            type: 'النوع',
+            description: 'الوصف',
+            given: 'مصروف',
+            settled: 'مسدَّد',
+            reference: 'المرجع',
+            custody: 'عهدة',
+            advanceFromSalary: 'سلفة على الحساب',
+            advanceGiven: 'سلفة مصروفة',
+            settlement: 'تسوية',
+        },
+    },
+}

@@ -1,0 +1,25 @@
+export default {
+  statements: {
+    withdrawalStatementIndex: {
+      statement: 'كشف حساب',
+      withdrawalStatement: 'كشف السحوبات',
+      subtitle: 'كل سحب على تسهيل السحب على المكشوف — تاريخ الاستحقاق والتسوية والمبلغ المتبقي، حسب البنك.',
+      bank: 'البنك',
+      allBanks: 'جميع البنوك',
+      facility: 'التسهيل',
+      allFacilities: 'جميع التسهيلات',
+      status: 'الحالة',
+      allStatuses: 'جميع الحالات',
+      statusOpen: 'مفتوح',
+      statusPartial: 'مسدد جزئياً',
+      statusSettled: 'مسدد',
+      statusOverdue: 'متأخر',
+      groupBy: 'التجميع حسب',
+      noGrouping: 'بدون تجميع',
+      byBank: 'حسب البنك',
+      byFacility: 'حسب التسهيل',
+      endDateCannotBeInTheFuture: 'لا يمكن أن يكون تاريخ النهاية في المستقبل.',
+      viewStatement: 'عرض الكشف',
+    },
+  },
+}

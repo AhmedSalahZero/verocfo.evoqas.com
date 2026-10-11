@@ -1,0 +1,56 @@
+export default {
+    dashboard: {
+        index: {
+            accountingDashboard: 'لوحة الحسابات',
+            subtitle: 'الإيرادات، الربحية، المدينون، الدائنون، والسيولة النقدية — في نظرة واحدة.',
+            yearToDate: 'منذ بداية السنة',
+
+            revenue: 'الإيرادات',
+            netProfit: 'صافي الربح',
+            netMargin: 'هامش صافي الربح',
+            cashAndBankBalance: 'رصيد النقدية والبنوك',
+            arOutstanding: 'أرصدة العملاء المستحقة',
+            apOutstanding: 'أرصدة الموردين المستحقة',
+            overdueAr: 'متأخرات العملاء',
+            overdueAp: 'متأخرات الموردين',
+            inventoryValue: 'قيمة المخزون',
+
+            plSnapshot: 'ملخص قائمة الدخل',
+            cogs: 'تكلفة البضاعة المباعة',
+            grossProfit: 'مجمل الربح',
+            expensesByCategory: 'المصروفات حسب الفئة',
+            expenseCategoryBreakdown: 'تفصيل الفئات',
+            category: 'الفئة',
+            noExpenseActivityThisPeriod: 'لا يوجد نشاط مصروفات في هذه الفترة.',
+
+            categoryCogs: 'تكلفة البضاعة المباعة',
+            categorySales: 'مصروفات البيع',
+            categoryMarketing: 'مصروفات التسويق',
+            categoryGna: 'المصروفات الإدارية والعمومية',
+            categoryFinance: 'المصروفات التمويلية',
+            categoryDna: 'الإهلاك والاستهلاك',
+
+            accountsReceivable: 'حسابات العملاء (المدينون)',
+            totalAr: 'إجمالي أرصدة العملاء',
+            customersWithBalance: 'عدد العملاء ذوي الأرصدة',
+            arAging: 'أعمار ديون العملاء',
+            topCustomersByBalance: 'أعلى العملاء رصيدًا',
+            customer: 'العميل',
+            netBalance: 'صافي الرصيد',
+            noOpenBalances: 'لا توجد أرصدة مفتوحة.',
+            viewAll: 'عرض الكل',
+
+            accountsPayable: 'حسابات الموردين (الدائنون)',
+            totalAp: 'إجمالي أرصدة الموردين',
+            suppliersWithBalance: 'عدد الموردين ذوي الأرصدة',
+            apAging: 'أعمار ديون الموردين',
+            topSuppliersByBalance: 'أعلى الموردين رصيدًا',
+            supplier: 'المورد',
+
+            cashAndBank: 'النقدية والبنوك',
+            totalOperatingCash: 'إجمالي النقدية التشغيلية',
+            functionalCurrencyNote: 'بعملة النظام الأساسية فقط — راجع لوحة المؤسسات المالية لعرض متعدد العملات وتسهيلات كاملة.',
+            viewFullCashPosition: 'عرض الوضع النقدي الكامل',
+        },
+    },
+}

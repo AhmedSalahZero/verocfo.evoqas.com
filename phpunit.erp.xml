@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ==================================================================
+   phpunit.erp.xml — ERP business-logic regression suite
+  ==================================================================
+   SEPARATE from phpunit.xml on purpose. The default config points the
+   test run at an in-memory SQLite database, which cannot work on this
+   platform at all: only pdo_mysql is compiled in (see AUDIT finding
+   INF-001), so every database-touching test under phpunit.xml errors
+   out before its first assertion.
+
+   This suite instead runs against a real MySQL schema — the same
+   engine, collation and column types production uses — held in a
+   dedicated database (vero_cfo_test) that is migrated ONCE and then
+   reused. Each test is wrapped in a transaction and rolled back
+   (see ErpTestCase), so tests never see each other's data and the
+   281-migration schema build is not repeated per test.
+
+   One-time preparation, and how to run the suite, are documented in
+   tests/Erp/README.md.
+  ==================================================================
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         stopOnError="false"
+         stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="Erp">
+            <directory>tests/Feature/Erp</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="BROADCAST_CONNECTION" value="null"/>
+        <env name="CACHE_STORE" value="array"/>
+        
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="vero_cfo_test"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+    </php>
+</phpunit>

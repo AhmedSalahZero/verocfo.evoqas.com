@@ -1,0 +1,27 @@
+export default {
+    manufacturing: {
+        varianceClosingIndex: {
+            title: 'Manufacturing Variance Closing',
+            subtitle: 'Once a month, the real labor and overhead cost from Payroll is split between WIP, COGS, and Finished Goods.',
+            pickAPeriod: 'Pick a Period',
+            pickAPeriodSub: 'Payroll for this month must already be posted before it can be previewed.',
+            month: 'Month',
+            year: 'Year',
+            previewThisPeriod: 'Preview This Period',
+            noClosingsYet: 'No closings yet',
+            noClosingsYetSub: 'Pick a period above to preview and close the first month.',
+            period: 'Period',
+            journalEntry: 'Journal Entry',
+            postedBy: 'Posted By',
+            postedAt: 'Posted At',
+            status: 'Status',
+            reversed: 'Reversed',
+            posted: 'Posted',
+            reverse: 'Reverse',
+            reverseTitle: 'Reverse closing — {period}',
+            reverseHint: 'This reverses the journal entry, the Finished Goods / job-segment value adjustments, and re-opens the orders whose material variance it cleared. Only the latest closing can be reversed.',
+            reason: 'Reason',
+            confirmReverse: 'Reverse closing',
+        },
+    },
+};

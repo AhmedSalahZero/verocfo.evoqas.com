@@ -1,0 +1,26 @@
+export default {
+  dashboard: {
+    lgLcStatus: {
+      dashboard: 'Dashboard',
+      subtitle: 'Letters of Guarantee & Letters of Credit — limits, outstanding balances & cash cover',
+      lettersOfGuarantee: 'Letters of Guarantee',
+      lettersOfCredit: 'Letters of Credit',
+      limit: 'Limit',
+      outstandingBalance: 'Outstanding Balance',
+      availableRoom: 'Available Room',
+      cashCover: 'Cash Cover',
+      outstandingPerType: 'Outstanding per Type',
+      outstandingPerInstitution: 'Outstanding per Financial Institution',
+      institution: 'Financial Institution',
+      type: 'Type',
+      source: 'Source',
+      status: 'Status',
+      count: 'Count',
+      outstanding: 'Outstanding',
+      noneOutstanding: 'No facilities outstanding for',
+      limitDetails: 'Limit Details',
+      room: 'Room',
+      noFacilitiesFound: 'No facilities found.',
+    },
+  },
+}

@@ -1,0 +1,56 @@
+export default {
+    dashboard: {
+        index: {
+            accountingDashboard: 'Accounting Dashboard',
+            subtitle: 'Revenue, profitability, receivables, payables, and cash — at a glance.',
+            yearToDate: 'Year to Date',
+
+            revenue: 'Revenue',
+            netProfit: 'Net Profit',
+            netMargin: 'Net Margin',
+            cashAndBankBalance: 'Cash & Bank Balance',
+            arOutstanding: 'AR Outstanding',
+            apOutstanding: 'AP Outstanding',
+            overdueAr: 'Overdue AR',
+            overdueAp: 'Overdue AP',
+            inventoryValue: 'Inventory Value',
+
+            plSnapshot: 'P&L Snapshot',
+            cogs: 'Cost of Goods Sold',
+            grossProfit: 'Gross Profit',
+            expensesByCategory: 'Expenses by Category',
+            expenseCategoryBreakdown: 'Category Breakdown',
+            category: 'Category',
+            noExpenseActivityThisPeriod: 'No expense activity in this period.',
+
+            categoryCogs: 'Cost of Goods Sold',
+            categorySales: 'Sales Expenses',
+            categoryMarketing: 'Marketing Expenses',
+            categoryGna: 'General & Administrative Expenses',
+            categoryFinance: 'Finance Expenses',
+            categoryDna: 'Depreciation & Amortization',
+
+            accountsReceivable: 'Accounts Receivable',
+            totalAr: 'Total AR',
+            customersWithBalance: 'Customers with a Balance',
+            arAging: 'AR Aging',
+            topCustomersByBalance: 'Top Customers by Balance',
+            customer: 'Customer',
+            netBalance: 'Net Balance',
+            noOpenBalances: 'No open balances.',
+            viewAll: 'View All',
+
+            accountsPayable: 'Accounts Payable',
+            totalAp: 'Total AP',
+            suppliersWithBalance: 'Suppliers with a Balance',
+            apAging: 'AP Aging',
+            topSuppliersByBalance: 'Top Suppliers by Balance',
+            supplier: 'Supplier',
+
+            cashAndBank: 'Cash & Bank',
+            totalOperatingCash: 'Total Operating Cash',
+            functionalCurrencyNote: 'Functional currency only — see the Financial Institutions Dashboard for a full multi-currency and facility view.',
+            viewFullCashPosition: 'View Full Cash Position',
+        },
+    },
+}

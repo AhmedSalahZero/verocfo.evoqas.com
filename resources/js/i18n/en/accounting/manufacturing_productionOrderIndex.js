@@ -1,0 +1,27 @@
+export default {
+    manufacturing: {
+        productionOrderIndex: {
+            productionOrders: 'Production Orders',
+            massProductionJobsFromOpeningThrough: 'Mass Production jobs — from opening through Finished Goods receipt.',
+            newProductionOrder: 'New Production Order',
+            draft: 'Draft',
+            thisPage: 'This page',
+            inProgress: 'In Progress',
+            completed: 'Completed',
+            cancelled: 'Cancelled',
+            noOrdersMatchThisFilter: 'No orders match this filter',
+            noProductionOrdersYet: 'No Production Orders yet',
+            tryADifferentStatusOrClear: 'Try a different status, or clear the filter to see everything.',
+            useTheButtonAboveToOpen: 'Use the button above to open your first Production Order.',
+            clearFilters: 'Clear filters',
+            orderCode: 'Order Code',
+            product: 'Product',
+            bOM: 'BOM',
+            quantity: 'Quantity',
+            stdUnitCost: 'Std. Unit Cost',
+            outputLocation: 'Output Location',
+            v: 'v',
+            open: 'Open',
+        },
+    },
+}

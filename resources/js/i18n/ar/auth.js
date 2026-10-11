@@ -1,0 +1,23 @@
+export default {
+    login: {
+        productEyebrow: 'مكتب المالية',
+        productTitle: 'نظام واحد للدفاتر والبنك والخطة',
+        productBody: 'الفواتير والمخزون والخزينة والخطة تترحل على دفتر واحد. بالعربية والإنجليزية.',
+        secureAccess: 'دخول آمن',
+        welcomeBack: 'مرحباً بعودتك',
+        signInToYourVeroCFO: 'سجّل الدخول إلى دفاتر الشركة.',
+        emailAddress: 'البريد الإلكتروني',
+        password: 'كلمة المرور',
+        enterYourPassword: 'أدخل كلمة المرور',
+        hidePassword: 'إخفاء كلمة المرور',
+        showPassword: 'إظهار كلمة المرور',
+        rememberMe: 'تذكّرني',
+        forgotPassword: 'نسيت كلمة المرور؟',
+        signInToVeroCFO: 'تسجيل الدخول إلى Vero CFO',
+        signingIn: 'جارٍ تسجيل الدخول…',
+        language: 'اللغة',
+        languageSelection: 'اختيار اللغة',
+        '256BitSSLEncryptedYourData': 'مشفّر بـ SSL 256 بت · بياناتك محمية بالكامل',
+        allRightsReserved: 'جميع الحقوق محفوظة',
+    },
+}

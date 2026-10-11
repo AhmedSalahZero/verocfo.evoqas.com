@@ -1,0 +1,28 @@
+export default {
+  statements: {
+    lcStatementResult: {
+      backToLcStatement: 'العودة إلى كشف الاعتمادات',
+      lcStatement: 'كشف اعتمادات الاستيراد',
+      movementsInThisSelection: 'حركة ضمن هذا التحديد',
+      exportToExcel: 'تصدير إلى إكسل',
+      movements: 'الحركات',
+      totalIssued: 'إجمالي المُصدر',
+      markedPaid: 'محدد كمدفوع',
+      settlements: 'التسويات',
+      noMovementsInThisSelection: 'لا توجد حركات ضمن هذا التحديد.',
+      lcCode: 'كود الاعتماد',
+      supplier: 'المورد',
+      lcType: 'نوع الاعتماد',
+      bank: 'البنك',
+      event: 'الحدث',
+      amount: 'المبلغ',
+      cashCover: 'التغطية النقدية',
+      commissionRate: 'نسبة العمولة',
+      dueDate: 'تاريخ الاستحقاق',
+      comment: 'ملاحظة',
+      eventIssuance: 'إصدار',
+      eventMarkPaid: 'تحديد كمدفوع',
+      eventSettlement: 'تسوية',
+    },
+  },
+}

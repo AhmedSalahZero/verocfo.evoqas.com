@@ -1,0 +1,26 @@
+export default {
+    manufacturing: {
+        jobOrderIndex: {
+            jobOrders: 'Job Orders',
+            customOneOffProductionJobsFrom: 'Custom, one-off production jobs — from opening through Finished Goods receipt.',
+            newJobOrder: 'New Job Order',
+            draft: 'Draft',
+            thisPage: 'This page',
+            inProgress: 'In Progress',
+            completed: 'Completed',
+            cancelled: 'Cancelled',
+            noJobsMatchThisFilter: 'No jobs match this filter',
+            noJobOrdersYet: 'No Job Orders yet',
+            tryADifferentStatusOrClear: 'Try a different status, or clear the filter to see everything.',
+            useTheButtonAboveToOpen: 'Use the button above to open your first Job Order.',
+            clearFilters: 'Clear filters',
+            jobCode: 'Job Code',
+            product: 'Product',
+            salesOrder: 'Sales Order',
+            quantity: 'Quantity',
+            estUnitCost: 'Est. Unit Cost',
+            outputLocation: 'Output Location',
+            open: 'Open',
+        },
+    },
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ==================================================================
+   phpunit.xml — the DEFAULT test run (`php artisan test`)
+  ==================================================================
+   Audit M-42. This file used to point at an in-memory SQLite
+   database, which cannot work on this platform (only pdo_mysql is
+   installed), and it only listed the stock Laravel login tests — so a
+   plain `php artisan test` either errored or proved nothing about the
+   accounting. It now runs the real thing: the ERP business-logic
+   suite against the dedicated MySQL database vero_cfo_test, exactly
+   as phpunit.erp.xml does (that file is kept so older commands and
+   notes still work).
+
+   What is deliberately NOT in this run:
+     - tests/Feature/Auth, ProfileTest, ExampleTest — the stock Laravel
+       tests. They use RefreshDatabase, which would wipe and rebuild
+       vero_cfo_test (and that rebuild fails part-way, see
+       tests/Erp/README.md). Do not add them back without changing that.
+
+   One-time database preparation: tests/Erp/README.md.
+  ==================================================================
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Erp">
+            <directory>tests/Feature/Erp</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="BROADCAST_CONNECTION" value="null"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="vero_cfo_test"/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="NIGHTWATCH_ENABLED" value="false"/>
+    </php>
+</phpunit>

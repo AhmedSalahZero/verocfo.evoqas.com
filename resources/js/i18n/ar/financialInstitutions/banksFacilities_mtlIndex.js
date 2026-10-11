@@ -1,0 +1,31 @@
+export default {
+    banks: {
+        facilities: {
+            mtlIndex: {
+                drawn: 'المسحوب',
+                available: 'المتاح',
+                banks: 'البنوك',
+                mediumTermLoan: 'قرض متوسط الأجل',
+                mediumTermLoans: 'القروض متوسطة الأجل',
+                termLoansWithAManuallyEntered: 'قروض لأجل بجدول سداد مُدخَل يدوياً أو مرفوع.',
+                addLoan: 'إضافة قرض',
+                chooseABankToBegin: 'اختر بنكاً للبدء',
+                loans: 'القروض',
+                noLoansYet: 'لا توجد قروض بعد',
+                active: 'نشط',
+                totalLimit: 'إجمالي الحد',
+                pastDueInstallments: 'أقساط متأخرة',
+                needsAttention: 'يحتاج إلى اهتمام',
+                allCurrent: 'الكل منتظم',
+                allBanks: 'جميع البنوك',
+                loans2: 'قروض',
+                noMediumTermLoansYet: 'لا توجد قروض متوسطة الأجل بعد',
+                bank: 'البنك',
+                currency: 'العملة',
+                limit: 'الحد الأقصى',
+                interestRate: 'سعر الفائدة',
+                loanSchedule: 'جدول القرض',
+            },
+        },
+    },
+}

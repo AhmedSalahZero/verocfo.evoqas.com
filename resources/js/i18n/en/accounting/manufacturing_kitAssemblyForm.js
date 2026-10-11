@@ -1,0 +1,28 @@
+export default {
+    manufacturing: {
+        kitAssemblyForm: {
+            kitAssemblies: 'Kit Assemblies',
+            assemble: 'Assemble',
+            assembleKit: 'Assemble Kit',
+            consumeComponentsFromStock: 'Consume components from stock and receive the assembled kit',
+            kitAndQuantity: 'Kit & Quantity',
+            whichKitHowManyAndWhere: 'Which kit, how many, and where',
+            kitRecipe: 'Kit Recipe',
+            selectAKitRecipe: 'Select a Kit recipe',
+            thisRecipeHasNoComponents: 'This recipe has no components — pick another, or add components to it first.',
+            quantityToAssemble: 'Quantity to Assemble',
+            date: 'Date',
+            location: 'Location',
+            componentsDrawnFromHere: 'Components are drawn from here, and the assembled kit is received into the same location.',
+            selectLocation: 'Select location',
+            notes: 'Notes',
+            componentsThatWillBeConsumed: 'Components That Will Be Consumed',
+            basedOnTheRecipeScaled: 'Based on the recipe, scaled to the quantity entered above',
+            component: 'Component',
+            qtyPerKit: 'Qty per Kit',
+            totalNeeded: 'Total Needed',
+            eachComponentIsDrawnFromStock: 'Each component is drawn from stock at its current average cost — the assembled kit is valued at exactly whatever these components cost right now.',
+            assembling: 'Assembling…',
+        },
+    },
+}

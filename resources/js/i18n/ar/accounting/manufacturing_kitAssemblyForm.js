@@ -1,0 +1,28 @@
+export default {
+    manufacturing: {
+        kitAssemblyForm: {
+            kitAssemblies: 'عمليات التجميع',
+            assemble: 'تجميع',
+            assembleKit: 'تجميع منتج',
+            consumeComponentsFromStock: 'استهلك المكوّنات من المخزون واستلم المنتج المجمَّع',
+            kitAndQuantity: 'المنتج والكمية',
+            whichKitHowManyAndWhere: 'أي منتج، وكم الكمية، وأين',
+            kitRecipe: 'وصفة التجميع',
+            selectAKitRecipe: 'اختر وصفة تجميع',
+            thisRecipeHasNoComponents: 'هذه الوصفة لا تحتوي على مكوّنات — اختر وصفة أخرى، أو أضف مكوّنات لها أولاً.',
+            quantityToAssemble: 'الكمية المراد تجميعها',
+            date: 'التاريخ',
+            location: 'الموقع',
+            componentsDrawnFromHere: 'تُسحب المكوّنات من هذا الموقع، ويُستلم المنتج المجمَّع في الموقع نفسه.',
+            selectLocation: 'اختر الموقع',
+            notes: 'ملاحظات',
+            componentsThatWillBeConsumed: 'المكوّنات التي سيتم استهلاكها',
+            basedOnTheRecipeScaled: 'بناءً على الوصفة، مقاسة حسب الكمية المُدخلة أعلاه',
+            component: 'المكوّن',
+            qtyPerKit: 'الكمية لكل تجميعة',
+            totalNeeded: 'الإجمالي المطلوب',
+            eachComponentIsDrawnFromStock: 'يُسحب كل مكوّن من المخزون بمتوسط تكلفته الحالي — ويُقيَّم المنتج المجمَّع بالضبط بتكلفة هذه المكوّنات الآن.',
+            assembling: 'جارٍ التجميع…',
+        },
+    },
+}

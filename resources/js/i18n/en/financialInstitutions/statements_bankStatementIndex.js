@@ -1,0 +1,27 @@
+export default {
+    statements: {
+        bankStatementIndex: {
+            statement: 'Statement',
+            bankStatement: 'Bank Statement',
+            pickAnAccountAndDateRange: 'Pick a bank account and a date range to view its statement.',
+            noBankAccountsFound: 'No bank accounts found.',
+            bankAccount: 'Bank Account',
+            selectAccount: 'Select account…',
+            bankAccountsGroup: 'Bank Accounts',
+            creditFacilitiesGroup: 'Credit Facilities (Overdraft)',
+            leaveBlankForFromTheBeginning: 'Leave blank for from the beginning.',
+            leaveBlankForUpToToday: 'Leave blank for up to today.',
+            endDateCannotBeInTheFuture: 'End date cannot be in the future.',
+            viewStatement: 'View Statement',
+            currentAccount: 'Current Account',
+            timeDeposit: 'Time Deposit',
+            escrow: 'Escrow',
+            lgCashCover: 'LG Cash Cover',
+            lcCashCover: 'LC Cash Cover',
+            cleanOverdraft: 'Clean Overdraft',
+            commercialPaperOverdraft: 'OD Against Commercial Paper',
+            contractAssignmentOverdraft: 'OD Against Contract/SO',
+            fullySecuredOverdraft: 'Fully Secured Overdraft',
+        },
+    },
+}

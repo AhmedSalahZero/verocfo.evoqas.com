@@ -1,0 +1,27 @@
+export default {
+    manufacturing: {
+        productionOrderIndex: {
+            productionOrders: 'أوامر الإنتاج',
+            massProductionJobsFromOpeningThrough: 'أوامر إنتاج بكميات كبيرة — من الفتح وحتى استلام المنتج التام.',
+            newProductionOrder: 'أمر إنتاج جديد',
+            draft: 'مسودة',
+            thisPage: 'هذه الصفحة',
+            inProgress: 'قيد التنفيذ',
+            completed: 'مكتمل',
+            cancelled: 'ملغي',
+            noOrdersMatchThisFilter: 'لا توجد أوامر تطابق هذا الفلتر',
+            noProductionOrdersYet: 'لا توجد أوامر إنتاج بعد',
+            tryADifferentStatusOrClear: 'جرّب حالة مختلفة، أو امسح الفلتر لرؤية الكل.',
+            useTheButtonAboveToOpen: 'استخدم الزر أعلاه لفتح أول أمر إنتاج لك.',
+            clearFilters: 'مسح المرشحات',
+            orderCode: 'رقم الأمر',
+            product: 'المنتج',
+            bOM: 'قائمة المواد',
+            quantity: 'الكمية',
+            stdUnitCost: 'تكلفة الوحدة القياسية',
+            outputLocation: 'موقع الناتج',
+            v: 'إصدار',
+            open: 'مفتوح',
+        },
+    },
+}

@@ -1,0 +1,27 @@
+export default {
+    treasury: {
+        internalMoneyTransferIndex: {
+            internalMoneyTransfer: 'Internal Money Transfer',
+            movesCashBetweenTwoOfThe: 'Moves cash between two of the company\'s own accounts — Bank or Safe, either side, with optional in-transit tracking.',
+            newTransfer: 'New Transfer',
+            searchByTransferCode: 'Search by transfer code…',
+            inTransit: 'In Transit',
+            cleared: 'Cleared',
+            cancelled: 'Cancelled',
+            noTransfersMatchThisFilter: 'No transfers match this filter',
+            noInternalMoneyTransfersYet: 'No Internal Money Transfers yet',
+            tryADifferentStatusOrClear: 'Try a different status, or clear the filter to see everything.',
+            useTheButtonAboveToMove: 'Use the button above to move cash between your own accounts.',
+            clearFilters: 'Clear filters',
+            transferCode: 'Transfer Code',
+            from: 'From',
+            to: 'To',
+            transferDate: 'Transfer Date',
+            expectedCleared: 'Expected / Cleared',
+            confirming: 'Confirming…',
+            confirmReceived: 'Confirm Received',
+            confirmThisTransferHasLandedIn: 'Confirm this transfer has landed in the destination account? This posts the second leg and clears Cash in Transit.',
+            cancelThisInTransitTransferThis: 'Cancel this in-transit transfer? This reverses the initiate entry and returns the cash to the source account.',
+        },
+    },
+}

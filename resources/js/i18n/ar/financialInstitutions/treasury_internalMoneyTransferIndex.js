@@ -1,0 +1,27 @@
+export default {
+    treasury: {
+        internalMoneyTransferIndex: {
+            internalMoneyTransfer: 'تحويل نقدي داخلي',
+            movesCashBetweenTwoOfThe: 'ينقل النقدية بين اثنين من حسابات الشركة الخاصة — بنك أو خزينة، من أي جانب، مع إمكانية تتبع اختياري أثناء النقل.',
+            newTransfer: 'نقل جديد',
+            searchByTransferCode: 'بحث برقم التحويل…',
+            inTransit: 'في الطريق',
+            cleared: 'تم التخليص',
+            cancelled: 'ملغي',
+            noTransfersMatchThisFilter: 'لا توجد تحويلات تطابق هذا الفلتر',
+            noInternalMoneyTransfersYet: 'لا توجد تحويلات نقدية داخلية بعد',
+            tryADifferentStatusOrClear: 'جرّب حالة مختلفة، أو امسح الفلتر لرؤية الكل.',
+            useTheButtonAboveToMove: 'استخدم الزر أعلاه لنقل النقدية بين حساباتك الخاصة.',
+            clearFilters: 'مسح المرشحات',
+            transferCode: 'رقم التحويل',
+            from: 'من',
+            to: 'إلى',
+            transferDate: 'تاريخ التحويل',
+            expectedCleared: 'المتوقع / تم التخليص',
+            confirming: 'جارٍ التأكيد…',
+            confirmReceived: 'تأكيد الاستلام',
+            confirmThisTransferHasLandedIn: 'تأكيد وصول هذا التحويل إلى الحساب الوجهة؟ سيقوم هذا بترحيل الطرف الثاني وتسوية حساب نقدية في الطريق.',
+            cancelThisInTransitTransferThis: 'إلغاء هذا التحويل الجاري؟ سيؤدي هذا إلى عكس قيد البدء وإرجاع النقدية إلى الحساب المصدر.',
+        },
+    },
+}

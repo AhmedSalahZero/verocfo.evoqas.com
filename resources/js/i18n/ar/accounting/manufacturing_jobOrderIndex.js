@@ -1,0 +1,26 @@
+export default {
+    manufacturing: {
+        jobOrderIndex: {
+            jobOrders: 'أوامر التشغيل',
+            customOneOffProductionJobsFrom: 'أوامر تشغيل مخصصة لمرة واحدة — من الفتح وحتى استلام المنتج التام.',
+            newJobOrder: 'أمر تشغيل جديد',
+            draft: 'مسودة',
+            thisPage: 'هذه الصفحة',
+            inProgress: 'قيد التنفيذ',
+            completed: 'مكتمل',
+            cancelled: 'ملغي',
+            noJobsMatchThisFilter: 'لا توجد أوامر تشغيل تطابق هذا الفلتر',
+            noJobOrdersYet: 'لا توجد أوامر تشغيل بعد',
+            tryADifferentStatusOrClear: 'جرّب حالة مختلفة، أو امسح الفلتر لرؤية الكل.',
+            useTheButtonAboveToOpen: 'استخدم الزر أعلاه لفتح أول أمر تشغيل لك.',
+            clearFilters: 'مسح المرشحات',
+            jobCode: 'رقم أمر التشغيل',
+            product: 'المنتج',
+            salesOrder: 'أمر البيع',
+            quantity: 'الكمية',
+            estUnitCost: 'تكلفة الوحدة المقدَّرة',
+            outputLocation: 'موقع الناتج',
+            open: 'مفتوح',
+        },
+    },
+}

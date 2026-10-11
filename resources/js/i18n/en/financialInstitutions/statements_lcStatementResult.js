@@ -1,0 +1,28 @@
+export default {
+  statements: {
+    lcStatementResult: {
+      backToLcStatement: 'Back to LC Statement',
+      lcStatement: 'LC Statement',
+      movementsInThisSelection: 'movements in this selection',
+      exportToExcel: 'Export to Excel',
+      movements: 'Movements',
+      totalIssued: 'Total Issued',
+      markedPaid: 'Marked Paid',
+      settlements: 'Settlements',
+      noMovementsInThisSelection: 'No movements found for this selection.',
+      lcCode: 'LC Code',
+      supplier: 'Supplier',
+      lcType: 'LC Type',
+      bank: 'Bank',
+      event: 'Event',
+      amount: 'Amount',
+      cashCover: 'Cash Cover',
+      commissionRate: 'Commission Rate',
+      dueDate: 'Due Date',
+      comment: 'Comment',
+      eventIssuance: 'Issuance',
+      eventMarkPaid: 'Marked Paid',
+      eventSettlement: 'Settlement',
+    },
+  },
+}
