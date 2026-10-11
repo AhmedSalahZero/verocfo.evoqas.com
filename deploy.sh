@@ -12,8 +12,6 @@
             
             
             sudo supervisord -c /etc/supervisord.conf
-
-            
             sudo supervisorctl restart all
             /usr/local/bin/ea-php84 artisan view:cache
 
